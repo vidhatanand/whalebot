@@ -1,6 +1,6 @@
-#labels Featured
 = Configuration =
 Using next command line parameters you can configure behavior of your whalebot
+
 {{{
 Webspider options:
   -h [ --help ]                                show this message
@@ -21,7 +21,8 @@ Webspider options:
   -c [ --collect-links ]                       collect links
   -D [ --dont-save-links ]                     do not save links after stop
   -a [ --ask ]                                 ask after fetching
-
 }}}
 
 You always can see them using _./webspider -h_
+
+At every moment of crawling push _ENTER_ and fetching stops, you may resume this crawl later
