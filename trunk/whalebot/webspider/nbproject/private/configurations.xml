@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="62">
+  <projectmakefile>Makefile</projectmakefile>
+  <defaultConf>0</defaultConf>
+  <confs>
+    <conf name="Debug" type="1">
+      <gdbdebugger version="2">
+        <gdb_command>gdb</gdb_command>
+        <array_repeat_threshold>10</array_repeat_threshold>
+      </gdbdebugger>
+      <gizmo_options version="3">
+        <configurationname>GizmoSimple</configurationname>
+      </gizmo_options>
+      <runprofile version="6">
+        <args>-s 'http://www.openclipart.org/search/?query=whale' -D -o -f '/home/hotdox/Projects/whalebot/webspider/dist/Release/GNU-Linux-x86/filter'</args>
+        <rundir></rundir>
+        <buildfirst>true</buildfirst>
+        <console-type>0</console-type>
+        <terminal-type>0</terminal-type>
+        <remove-instrumentation>0</remove-instrumentation>
+        <environment>
+        </environment>
+      </runprofile>
+    </conf>
+    <conf name="Release" type="1">
+      <gdbdebugger version="2">
+        <gdb_command>gdb</gdb_command>
+        <array_repeat_threshold>10</array_repeat_threshold>
+      </gdbdebugger>
+      <gizmo_options version="3">
+        <configurationname>GizmoSimple</configurationname>
+      </gizmo_options>
+      <runprofile version="6">
+        <args> -s http://camwhore.ru/russian/ -o -O /home/hotdox/web/data/ -D
+ -d -m 4</args>
+        <rundir></rundir>
+        <buildfirst>true</buildfirst>
+        <console-type>0</console-type>
+        <terminal-type>0</terminal-type>
+        <remove-instrumentation>0</remove-instrumentation>
+        <environment>
+        </environment>
+      </runprofile>
+    </conf>
+  </confs>
+</configurationDescriptor>
