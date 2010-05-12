@@ -40,9 +40,6 @@ int main(int argc, char** argv) {
 
     std::cout << "----------------------" <<std::endl;
 
-
-
-
     while (std::getline(file, tmpStr)) {
 
         if ((tmpStr.empty()) or (tmpStr == "\t")) {
