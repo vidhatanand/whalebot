@@ -6,7 +6,6 @@
                    projectFiles="true">
       <itemPath>ToString.h</itemPath>
       <itemPath>libstring.h</itemPath>
-      <itemPath>libstring_global.h</itemPath>
       <itemPath>options.h</itemPath>
       <itemPath>optionsbase.h</itemPath>
       <itemPath>optionsparser.h</itemPath>
