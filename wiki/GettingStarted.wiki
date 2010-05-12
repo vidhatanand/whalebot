@@ -3,9 +3,9 @@
 Developed under Fedora
 But in theory everywhere you have htmlcxx and boost - you have whalebot 
 
-= Dependecies =
+= Dependencies =
  * [http://htmlcxx.sourceforge.net/ htmlcxx v 0.84]
- * [http://www.boost.org/ boost] currently used asio, program options, filesystem, algorithm string, unordered map, thread, date_time and other
+ * [http://www.boost.org/ boost] now used asio, program options, filesystem, algorithm string, unordered map, thread, date_time and other
  * custom libs in svn
 
 = Build system =
@@ -22,4 +22,4 @@ webspider -s http://google.com -O ~/web
  # ...
  # *THE WHOLE INTERNET* on your hard drive :)
 
-For more accurate parametrs tuning see CommandLineParameters
+For more accurate parameters tuning see CommandLineParameters
