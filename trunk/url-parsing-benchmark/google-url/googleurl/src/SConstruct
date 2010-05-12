@@ -1,4 +1,4 @@
-env = Environment(CPPPATH=["..", "../../"])
+env = Environment(CPPPATH=["..", "../../", "../base"])
 
 source = [str(file) for file in Glob('*.cc')]
 
