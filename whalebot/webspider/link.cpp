@@ -48,7 +48,8 @@ void CLink::nil(){
 }
 
 std::string CLink::toString()const {
-    std::string ret(m_server);
+    std::string ret("http://");
+    ret +=  m_server;
     ret +=  m_uri;
     return ret;
 }
