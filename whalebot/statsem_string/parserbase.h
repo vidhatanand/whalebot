@@ -1,11 +1,11 @@
 #ifndef PARSERBASE_H
 #define PARSERBASE_H
-#include "libstring_global.h"
+
 #include <string>
 #include <vector>
 
 
-class LIBSTRINGSHARED_EXPORT CParserBase{
+class CParserBase{
 public:
     typedef std::string::const_iterator     str_ptr_t;
     typedef std::pair<str_ptr_t, str_ptr_t> str_interval_t;

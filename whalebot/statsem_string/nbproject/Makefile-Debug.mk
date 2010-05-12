@@ -55,36 +55,38 @@ LDLIBSOPTIONS=
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
-	${MAKE}  -f nbproject/Makefile-Debug.mk dist/Debug/GNU-Linux-x86/libstatsem_string.so
+	${MAKE}  -f nbproject/Makefile-Debug.mk dist/Debug/GNU-Linux-x86/libstatsem_string.a
 
-dist/Debug/GNU-Linux-x86/libstatsem_string.so: ${OBJECTFILES}
+dist/Debug/GNU-Linux-x86/libstatsem_string.a: ${OBJECTFILES}
 	${MKDIR} -p dist/Debug/GNU-Linux-x86
-	${LINK.cc} -shared -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libstatsem_string.so -fPIC ${OBJECTFILES} ${LDLIBSOPTIONS} 
+	${RM} dist/Debug/GNU-Linux-x86/libstatsem_string.a
+	${AR} rv ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libstatsem_string.a ${OBJECTFILES} 
+	$(RANLIB) dist/Debug/GNU-Linux-x86/libstatsem_string.a
 
 ${OBJECTDIR}/optionsbase.o: nbproject/Makefile-${CND_CONF}.mk optionsbase.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -Wall -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/optionsbase.o optionsbase.cpp
+	$(COMPILE.cc) -g -Wall -MMD -MP -MF $@.d -o ${OBJECTDIR}/optionsbase.o optionsbase.cpp
 
 ${OBJECTDIR}/parserbase.o: nbproject/Makefile-${CND_CONF}.mk parserbase.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -Wall -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/parserbase.o parserbase.cpp
+	$(COMPILE.cc) -g -Wall -MMD -MP -MF $@.d -o ${OBJECTDIR}/parserbase.o parserbase.cpp
 
 ${OBJECTDIR}/optionsparser.o: nbproject/Makefile-${CND_CONF}.mk optionsparser.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -Wall -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/optionsparser.o optionsparser.cpp
+	$(COMPILE.cc) -g -Wall -MMD -MP -MF $@.d -o ${OBJECTDIR}/optionsparser.o optionsparser.cpp
 
 ${OBJECTDIR}/streamlogger.o: nbproject/Makefile-${CND_CONF}.mk streamlogger.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -Wall -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/streamlogger.o streamlogger.cpp
+	$(COMPILE.cc) -g -Wall -MMD -MP -MF $@.d -o ${OBJECTDIR}/streamlogger.o streamlogger.cpp
 
 ${OBJECTDIR}/ToString.o: nbproject/Makefile-${CND_CONF}.mk ToString.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -Wall -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/ToString.o ToString.cpp
+	$(COMPILE.cc) -g -Wall -MMD -MP -MF $@.d -o ${OBJECTDIR}/ToString.o ToString.cpp
 
 # Subprojects
 .build-subprojects:
@@ -92,7 +94,7 @@ ${OBJECTDIR}/ToString.o: nbproject/Makefile-${CND_CONF}.mk ToString.cpp
 # Clean Targets
 .clean-conf: ${CLEAN_SUBPROJECTS}
 	${RM} -r build/Debug
-	${RM} dist/Debug/GNU-Linux-x86/libstatsem_string.so
+	${RM} dist/Debug/GNU-Linux-x86/libstatsem_string.a
 
 # Subprojects
 .clean-subprojects:

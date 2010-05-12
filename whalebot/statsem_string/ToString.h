@@ -12,7 +12,6 @@
 #include <sstream>
 #include <vector>
 #include <iostream>
-#include "libstring_global.h"
 
 
 template<class T>
@@ -22,7 +21,7 @@ std::string toString(const T &x){
     return ss.str();
 }
 template<>
-std::string LIBSTRINGSHARED_EXPORT toString(std::string const &x);
+std::string toString(std::string const &x);
 
 
 template<class T>
@@ -39,7 +38,7 @@ bool fromString(std::string const &x,T &y){
 }
 
 template<>
-bool LIBSTRINGSHARED_EXPORT fromString(std::string const &x,std::string  &y);
+bool fromString(std::string const &x,std::string  &y);
 
 template<class si>
 si inner_cut(si begin, si end, std::string const &symbols){
@@ -49,7 +48,7 @@ si inner_cut(si begin, si end, std::string const &symbols){
     return begin;
 }
 
-void LIBSTRINGSHARED_EXPORT trim(std::string &where, std::string const &what);
-void LIBSTRINGSHARED_EXPORT copyStream(std::istream &from , std::ostream &to);
+void trim(std::string &where, std::string const &what);
+void copyStream(std::istream &from , std::ostream &to);
 
 #endif /* TOSTRING_H_ */

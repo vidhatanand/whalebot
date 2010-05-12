@@ -1,10 +1,10 @@
 #ifndef OPTIONSPARSER_H
 #define OPTIONSPARSER_H
-#include "libstring_global.h"
+
 #include "stringparser.h"
 #include "optionsbase.h"
 
-class LIBSTRINGSHARED_EXPORT COptionsParser{
+class COptionsParser{
 public:
                     COptionsParser(COptionsBase &options);
     void            parse(std::string const &str);

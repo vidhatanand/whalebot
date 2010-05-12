@@ -4,11 +4,10 @@
 #include <map>
 #include <string>
 #include <iostream>
-#include "libstring_global.h"
 
 typedef std::map<std::string, std::string>  options_map_t;
 
-class LIBSTRINGSHARED_EXPORT COptionsBase{
+class COptionsBase {
 public:
     options_map_t::const_iterator   cbegin()const;
     options_map_t::const_iterator   cend()const;
