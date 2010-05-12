@@ -2,7 +2,7 @@
 #define _STREAMPARSERENGINE_H_
 #include <iostream>
 #include <string>
-#include "libstring_global.h"
+
 
 class CStreamParserEngine{
 public:
@@ -31,7 +31,7 @@ public:
     }
 };
 
-class LIBSTRINGSHARED_EXPORT CStreamLogger{
+class CStreamLogger {
 public:
         CStreamLogger(std::ostream &out, size_t rate = 10);
    void message(size_t message);

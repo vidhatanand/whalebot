@@ -1,10 +1,10 @@
 #ifndef STRINGPARSER_H
 #define STRINGPARSER_H
 
-#include "libstring_global.h"
+
 #include "parserbase.h"
 
-class LIBSTRINGSHARED_EXPORT CStringParser : public CParserBase{
+class CStringParser : public CParserBase{
 public:
 
     CStringParser(char delimiter)
