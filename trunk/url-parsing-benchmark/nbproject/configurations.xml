@@ -4,8 +4,6 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
-      <itemPath>/home/hotdox/Projects/Whalebot/whalebot/webspider/LinkFactory.h</itemPath>
-      <itemPath>/home/hotdox/Projects/Whalebot/whalebot/webspider/ilink_factory.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
@@ -14,10 +12,10 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
-      <itemPath>/home/hotdox/Projects/Whalebot/whalebot/webspider/LinkFactory.cpp</itemPath>
-      <itemPath>/home/hotdox/Projects/Whalebot/whalebot/webspider/link.cpp</itemPath>
+      <itemPath>../whalebot/webspider/LinkFactory.cpp</itemPath>
+      <itemPath>../whalebot/webspider/link.cpp</itemPath>
       <itemPath>log_message.cpp</itemPath>
-      <itemPath>/home/hotdox/Projects/Whalebot/whalebot/webspider/prefix.cpp</itemPath>
+      <itemPath>../whalebot/webspider/prefix.cpp</itemPath>
       <itemPath>google-url/googleurl/base/string16.cc</itemPath>
       <itemPath>url-parse.cpp</itemPath>
     </logicalFolder>
