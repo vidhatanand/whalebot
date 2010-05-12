@@ -1,4 +1,0 @@
-#ifndef LIBSTRING_GLOBAL_H
-#define LIBSTRING_GLOBAL_H
-
-#endif // LIBSTRING_GLOBAL_H
