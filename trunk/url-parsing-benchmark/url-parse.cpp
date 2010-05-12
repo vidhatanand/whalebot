@@ -50,8 +50,10 @@ int main(int argc, char** argv) {
         }
 
         if (*tmpStr.begin() != '\t') {
+
+
             tmpStr3 =   "http://";
-            tmpStr3 +=  tmpStr3;
+            tmpStr3 +=  tmpStr;
 
 
             GURL    anotherBaseUrl(tmpStr3);
