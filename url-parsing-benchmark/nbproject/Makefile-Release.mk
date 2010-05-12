@@ -31,11 +31,11 @@ OBJECTDIR=build/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
-	${OBJECTDIR}/_ext/home/hotdox/Projects/Whalebot/whalebot/webspider/prefix.o \
-	${OBJECTDIR}/_ext/home/hotdox/Projects/Whalebot/whalebot/webspider/link.o \
+	${OBJECTDIR}/_ext/_DOTDOT/whalebot/webspider/LinkFactory.o \
 	${OBJECTDIR}/log_message.o \
-	${OBJECTDIR}/_ext/home/hotdox/Projects/Whalebot/whalebot/webspider/LinkFactory.o \
+	${OBJECTDIR}/_ext/_DOTDOT/whalebot/webspider/link.o \
 	${OBJECTDIR}/google-url/googleurl/base/string16.o \
+	${OBJECTDIR}/_ext/_DOTDOT/whalebot/webspider/prefix.o \
 	${OBJECTDIR}/url-parse.o
 
 # C Compiler Flags
@@ -64,30 +64,30 @@ dist/Release/GNU-Linux-x86/url-parsing-benchmark: ${OBJECTFILES}
 	${MKDIR} -p dist/Release/GNU-Linux-x86
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/url-parsing-benchmark ${OBJECTFILES} ${LDLIBSOPTIONS} 
 
-${OBJECTDIR}/_ext/home/hotdox/Projects/Whalebot/whalebot/webspider/prefix.o: nbproject/Makefile-${CND_CONF}.mk /home/hotdox/Projects/Whalebot/whalebot/webspider/prefix.cpp 
-	${MKDIR} -p ${OBJECTDIR}/_ext/home/hotdox/Projects/Whalebot/whalebot/webspider
+${OBJECTDIR}/_ext/_DOTDOT/whalebot/webspider/LinkFactory.o: nbproject/Makefile-${CND_CONF}.mk ../whalebot/webspider/LinkFactory.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/_DOTDOT/whalebot/webspider
 	${RM} $@.d
-	$(COMPILE.cc) -O2 -I../whalebot/webspider -Igoogle-url -Igoogle-url/googleurl -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/home/hotdox/Projects/Whalebot/whalebot/webspider/prefix.o /home/hotdox/Projects/Whalebot/whalebot/webspider/prefix.cpp
-
-${OBJECTDIR}/_ext/home/hotdox/Projects/Whalebot/whalebot/webspider/link.o: nbproject/Makefile-${CND_CONF}.mk /home/hotdox/Projects/Whalebot/whalebot/webspider/link.cpp 
-	${MKDIR} -p ${OBJECTDIR}/_ext/home/hotdox/Projects/Whalebot/whalebot/webspider
-	${RM} $@.d
-	$(COMPILE.cc) -O2 -I../whalebot/webspider -Igoogle-url -Igoogle-url/googleurl -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/home/hotdox/Projects/Whalebot/whalebot/webspider/link.o /home/hotdox/Projects/Whalebot/whalebot/webspider/link.cpp
+	$(COMPILE.cc) -O2 -I../whalebot/webspider -Igoogle-url -Igoogle-url/googleurl -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/_DOTDOT/whalebot/webspider/LinkFactory.o ../whalebot/webspider/LinkFactory.cpp
 
 ${OBJECTDIR}/log_message.o: nbproject/Makefile-${CND_CONF}.mk log_message.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -I../whalebot/webspider -Igoogle-url -Igoogle-url/googleurl -MMD -MP -MF $@.d -o ${OBJECTDIR}/log_message.o log_message.cpp
 
-${OBJECTDIR}/_ext/home/hotdox/Projects/Whalebot/whalebot/webspider/LinkFactory.o: nbproject/Makefile-${CND_CONF}.mk /home/hotdox/Projects/Whalebot/whalebot/webspider/LinkFactory.cpp 
-	${MKDIR} -p ${OBJECTDIR}/_ext/home/hotdox/Projects/Whalebot/whalebot/webspider
+${OBJECTDIR}/_ext/_DOTDOT/whalebot/webspider/link.o: nbproject/Makefile-${CND_CONF}.mk ../whalebot/webspider/link.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/_DOTDOT/whalebot/webspider
 	${RM} $@.d
-	$(COMPILE.cc) -O2 -I../whalebot/webspider -Igoogle-url -Igoogle-url/googleurl -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/home/hotdox/Projects/Whalebot/whalebot/webspider/LinkFactory.o /home/hotdox/Projects/Whalebot/whalebot/webspider/LinkFactory.cpp
+	$(COMPILE.cc) -O2 -I../whalebot/webspider -Igoogle-url -Igoogle-url/googleurl -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/_DOTDOT/whalebot/webspider/link.o ../whalebot/webspider/link.cpp
 
 ${OBJECTDIR}/google-url/googleurl/base/string16.o: nbproject/Makefile-${CND_CONF}.mk google-url/googleurl/base/string16.cc 
 	${MKDIR} -p ${OBJECTDIR}/google-url/googleurl/base
 	${RM} $@.d
 	$(COMPILE.cc) -O2 -I../whalebot/webspider -Igoogle-url -Igoogle-url/googleurl -MMD -MP -MF $@.d -o ${OBJECTDIR}/google-url/googleurl/base/string16.o google-url/googleurl/base/string16.cc
+
+${OBJECTDIR}/_ext/_DOTDOT/whalebot/webspider/prefix.o: nbproject/Makefile-${CND_CONF}.mk ../whalebot/webspider/prefix.cpp 
+	${MKDIR} -p ${OBJECTDIR}/_ext/_DOTDOT/whalebot/webspider
+	${RM} $@.d
+	$(COMPILE.cc) -O2 -I../whalebot/webspider -Igoogle-url -Igoogle-url/googleurl -MMD -MP -MF $@.d -o ${OBJECTDIR}/_ext/_DOTDOT/whalebot/webspider/prefix.o ../whalebot/webspider/prefix.cpp
 
 ${OBJECTDIR}/url-parse.o: nbproject/Makefile-${CND_CONF}.mk url-parse.cpp 
 	${MKDIR} -p ${OBJECTDIR}

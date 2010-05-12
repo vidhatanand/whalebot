@@ -169,6 +169,4 @@ void CLinkFactory::normolizeQeury(std::string &link) {
     if (link[link.size()-1] == '&') {
         link.erase(link.size() - 1);
     }
-
-
 }

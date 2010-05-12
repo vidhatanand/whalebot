@@ -57,11 +57,15 @@ FFLAGS=
 ASFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=-L/usr/lib/mylib -lboost_system -lhtmlcxx -lboost_filesystem -lboost_program_options -lstatsem_filesystem -lstatsem_string -lboost_thread
+LDLIBSOPTIONS=-lboost_system -lhtmlcxx -lboost_filesystem -lboost_program_options -lboost_thread /home/hotdox/Projects/Whalebot/whalebot/statsem_string/dist/Debug/GNU-Linux-x86/libstatsem_string.a /home/hotdox/Projects/Whalebot/whalebot/statsem_filesystem/dist/Debug/GNU-Linux-x86/libstatsem_filesystem.a
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
 	${MAKE}  -f nbproject/Makefile-Debug.mk dist/Debug/GNU-Linux-x86/webspider
+
+dist/Debug/GNU-Linux-x86/webspider: /home/hotdox/Projects/Whalebot/whalebot/statsem_string/dist/Debug/GNU-Linux-x86/libstatsem_string.a
+
+dist/Debug/GNU-Linux-x86/webspider: /home/hotdox/Projects/Whalebot/whalebot/statsem_filesystem/dist/Debug/GNU-Linux-x86/libstatsem_filesystem.a
 
 dist/Debug/GNU-Linux-x86/webspider: ${OBJECTFILES}
 	${MKDIR} -p dist/Debug/GNU-Linux-x86
@@ -124,6 +128,10 @@ ${OBJECTDIR}/webspider.o: nbproject/Makefile-${CND_CONF}.mk webspider.cpp
 
 # Subprojects
 .build-subprojects:
+	cd /home/hotdox/Projects/Whalebot/whalebot/statsem_string && ${MAKE}  -f Makefile CONF=Debug
+	cd /home/hotdox/Projects/Whalebot/whalebot/statsem_filesystem && ${MAKE}  -f Makefile CONF=Debug
+	cd /home/hotdox/Projects/Whalebot/whalebot/statsem_string && ${MAKE}  -f Makefile CONF=Debug
+	cd /home/hotdox/Projects/Whalebot/whalebot/statsem_filesystem && ${MAKE}  -f Makefile CONF=Debug
 
 # Clean Targets
 .clean-conf: ${CLEAN_SUBPROJECTS}
@@ -132,6 +140,10 @@ ${OBJECTDIR}/webspider.o: nbproject/Makefile-${CND_CONF}.mk webspider.cpp
 
 # Subprojects
 .clean-subprojects:
+	cd /home/hotdox/Projects/Whalebot/whalebot/statsem_string && ${MAKE}  -f Makefile CONF=Debug clean
+	cd /home/hotdox/Projects/Whalebot/whalebot/statsem_filesystem && ${MAKE}  -f Makefile CONF=Debug clean
+	cd /home/hotdox/Projects/Whalebot/whalebot/statsem_string && ${MAKE}  -f Makefile CONF=Debug clean
+	cd /home/hotdox/Projects/Whalebot/whalebot/statsem_filesystem && ${MAKE}  -f Makefile CONF=Debug clean
 
 # Enable dependency checking
 .dep.inc: .depcheck-impl

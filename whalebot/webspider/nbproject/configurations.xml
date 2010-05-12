@@ -64,19 +64,60 @@
           </incDir>
         </ccTool>
         <linkerTool>
-          <linkerAddLib>
-            <pElem>/usr/lib/mylib</pElem>
-          </linkerAddLib>
           <linkerLibItems>
             <linkerLibLibItem>boost_system</linkerLibLibItem>
             <linkerLibLibItem>htmlcxx</linkerLibLibItem>
             <linkerLibLibItem>boost_filesystem</linkerLibLibItem>
             <linkerLibLibItem>boost_program_options</linkerLibLibItem>
-            <linkerLibLibItem>statsem_filesystem</linkerLibLibItem>
-            <linkerLibLibItem>statsem_string</linkerLibLibItem>
             <linkerLibLibItem>boost_thread</linkerLibLibItem>
+            <linkerLibProjectItem>
+              <makeArtifact PL="/home/hotdox/Projects/Whalebot/whalebot/statsem_string"
+                            CT="3"
+                            CN="Debug"
+                            AC="true"
+                            BL="true"
+                            WD="/home/hotdox/Projects/Whalebot/whalebot/statsem_string"
+                            BC="${MAKE}  -f Makefile CONF=Debug"
+                            CC="${MAKE}  -f Makefile CONF=Debug clean"
+                            OP="dist/Debug/GNU-Linux-x86/libstatsem_string.a">
+              </makeArtifact>
+            </linkerLibProjectItem>
+            <linkerLibProjectItem>
+              <makeArtifact PL="/home/hotdox/Projects/Whalebot/whalebot/statsem_filesystem"
+                            CT="3"
+                            CN="Debug"
+                            AC="true"
+                            BL="true"
+                            WD="/home/hotdox/Projects/Whalebot/whalebot/statsem_filesystem"
+                            BC="${MAKE}  -f Makefile CONF=Debug"
+                            CC="${MAKE}  -f Makefile CONF=Debug clean"
+                            OP="dist/Debug/GNU-Linux-x86/libstatsem_filesystem.a">
+              </makeArtifact>
+            </linkerLibProjectItem>
           </linkerLibItems>
         </linkerTool>
+        <requiredProjects>
+          <makeArtifact PL="/home/hotdox/Projects/Whalebot/whalebot/statsem_string"
+                        CT="3"
+                        CN="Debug"
+                        AC="true"
+                        BL="true"
+                        WD="/home/hotdox/Projects/Whalebot/whalebot/statsem_string"
+                        BC="${MAKE}  -f Makefile CONF=Debug"
+                        CC="${MAKE}  -f Makefile CONF=Debug clean"
+                        OP="dist/Debug/GNU-Linux-x86/libstatsem_string.a">
+          </makeArtifact>
+          <makeArtifact PL="/home/hotdox/Projects/Whalebot/whalebot/statsem_filesystem"
+                        CT="3"
+                        CN="Debug"
+                        AC="true"
+                        BL="true"
+                        WD="/home/hotdox/Projects/Whalebot/whalebot/statsem_filesystem"
+                        BC="${MAKE}  -f Makefile CONF=Debug"
+                        CC="${MAKE}  -f Makefile CONF=Debug clean"
+                        OP="dist/Debug/GNU-Linux-x86/libstatsem_filesystem.a">
+          </makeArtifact>
+        </requiredProjects>
       </compileType>
     </conf>
     <conf name="Release" type="1">
@@ -103,40 +144,61 @@
         </fortranCompilerTool>
         <linkerTool>
           <linkerAddLib>
-            <pElem>/usr/lib/mylib</pElem>
-            <pElem>/home/hotdox/Projects/whalebot/statsem_string/dist/Release/GNU-Linux-x86</pElem>
-            <pElem>/home/hotdox/Projects/whalebot/statsem_filesystem/dist/Release/GNU-Linux-x86</pElem>
+            <pElem>/home/hotdox/Projects/Whalebot/whalebot/statsem_filesystem/dist/Release/GNU-Linux-x86</pElem>
+            <pElem>/home/hotdox/Projects/Whalebot/whalebot/statsem_string/dist/Release/GNU-Linux-x86</pElem>
           </linkerAddLib>
           <linkerLibItems>
             <linkerLibLibItem>boost_system</linkerLibLibItem>
             <linkerLibLibItem>htmlcxx</linkerLibLibItem>
             <linkerLibLibItem>boost_filesystem</linkerLibLibItem>
             <linkerLibLibItem>boost_program_options</linkerLibLibItem>
-            <linkerLibLibItem>statsem_filesystem</linkerLibLibItem>
-            <linkerLibLibItem>statsem_string</linkerLibLibItem>
             <linkerLibLibItem>boost_thread</linkerLibLibItem>
+            <linkerLibProjectItem>
+              <makeArtifact PL="/home/hotdox/Projects/Whalebot/whalebot/statsem_string"
+                            CT="3"
+                            CN="Release"
+                            AC="false"
+                            BL="true"
+                            WD="/home/hotdox/Projects/Whalebot/whalebot/statsem_string"
+                            BC="${MAKE}  -f Makefile CONF=Release"
+                            CC="${MAKE}  -f Makefile CONF=Release clean"
+                            OP="dist/Release/GNU-Linux-x86/libstatsem_string.a">
+              </makeArtifact>
+            </linkerLibProjectItem>
+            <linkerLibProjectItem>
+              <makeArtifact PL="/home/hotdox/Projects/Whalebot/whalebot/statsem_filesystem"
+                            CT="3"
+                            CN="Release"
+                            AC="false"
+                            BL="true"
+                            WD="/home/hotdox/Projects/Whalebot/whalebot/statsem_filesystem"
+                            BC="${MAKE}  -f Makefile CONF=Release"
+                            CC="${MAKE}  -f Makefile CONF=Release clean"
+                            OP="dist/Release/GNU-Linux-x86/libstatsem_filesystem.a">
+              </makeArtifact>
+            </linkerLibProjectItem>
           </linkerLibItems>
         </linkerTool>
         <requiredProjects>
-          <makeArtifact PL="/home/hotdox/Projects/whalebot/statsem_filesystem"
-                        CT="2"
+          <makeArtifact PL="/home/hotdox/Projects/Whalebot/whalebot/statsem_string"
+                        CT="3"
                         CN="Release"
                         AC="false"
                         BL="true"
-                        WD="/home/hotdox/Projects/whalebot/statsem_filesystem"
+                        WD="/home/hotdox/Projects/Whalebot/whalebot/statsem_string"
                         BC="${MAKE}  -f Makefile CONF=Release"
                         CC="${MAKE}  -f Makefile CONF=Release clean"
-                        OP="dist/Release/GNU-Linux-x86/libstatsem_filesystem.so">
+                        OP="dist/Release/GNU-Linux-x86/libstatsem_string.a">
           </makeArtifact>
-          <makeArtifact PL="/home/hotdox/Projects/whalebot/statsem_string"
-                        CT="2"
+          <makeArtifact PL="/home/hotdox/Projects/Whalebot/whalebot/statsem_filesystem"
+                        CT="3"
                         CN="Release"
                         AC="false"
                         BL="true"
-                        WD="/home/hotdox/Projects/whalebot/statsem_string"
+                        WD="/home/hotdox/Projects/Whalebot/whalebot/statsem_filesystem"
                         BC="${MAKE}  -f Makefile CONF=Release"
                         CC="${MAKE}  -f Makefile CONF=Release clean"
-                        OP="dist/Release/GNU-Linux-x86/libstatsem_string.so">
+                        OP="dist/Release/GNU-Linux-x86/libstatsem_filesystem.a">
           </makeArtifact>
         </requiredProjects>
       </compileType>

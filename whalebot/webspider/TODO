@@ -31,7 +31,7 @@
     5.1. choose unit-test library
 
 6. Storage
-    6.1. tokyo tyrant
+    6.1. tokyo tyrant (cabinet)
         6.1.1. viewers
     6.2. MySQL
     6.3. store files by uuid, may retrieve by db

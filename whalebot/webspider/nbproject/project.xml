@@ -10,8 +10,8 @@
             <header-extensions>h</header-extensions>
             <sourceEncoding>UTF-8</sourceEncoding>
             <make-dep-projects>
-                <make-dep-project>/home/hotdox/Projects/whalebot/statsem_filesystem</make-dep-project>
-                <make-dep-project>/home/hotdox/Projects/whalebot/statsem_string</make-dep-project>
+                <make-dep-project>/home/hotdox/Projects/Whalebot/whalebot/statsem_filesystem</make-dep-project>
+                <make-dep-project>/home/hotdox/Projects/Whalebot/whalebot/statsem_string</make-dep-project>
             </make-dep-projects>
         </data>
     </configuration>
