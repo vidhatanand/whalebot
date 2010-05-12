@@ -52,21 +52,23 @@ LDLIBSOPTIONS=
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
-	${MAKE}  -f nbproject/Makefile-Debug.mk dist/Debug/GNU-Linux-x86/libstatsem_filesystem.so
+	${MAKE}  -f nbproject/Makefile-Debug.mk dist/Debug/GNU-Linux-x86/libstatsem_filesystem.a
 
-dist/Debug/GNU-Linux-x86/libstatsem_filesystem.so: ${OBJECTFILES}
+dist/Debug/GNU-Linux-x86/libstatsem_filesystem.a: ${OBJECTFILES}
 	${MKDIR} -p dist/Debug/GNU-Linux-x86
-	${LINK.cc} -shared -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libstatsem_filesystem.so -fPIC ${OBJECTFILES} ${LDLIBSOPTIONS} 
+	${RM} dist/Debug/GNU-Linux-x86/libstatsem_filesystem.a
+	${AR} rv ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libstatsem_filesystem.a ${OBJECTFILES} 
+	$(RANLIB) dist/Debug/GNU-Linux-x86/libstatsem_filesystem.a
 
 ${OBJECTDIR}/system.o: nbproject/Makefile-${CND_CONF}.mk system.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -I/usr/include/boost-1_39 -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/system.o system.cpp
+	$(COMPILE.cc) -g -I/usr/include/boost-1_39 -MMD -MP -MF $@.d -o ${OBJECTDIR}/system.o system.cpp
 
 ${OBJECTDIR}/extensions.o: nbproject/Makefile-${CND_CONF}.mk extensions.cpp 
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} $@.d
-	$(COMPILE.cc) -g -I/usr/include/boost-1_39 -fPIC  -MMD -MP -MF $@.d -o ${OBJECTDIR}/extensions.o extensions.cpp
+	$(COMPILE.cc) -g -I/usr/include/boost-1_39 -MMD -MP -MF $@.d -o ${OBJECTDIR}/extensions.o extensions.cpp
 
 # Subprojects
 .build-subprojects:
@@ -74,7 +76,7 @@ ${OBJECTDIR}/extensions.o: nbproject/Makefile-${CND_CONF}.mk extensions.cpp
 # Clean Targets
 .clean-conf: ${CLEAN_SUBPROJECTS}
 	${RM} -r build/Debug
-	${RM} dist/Debug/GNU-Linux-x86/libstatsem_filesystem.so
+	${RM} dist/Debug/GNU-Linux-x86/libstatsem_filesystem.a
 
 # Subprojects
 .clean-subprojects:
