@@ -25,7 +25,7 @@
   </logicalFolder>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
-    <conf name="Debug" type="2">
+    <conf name="Debug" type="3">
       <toolsSet>
         <developmentServer>localhost</developmentServer>
         <compilerSet>GNU|GNU</compilerSet>
@@ -37,13 +37,11 @@
             <pElem>/usr/include/boost-1_39</pElem>
           </incDir>
         </ccTool>
-        <linkerTool>
-          <linkerLibItems>
-          </linkerLibItems>
-        </linkerTool>
+        <archiverTool>
+        </archiverTool>
       </compileType>
     </conf>
-    <conf name="Release" type="2">
+    <conf name="Release" type="3">
       <toolsSet>
         <developmentServer>localhost</developmentServer>
         <compilerSet>GNU|GNU</compilerSet>
@@ -63,10 +61,8 @@
         <fortranCompilerTool>
           <developmentMode>5</developmentMode>
         </fortranCompilerTool>
-        <linkerTool>
-          <linkerLibItems>
-          </linkerLibItems>
-        </linkerTool>
+        <archiverTool>
+        </archiverTool>
       </compileType>
     </conf>
   </confs>
