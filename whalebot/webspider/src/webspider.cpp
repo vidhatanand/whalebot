@@ -269,8 +269,7 @@ int main(int argc, char* argv[]) {
         delete errorlog;
     }
 
-    delete factory;
-   
+    delete factory;   
 
     return 0;
 }
