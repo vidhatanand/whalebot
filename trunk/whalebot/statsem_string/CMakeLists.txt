@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 2.6)
+project (libstring_parse)
+include_directories ("include")
+file(GLOB SOURCES "src/*.cpp")
+set(LIBRARY_OUTPUT_PATH "bin/")
+add_library(string_parse STATIC ${SOURCES})
