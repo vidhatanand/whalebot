@@ -1,0 +1,19 @@
+#labels Phase-Implementation
+=Build system=
+Move to CMake (release 0.01.00)
+
+=Network stack=
+Move to libneon(lost in multi platform - release 0.02.00)
+
+=Url parsing=
+benchmark -- select most appropriate uri-parser(release 0.03.0)
+
+=Parsing=
+Robots.txt
+
+=Storage=
+Tokyo/Kyoto cabinet + uuid for files
+viewer for databases
+
+=Grabbing opensubtitles.org=
+
