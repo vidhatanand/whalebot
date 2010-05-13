@@ -1,7 +1,13 @@
-#include "link.h"
-#include "../statsem_string/parserbase.h"
 #include <iostream>
+
 #include <boost/algorithm/string.hpp>
+
+#include <parserbase.h>
+
+#include "link.h"
+
+
+
 
 CLink::CLink()
 :m_server(""), m_uri(""), m_cookie(""), m_cookieForCut(""){}

@@ -1,8 +1,10 @@
+#include <boost/algorithm/string/replace.hpp>
+
+#include <system.h>
+#include <parserbase.h>
+
 #include "prefix.h"
 #include "FilenameHandler.h"
-#include "../statsem_filesystem/system.h"
-#include "../statsem_string/parserbase.h"
-#include <boost/algorithm/string/replace.hpp>
 
 CFilenameHandler::CFilenameHandler(const std::string &base_dir)
 :m_baseDir(base_dir){

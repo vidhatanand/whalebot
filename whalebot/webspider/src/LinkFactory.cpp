@@ -4,7 +4,7 @@
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/algorithm/string.hpp>
 
-#include "../statsem_string/parserbase.h"
+#include <parserbase.h>
 
 #include "LinkFactory.h"
 #include "link.h"
