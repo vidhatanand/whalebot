@@ -1,5 +1,6 @@
+#include <parserbase.h>
 #include "filters.h"
-#include "../statsem_string/parserbase.h"
+
 
 
 bool    CAllFilter::filtrate(CLink const &link){

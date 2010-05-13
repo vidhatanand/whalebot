@@ -1,8 +1,12 @@
-#include "HeaderParser.h"
-#include "../statsem_string/parserbase.h"
 #include <boost/lexical_cast.hpp>
 #include <boost/algorithm/string/trim.hpp>
 #include <boost/algorithm/string/case_conv.hpp>
+
+#include <parserbase.h>
+
+#include "HeaderParser.h"
+
+
 
 bool CHeaderParser::getField(const std::string &field, std::string &value)const{
     bool                        ret(false);
