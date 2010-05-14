@@ -1,5 +1,5 @@
-#include "ToString.h"
 #include <fstream>
+#include <to_string.h>
 
 template<>
 std::string toString(std::string const &x){
