@@ -6,10 +6,10 @@
 
 #include <parserbase.h>
 
-#include "LinkFactory.h"
-#include "link.h"
-#include "prefix.h"
-#include "iLinkBuffer.h"
+#include <link_factory.h>
+#include <link.h>
+#include <prefix.h>
+#include <ilink_buffer.h>
 
 
 

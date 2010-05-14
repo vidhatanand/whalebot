@@ -1,6 +1,7 @@
-#include "Filter.h"
-#include "LinkBuffer.h"
 #include <iostream>
+#include <filter.h>
+#include <link_buffer.h>
+
 
 void CLinkBuffer::writeUsedLinks(std::ostream &uo)const{
     for(boost::unordered_set<CLink>::const_iterator i = m_usedLinks.begin();

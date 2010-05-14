@@ -8,7 +8,7 @@
 #ifndef _IACCEPTOR_H
 #define	_IACCEPTOR_H
 
-#include "link.h"
+#include <link.h>
 
 class IAcceptor{
 public:
