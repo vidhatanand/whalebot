@@ -8,10 +8,12 @@
 #ifndef _FILTERS_H
 #define	_FILTERS_H
 
-#include "Filter.h"
-#include "iacceptor.h"
 #include <list>
 #include <iostream>
+
+#include <filter.h>
+#include <iacceptor.h>
+
 
 
 class CAllFilter: public IFilter{

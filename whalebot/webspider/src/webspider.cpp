@@ -4,17 +4,17 @@
 #include <boost/thread.hpp>
 #include <boost/date_time/posix_time/posix_time_types.hpp>
 
-#include "OneFetcher.h"
-#include "LinkBuffer.h"
-#include "LinkExtractor.h"
-#include "HeaderParser.h"
-#include "FilenameHandler.h"
-#include "filters.h"
-#include "link.h"
-#include "ilink_factory.h"
-#include "LinkFactory.h"
-#include "collector_link.h"
-#include "webspider_options.h"
+#include <one_fetcher.h>
+#include <link_buffer.h>
+#include <link_extractor.h>
+#include <header_parser.h>
+#include <filename_handler.h>
+#include <filters.h>
+#include <link.h>
+#include <ilink_factory.h>
+#include <link_factory.h>
+#include <collector_link.h>
+#include <webspider_options.h>
 
 void async_read(bool &stop){
     getchar();

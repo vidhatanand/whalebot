@@ -3,8 +3,8 @@
 #include <system.h>
 #include <parserbase.h>
 
-#include "prefix.h"
-#include "FilenameHandler.h"
+#include <prefix.h>
+#include <filename_handler.h>
 
 CFilenameHandler::CFilenameHandler(const std::string &base_dir)
 :m_baseDir(base_dir){

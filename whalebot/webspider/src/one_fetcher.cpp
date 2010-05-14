@@ -1,8 +1,8 @@
 
-#include "HeaderParser.h"
-#include "OneFetcher.h"
-#include "link.h"
-#include "version.h"
+#include <header_parser.h>
+#include <one_fetcher.h>
+#include <link.h>
+#include <version.h>
 
 
 COneFetcher::COneFetcher()

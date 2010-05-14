@@ -9,8 +9,8 @@
 #define	_COLLECTOR_LINK_H
 
 #include <fstream>
-#include "LinkFactory.h"
-#include "ilink_factory.h"
+#include <link_factory.h>
+#include <ilink_factory.h>
 
 class CCollectorLinkFactory : public ILinkFactory {
 public:
