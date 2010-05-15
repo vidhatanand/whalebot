@@ -1,6 +1,6 @@
 #labels Phase-Implementation
 =Build system=
-Move to CMake (release 0.01.00)
+Move to CMake (release 0.01.00) - *Done*
 
 =Network stack=
 Move to libneon(lost in multi platform - release 0.02.00)
@@ -16,4 +16,3 @@ Tokyo/Kyoto cabinet + uuid for files
 viewer for databases
 
 =Grabbing opensubtitles.org=
-
