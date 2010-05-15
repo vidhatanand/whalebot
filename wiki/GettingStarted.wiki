@@ -12,10 +12,10 @@ But in theory everywhere you have htmlcxx and boost - you have whalebot
 In [http://code.google.com/p/whalebot/source/browse/svn/tags/release-0.01.00 release-0.01.00] moved to [http://cmake.org/ cmake]
 
 to build
-{{
+{{{
 cmake .
 make
-}}
+}}}
 
 = Start-crawl =
 
