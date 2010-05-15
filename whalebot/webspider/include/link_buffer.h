@@ -2,10 +2,12 @@
 #define _LINK_BUFFER_H_
 #include <string>
 #include <set>
-#include <boost/unordered_set.hpp>
 #include <list>
-#include "link.h"
-#include "iLinkBuffer.h"
+
+#include <boost/unordered_set.hpp>
+
+#include <link.h>
+#include <ilink_buffer.h>
 
 
 class IFilter;
