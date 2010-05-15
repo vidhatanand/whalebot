@@ -3,8 +3,9 @@
 #include <boost/program_options.hpp>
 #include <boost/filesystem.hpp>
 
-#include "webspider_options.h"
-#include "version.h"
+#include <webspider_options.h>
+#include <version.h>
+#include <config_const.h>
 
 
 
@@ -42,27 +43,26 @@ bool CWebSpiderOptions::readFromCmdLine(int argc, char* argv[])
 
             ("site,s", boost::program_options::value<std::string> (&m_sSite)->default_value(""), "seed uri")
 
-            ("dont-save,d", "dont save fetched pages")
+            (kSavePagesAttrCmd.c_str(), "dont save fetched pages")
+            (kOneServerAttrCmd.c_str(), "fetch only from one server")
+            (kLinkFilterFileAttrCmd.c_str(), boost::program_options::value<std::string> (&m_sLinkFilterFile)->default_value(""), "file with words to link filter")
+            (kLevelAttrCmd.c_str(), boost::program_options::value<size_t> (&m_iLevel)->default_value(0), "max level of link in one site")
 
-            ("one-server,o", "fetch only from one server")
-            ("link-filter,l", boost::program_options::value<std::string> (&m_sLinkFilterFile)->default_value(""), "file with words to link filter")
-            ("max-level,m", boost::program_options::value<size_t> (&m_iLevel)->default_value(0), "max level of link in one site")
+            (kOutputAttrCmd.c_str(), boost::program_options::value<std::string> (&m_sOutput)->default_value(boost::filesystem::initial_path().native_directory_string()), "output dir")
+            (kErrorLogPathAttrCmd.c_str(), boost::program_options::value<std::string> (&m_sErrorLogPath)->default_value(""), "path to log file")
+            (kTmpFilePathAttrCmd.c_str(), boost::program_options::value<std::string> (&m_sTmpFilePath)->default_value("tmp"), "tmp filename")
 
-            ("output,O", boost::program_options::value<std::string> (&m_sOutput)->default_value(boost::filesystem::initial_path().native_directory_string()), "output dir")
-            ("errorlog,e", boost::program_options::value<std::string> (&m_sErrorLogPath)->default_value(""), "path to log file")
-            ("tmp-file,t", boost::program_options::value<std::string> (&m_sTmpFilePath)->default_value("tmp"), "tmp filename")
+            (kUsedLinksPathAttrCmd.c_str(), boost::program_options::value<std::string> (&m_sUsedLinksPath)->default_value("usedlinks.txt"), "path to used links file")
+            (kFutureLinksPathAttrCmd.c_str(), boost::program_options::value<std::string> (&m_sFutureLinksPath)->default_value("futurelinks.txt"), "path future links file")
 
-            ("usedlinks,u", boost::program_options::value<std::string> (&m_sUsedLinksPath)->default_value("usedlinks.txt"), "path to used links file")
-            ("futurelinks,f", boost::program_options::value<std::string> (&m_sFutureLinksPath)->default_value("futurelinks.txt"), "path future links file")
-
-            ("connection-timeout,T", boost::program_options::value<unsigned int> (&m_iConnectionTimeoutInSeconds)->default_value(5), "connection timeout")
-            ("read-timeout,R", boost::program_options::value<unsigned int> (&m_iReadTimeoutInSeconds)->default_value(2), "read timeout")
-            ("max-connections,M", boost::program_options::value<unsigned int> (&m_iMaxConnections)->default_value(20), "qantity of simulteniously open connections")
+            (kConnectionTimeoutInSecondsAttrCmd.c_str(), boost::program_options::value<unsigned int> (&m_iConnectionTimeoutInSeconds)->default_value(5), "connection timeout")
+            (kReadTimeoutInSecondsAttrCmd.c_str(), boost::program_options::value<unsigned int> (&m_iReadTimeoutInSeconds)->default_value(2), "read timeout")
+            (kMaxConnectionsAttrCmd.c_str(), boost::program_options::value<unsigned int> (&m_iMaxConnections)->default_value(20), "qantity of simulteniously open connections")
 
 
-            ("collect-links,c" , "collect links")
-            ("dont-save-links,D",  "do not save links after stop")
-            ("ask,a",  "ask after fetching")
+            (kCollectLinksAttrCmd.c_str(), "collect links")
+            (kSaveHistoryAttrCmd.c_str(),  "do not save links after stop")
+            (kAskAfterFetchAttrCmd.c_str(),  "ask after fetching")
             ;
 
     boost::program_options::positional_options_description p;
@@ -84,24 +84,24 @@ bool CWebSpiderOptions::readFromCmdLine(int argc, char* argv[])
         return false;
     }
 
-    if (vm.count("ask")) {
+    if (vm.count(kAskAfterFetchAttr)) {
         m_bAskAfterFetch =   true;
     }
 
-    if (vm.count("dont-save")) {
+    if (vm.count(kSavePagesAttr)) {
         m_bSavePages  =   false;
     }
 
 
-    if (vm.count("one-server")) {
+    if (vm.count(kOneServerAttr)) {
         m_bOneServer  =   true;
     }
 
-    if(vm.count("dont-save-links")){
+    if(vm.count(kSaveHistoryAttr)){
         m_bSaveHistory    =   false;
     }
 
-    if(vm.count("collect-links")){
+    if(vm.count(kCollectLinksAttr)){
         m_bCollectLinks   =   true;
     }
 
