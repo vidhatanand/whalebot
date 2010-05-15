@@ -1,8 +1,6 @@
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/filesystem/convenience.hpp>
 
-//#include <system.h>
-
 #include <filename_handler.h>
 
 CFilenameHandler::CFilenameHandler(const std::string &base_dir)
@@ -59,7 +57,7 @@ bool CFilenameHandler::createPath(std::string server, std::string uri, std::stri
             name    +=  ext_;
         }
 
- //       ret =   misc::createDirectory(filename);
+ 
         ret =   boost::filesystem::create_directories(filename);
 
         filename    +=  '/';
