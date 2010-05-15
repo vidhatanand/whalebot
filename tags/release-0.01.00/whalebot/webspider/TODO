@@ -1,0 +1,67 @@
+0. ini- or xml- conf file
+    0.1. included conf files
+    0.2. GUI front-end (http-)
+
+1. Test Uri handling using collected collection of uris (may be repeat next time)
+    1.1. libwww http://www.w3.org/Library/src/HTParse.c
+    1.2. regex http://www.boost.org/doc/libs/1_42_0/tools/inspect/link_check.cpp
+        1.2.1. boost
+        1.2.2. google regex http://code.google.com/p/re2/
+        1.2.3. standard C regex http://www.gnu.org/software/coreutils/manual/libc/Regular-Expressions.html
+    1.3. Gurl http://code.google.com/p/google-url/
+        1.3.1. build http://code.google.com/p/python-google-url/wiki/HowToBuildGoogleUrlWithLinux
+    1.4. uriparser http://uriparser.sourceforge.net/doc/html/
+    1.5. cpp-netlib http://github.com/cpp-netlib/cpp-netlib/tree/master/boost/network/uri/
+    1.7. custom spirit-based
+    1.8. libneon
+
+2. File handling
+    2.2. Using MIME instead of file extension for file handling
+    2.2. Two types of file handling - parsing and saving
+    2.3. Using file extension to predict MIME and do not request
+
+3. Robots.txt
+    3.1. request robots.txt before any page reqested
+    3.2. obey robots.txt in requests (or not based on options)
+
+4. Logging
+    4.1. choose log library
+
+5. Unit-tests
+    5.1. choose unit-test library
+
+6. Storage
+    6.1. tokyo tyrant (cabinet)
+        6.1.1. viewers
+    6.2. MySQL
+    6.3. store files by uuid, may retrieve by db
+
+7. Network
+    7.1. move to libneon
+        7.1.1. timeouts
+        7.1.2. HeaderParser
+        7.1.3. list of connections
+
+8. Multi-threaded
+    8.1. Model
+    8.2. Messages
+
+9. Proxy
+    9.1. typical proxies
+        9.1.1. Proxy testing
+    9.2. Tor
+
+10. HTML
+    10.1. collect examples
+    10.2. rewrite htmlcxx on stream for libneon
+    10.3. links not only from <a>
+    10.4. Rigth order of link visiting - width-first with upper links earlier
+
+11. link generation
+
+12. Cookies
+    **12.1. Fixed
+
+13. Sessions
+    13.1. Spider state
+    13.2. http front-end
