@@ -27,6 +27,8 @@ int main(int argc, char* argv[]) {
 
     CWebSpiderOptions   options;
 
+    
+
     if (not options.readFromCmdLine(argc, argv)) {
         return 0;
     }

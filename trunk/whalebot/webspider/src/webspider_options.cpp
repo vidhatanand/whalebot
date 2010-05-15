@@ -1,7 +1,11 @@
 #include <iostream>
+#include <fstream>
+
 
 #include <boost/program_options.hpp>
 #include <boost/filesystem.hpp>
+
+#include <options.h>
 
 #include <webspider_options.h>
 #include <version.h>
@@ -29,6 +33,8 @@ CWebSpiderOptions::CWebSpiderOptions()
 , m_iConnectionTimeoutInSeconds(0)
 , m_iReadTimeoutInSeconds(0)
 , m_iMaxConnections(0)
+
+, m_sOptionsFile("")
 
 {}
 
@@ -63,6 +69,8 @@ bool CWebSpiderOptions::readFromCmdLine(int argc, char* argv[])
             (kCollectLinksAttrCmd.c_str(), "collect links")
             (kSaveHistoryAttrCmd.c_str(),  "do not save links after stop")
             (kAskAfterFetchAttrCmd.c_str(),  "ask after fetching")
+
+            (kOptionsFileAttrCmd.c_str(), boost::program_options::value<std::string>(&m_sOptionsFile)->default_value(""), "file with configurations")
             ;
 
     boost::program_options::positional_options_description p;
@@ -105,6 +113,41 @@ bool CWebSpiderOptions::readFromCmdLine(int argc, char* argv[])
         m_bCollectLinks   =   true;
     }
 
-    return true;
+    if(not m_sOptionsFile.empty()) {
+        readFromFile(m_sOptionsFile);
+    }
 
+    return true;
+}
+
+
+bool CWebSpiderOptions::readFromFile(const std::string& path)
+{
+    std::ifstream   file(path.c_str());
+
+    if (not file.is_open()) {
+        return false;
+    }
+
+    COptions    options;
+    options.read(file);
+
+    
+    options.get(kAskAfterFetchAttr, m_bAskAfterFetch);
+    options.get(kCollectLinksAttr, m_bCollectLinks);
+    options.get(kConnectionTimeoutInSecondsAttr, m_iConnectionTimeoutInSeconds);
+    options.get(kErrorLogPathAttr, m_sErrorLogPath);
+    options.get(kFutureLinksPathAttr, m_sFutureLinksPath);
+    options.get(kLevelAttr, m_iLevel);
+    options.get(kLinkFilterFileAttr, m_sLinkFilterFile);
+    options.get(kMaxConnectionsAttr, m_iMaxConnections);
+    options.get(kOneServerAttr, m_bOneServer);
+    options.get(kOutputAttr, m_sOutput);
+    options.get(kReadTimeoutInSecondsAttr, m_iReadTimeoutInSeconds);
+    options.get(kSaveHistoryAttr, m_bSaveHistory);
+    options.get(kSavePagesAttr, m_bSavePages);
+    options.get(kTmpFilePathAttr, m_sTmpFilePath);
+    options.get(kUsedLinksPathAttr, m_sUsedLinksPath);
+    
+    return true;    
 }

@@ -1,12 +1,12 @@
 #ifndef OPTIONS_H
 #define OPTIONS_H
 
-#include "libstring_global.h"
+
 #include "optionsbase.h"
-#include "ToString.h"
+#include "to_string.h"
 
 
-class LIBSTRINGSHARED_EXPORT COptions : public COptionsBase{
+class  COptions : public COptionsBase{
 public:
     template<class T> bool    get(std::string const &key, T &x)const{
         std::string value("");
