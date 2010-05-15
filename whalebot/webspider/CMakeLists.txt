@@ -8,7 +8,6 @@ include_directories(${Boost_INCLUDE_DIRS})
 find_library ( Htmlcxx  "htmlcxx" )
 
 include_directories("./include")
-include_directories("../statsem_filesystem/include")
 include_directories("../statsem_string/include")
 link_directories ( ${Boost_LIBRARY_DIRS}  "../statsem_string/bin")
 

@@ -35,10 +35,13 @@ public:
     unsigned int    m_iConnectionTimeoutInSeconds;
     unsigned int    m_iReadTimeoutInSeconds;
     unsigned int    m_iMaxConnections;
+
+    std::string     m_sOptionsFile;
     
     
     CWebSpiderOptions();
     bool    readFromCmdLine(int argc, char* argv[]);
+    bool    readFromFile(const std::string& path);
 
 
 };
