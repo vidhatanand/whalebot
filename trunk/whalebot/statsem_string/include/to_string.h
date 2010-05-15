@@ -23,6 +23,9 @@ std::string toString(const T &x){
 template<>
 std::string toString(std::string const &x);
 
+template<>
+std::string toString(bool const &x);
+
 
 template<class T>
 bool fromString(std::string const &x,T &y){
@@ -39,6 +42,9 @@ bool fromString(std::string const &x,T &y){
 
 template<>
 bool fromString(std::string const &x,std::string  &y);
+
+template<>
+bool fromString(std::string const &x,bool  &y);
 
 template<class si>
 si inner_cut(si begin, si end, std::string const &symbols){
