@@ -14,7 +14,7 @@ In [http://code.google.com/p/whalebot/source/browse/#svn/tags/release-0.01.00 re
 to build
 {{{
 cmake .
-make
+sudo make install
 }}}
 
 = Start-crawl =

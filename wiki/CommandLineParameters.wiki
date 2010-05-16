@@ -23,6 +23,6 @@ Web spider options:
   -a [ --ask ]                                 ask after fetching
 }}}
 
-You always can see them using _./whalebot -h_
+You always can see them using _whalebot -h_
 
 At every moment of crawling push _ENTER_ and fetching stops, you may resume this crawl later
