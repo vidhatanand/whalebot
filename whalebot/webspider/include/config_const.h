@@ -15,7 +15,7 @@ const std::string kMaxConnectionsAttr               =    "max-connections";
 const std::string kCollectLinksAttr                 =    "collect-links";
 const std::string kSaveHistoryAttr                  =    "dont-save-links";
 const std::string kAskAfterFetchAttr                =    "ask";
-const std::string kOptionsFileAttr                  =    "ask";
+const std::string kOptionsFileAttr                  =    "file";
 
 const std::string kSavePagesAttrCmd                     =    kSavePagesAttr                     + ",d";
 const std::string kOneServerAttrCmd                     =    kOneServerAttr                     + ",o";
