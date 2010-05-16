@@ -31,7 +31,6 @@ OBJECTDIR=build/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
-	${OBJECTDIR}/google-url/googleurl/base/string16.o \
 	${OBJECTDIR}/url-parse.o
 
 # C Compiler Flags
@@ -48,22 +47,15 @@ FFLAGS=
 ASFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=-Lgoogle-url/googleurl/src -lpthread -licuuc google-url/googleurl/src/libgoogleurl.a
+LDLIBSOPTIONS=-Lgoogle-url -lpthread -licuuc -lgurl
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
 	${MAKE}  -f nbproject/Makefile-Debug.mk dist/Debug/GNU-Linux-x86/url-parsing-benchmark
 
-dist/Debug/GNU-Linux-x86/url-parsing-benchmark: google-url/googleurl/src/libgoogleurl.a
-
 dist/Debug/GNU-Linux-x86/url-parsing-benchmark: ${OBJECTFILES}
 	${MKDIR} -p dist/Debug/GNU-Linux-x86
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/url-parsing-benchmark ${OBJECTFILES} ${LDLIBSOPTIONS} 
-
-${OBJECTDIR}/google-url/googleurl/base/string16.o: nbproject/Makefile-${CND_CONF}.mk google-url/googleurl/base/string16.cc 
-	${MKDIR} -p ${OBJECTDIR}/google-url/googleurl/base
-	${RM} $@.d
-	$(COMPILE.cc) -g -I../whalebot/webspider -Igoogle-url -Igoogle-url/googleurl -MMD -MP -MF $@.d -o ${OBJECTDIR}/google-url/googleurl/base/string16.o google-url/googleurl/base/string16.cc
 
 ${OBJECTDIR}/url-parse.o: nbproject/Makefile-${CND_CONF}.mk url-parse.cpp 
 	${MKDIR} -p ${OBJECTDIR}
