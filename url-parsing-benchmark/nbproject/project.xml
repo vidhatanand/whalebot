@@ -6,7 +6,7 @@
             <name>url-parsing-benchmark</name>
             <make-project-type>0</make-project-type>
             <c-extensions/>
-            <cpp-extensions>cc,cpp</cpp-extensions>
+            <cpp-extensions>cpp</cpp-extensions>
             <header-extensions/>
             <sourceEncoding>UTF-8</sourceEncoding>
             <make-dep-projects>
