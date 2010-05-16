@@ -13,5 +13,5 @@ link_directories ( ${Boost_LIBRARY_DIRS}  "../statsem_string/bin")
 
 aux_source_directory("./src/" SOURCES)
 
-add_executable(webspider ${SOURCES} )
-target_link_libraries ( webspider ${Boost_LIBRARIES} ${Htmlcxx} string_parse )
+add_executable( whalebot ${SOURCES} )
+target_link_libraries ( whalebot ${Boost_LIBRARIES} ${Htmlcxx} string_parse )

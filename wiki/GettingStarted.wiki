@@ -20,7 +20,7 @@ make
 = Start-crawl =
 
 {{{
-webspider -s http://google.com -O ~/web
+whalebot -s http://google.com -O ~/web
 }}}
 
  # Wait for some time
