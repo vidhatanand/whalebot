@@ -1,6 +1,6 @@
 #!/bin/bash
 
-svn export http://google-url.googlecode.com/svn/trunk/ googleurl
+svn export http://google-url.googlecode.com/svn/trunk/ googleurl --force
 cp SConstruct googleurl/src
 cd googleurl/base/
 patch ./basictypes.h < ../../basictypes.h.patch
