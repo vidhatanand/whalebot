@@ -30,12 +30,10 @@
 #include <ctime>
 #include <iomanip>
 #include <cstring>
-//#include <windows.h>
-//#include <tchar.h>
+#include <windows.h>
+#include <tchar.h>
 #include <algorithm>
 #include "base/logging.h"
-
-#define MAX_PATH 255
 
 namespace logging {
 
@@ -71,7 +69,7 @@ LogAssertHandlerFunction log_assert_handler = NULL;
 // avoid problems with multiple threads writing to the log file at the same
 // time.
 bool initialized_critical_section = false;
-//CRITICAL_SECTION log_critical_section;
+CRITICAL_SECTION log_critical_section;
 
 // When we don't use a critical section, we are using a global mutex. We
 // need to do this because LockFileEx is not thread safe
@@ -146,7 +144,7 @@ void InitLogging(const TCHAR* new_log_file, LoggingDestination logging_dest,
     InitLogMutex();
   } else if (!initialized_critical_section) {
     // initialize the critical section
-    //InitializeCriticalSection(&log_critical_section);
+    InitializeCriticalSection(&log_critical_section);
     initialized_critical_section = true;
   }
 

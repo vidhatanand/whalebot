@@ -7,7 +7,7 @@
 
 #include <list>
 #include <fstream>
-#include <LinkFactory.h>
+
 #include <googleurl/src/gurl.h>
 
 struct THtmlTask {
