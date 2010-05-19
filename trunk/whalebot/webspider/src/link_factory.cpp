@@ -12,8 +12,6 @@
 #include <ilink_buffer.h>
 
 
-
-
 CLinkFactory::CLinkFactory()
 :m_parentLink(){}
 
@@ -22,8 +20,6 @@ void CLinkFactory::setAcceptor(IAcceptor &acceptor){
 }
 
 void CLinkFactory::pushLink(std::string link) {
-
-//    boost::to_lower(link);
 
     if((prefix::isMail(link))||(prefix::isJavaScript(link))||(prefix::isHttps(link)))
         return;
@@ -41,6 +37,8 @@ void CLinkFactory::pushLink(std::string link) {
 void CLinkFactory::setFrom(CLink const &uri){
     m_parentLink   =   uri;
 }
+
+
 void CLinkFactory::cutSticks(std::string &link){
     std::string ret("");
     ret.reserve(link.size());
@@ -114,7 +112,7 @@ CLink CLinkFactory::normolizeLink(std::string &link)const{
         }
     }
     std::string tmp_uri(ret.getUri());
-    cutSticks(tmp_uri);
+    //cutSticks(tmp_uri);
     ret.setUri(tmp_uri);
 
     if(ret.getServer() == m_parentLink.getServer()){
@@ -139,11 +137,9 @@ void CLinkFactory::normolizeQeury(std::string &link) {
     }
 
     std::string query(link.substr(startQuery + 1));
-    link.erase(startQuery + 1);
+    link.erase(startQuery + 1);    
 
-    
-
-    CParserBase parser("&=;");
+    CParserBase parser("&=");
     parser.parseString(query);
 
     size_t  elementCount(parser.size());

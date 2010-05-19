@@ -69,6 +69,8 @@ void readTasksFromFile(std::ifstream& file, THtmlTaskList& tasks)
             continue;
         }
 
+        tmpStr.erase(0, 1);
+
         task.m_lUris.push_back(tmpStr);
     }
 }
@@ -108,18 +110,26 @@ int main(int argc, char** argv) {
             std::string gurlHost(relativeUrl.host());
             std::string gurlRequest(relativeUrl.PathForRequest());
 
-            std::cout << "gurl : " << std::endl;
-            std::cout << "      host  : " << gurlHost << std::endl;
-            std::cout << "      query : " << gurlRequest << std::endl;
+
 
             linkFactory.pushLink(*uri);
 
             std::string myHost(acceptor.m_tLink.getServer());
             std::string myRequest(acceptor.m_tLink.getUri());
 
-            std::cout << "my   : " << std::endl;
-            std::cout << "      host  : " << myHost << std::endl;
-            std::cout << "      query : " << myRequest << std::endl;
+            if ((myHost != gurlHost) or (myRequest != gurlRequest)) {
+                std::cout << std::endl;
+                std::cout << "------------------------------------" << std::endl;
+                std::cout << std::endl;
+
+                std::cout << "my   : " << std::endl;
+                std::cout << "      host  : " << myHost << std::endl;
+                std::cout << "      query : " << myRequest << std::endl;
+                std::cout << std::endl;
+                std::cout << "gurl : " << std::endl;
+                std::cout << "      host  : " << gurlHost << std::endl;
+                std::cout << "      query : " << gurlRequest << std::endl;
+            }
         }
     }    
 
