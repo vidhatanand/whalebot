@@ -9,6 +9,21 @@
 #include <fstream>
 
 #include <googleurl/src/gurl.h>
+#include "../whalebot/webspider/include/link_factory.h"
+
+
+class TEmptyAcceptor : public IAcceptor {
+public:
+    void    pushLink(const CLink& link)
+    {
+        m_tLink =   link;
+        return;
+    }
+
+    CLink   m_tLink;
+
+};
+
 
 struct THtmlTask {
     std::string m_sBaseUri;
@@ -73,12 +88,38 @@ int main(int argc, char** argv) {
 
     readTasksFromFile(file, tasks);
 
+
     for (THtmlTaskList::const_iterator task = tasks.begin(); task != tasks.end(); ++task) {
         const THtmlTask::TUriList&  currentUris(task->m_lUris);
-        GURL    baseUrl(task->m_sBaseUri);
+        GURL                        baseUrl(task->m_sBaseUri);
+        CLinkFactory                linkFactory;
+        TEmptyAcceptor              acceptor;
+
+        linkFactory.setAcceptor(acceptor);
+        linkFactory.pushLink(task->m_sBaseUri);
+
+        linkFactory.setFrom(acceptor.m_tLink);
+        
 
         for (THtmlTask::TUriList::const_iterator uri = currentUris.begin(); uri != currentUris.end(); ++uri) {
+
             GURL    relativeUrl(baseUrl.Resolve(*uri));
+
+            std::string gurlHost(relativeUrl.host());
+            std::string gurlRequest(relativeUrl.PathForRequest());
+
+            std::cout << "gurl : " << std::endl;
+            std::cout << "      host  : " << gurlHost << std::endl;
+            std::cout << "      query : " << gurlRequest << std::endl;
+
+            linkFactory.pushLink(*uri);
+
+            std::string myHost(acceptor.m_tLink.getServer());
+            std::string myRequest(acceptor.m_tLink.getUri());
+
+            std::cout << "my   : " << std::endl;
+            std::cout << "      host  : " << myHost << std::endl;
+            std::cout << "      query : " << myRequest << std::endl;
         }
     }    
 
