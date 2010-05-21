@@ -25,9 +25,7 @@ void async_read(bool &stop){
 
 int main(int argc, char* argv[]) {
 
-    CWebSpiderOptions   options;
-
-    
+    CWebSpiderOptions   options;    
 
     if (not options.readFromCmdLine(argc, argv)) {
         return 0;
@@ -95,8 +93,7 @@ int main(int argc, char* argv[]) {
 
     CLink   next;
     bool    connected(false);
-    int     link_counter(0),
-            pdf_counter(0),
+    int     link_counter(0),            
             http_errors(0);
 
 
@@ -117,7 +114,7 @@ int main(int argc, char* argv[]) {
 
         (*errorlog) << "we have " << work_front.size() + 1
                     << " links, looks at " << link_counter - 1
-                    << " links, found "<< pdf_counter << " pdf files" << std::endl;
+                    << " links, found "<< std::endl;
 
 
 
@@ -204,10 +201,6 @@ int main(int argc, char* argv[]) {
 
 
         std::string filepath("");
-
-
-        if(ext == "pdf")
-            ++pdf_counter;
 
 
         if(options.m_bSavePages){
