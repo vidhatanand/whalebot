@@ -3,6 +3,12 @@
 #include <boost/filesystem.hpp>
 #include <boost/thread.hpp>
 #include <boost/date_time/posix_time/posix_time_types.hpp>
+#include <boost/date_time/posix_time/time_formatters.hpp>
+#include <boost/date_time/posix_time/posix_time_io.hpp>
+#include <boost/date_time/time_facet.hpp>
+
+
+//#include <neon/ne_session.h>
 
 #include <one_fetcher.h>
 #include <link_buffer.h>
@@ -24,6 +30,11 @@ void async_read(bool &stop){
 
 
 int main(int argc, char* argv[]) {
+    
+ //   ne_sock_init();
+ 
+    boost::posix_time::time_facet facet("%T");
+
 
     CWebSpiderOptions   options;    
 
@@ -43,6 +54,8 @@ int main(int argc, char* argv[]) {
             need_delete =   true;
         }
     }
+    
+    errorlog->imbue(std::locale(std::cout.getloc(), &facet));
 
     CFilenameHandler    files(options.m_sOutput);
     COneFetcher         fetcher;
@@ -112,13 +125,17 @@ int main(int argc, char* argv[]) {
 
         ++link_counter;
 
-        (*errorlog) << "we have " << work_front.size() + 1
+        boost::posix_time::ptime   now   =   boost::posix_time::microsec_clock::local_time();        
+        
+
+        (*errorlog) << now
+                    << " we have " << work_front.size() + 1
                     << " links, looks at " << link_counter - 1
                     << " links, found "<< std::endl;
 
 
 
-        boost::posix_time::ptime   now   =   boost::posix_time::microsec_clock::local_time();
+
         double  time_consumption(boost::posix_time::time_period(start, now).length().total_microseconds());
         time_consumption    /=  1000000;
         (*errorlog) << "speed " <<(link_counter - 1)/time_consumption<<" links/sec"<<std::endl;
@@ -133,6 +150,9 @@ int main(int argc, char* argv[]) {
                 continue;
             }
         }
+        
+        
+        
 
         (*errorlog) << "*Connect to " << next.getServer() << std::endl;
         connected = fetcher.connect(next);
@@ -265,6 +285,8 @@ int main(int argc, char* argv[]) {
     }
 
     delete factory;   
+    
+//    ne_sock_exit();
 
     return 0;
 }
