@@ -3,7 +3,7 @@
 Move to CMake (release 0.01.00) - *Done*
 
 =Network stack=
-Move to libneon(lost in multi platform - release 0.02.00)
+Move to libneon(release 0.02.00)
 
 =Url parsing=
 benchmark -- select most appropriate uri-parser(release 0.03.0)
