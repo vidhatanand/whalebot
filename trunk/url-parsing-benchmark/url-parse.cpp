@@ -109,9 +109,7 @@ int main(int argc, char** argv) {
 
             std::string gurlHost(relativeUrl.host());
             std::string gurlRequest(relativeUrl.PathForRequest());
-
-
-
+            
             linkFactory.pushLink(*uri);
 
             std::string myHost(acceptor.m_tLink.getServer());
