@@ -82,7 +82,8 @@ void CLinkFactory::cutCookie(std::string &link)const{
         link.erase(pos, cookie.size());
     }
 }
-CLink CLinkFactory::normolizeLink(std::string &link)const{
+CLink CLinkFactory::normolizeLink(std::string &link)const
+{
     CLink    ret;
 
     if (prefix::isHttp(link)) {
@@ -122,14 +123,16 @@ CLink CLinkFactory::normolizeLink(std::string &link)const{
     return ret;
     
 }
-void CLinkFactory::fullCut(std::string &link)const{
+void CLinkFactory::fullCut(std::string &link)const
+{
     cutHtml(link);
     cutCookie(link);
     cutCutId(link);
 }
 
 
-void CLinkFactory::normolizeQeury(std::string &link) {
+void CLinkFactory::normolizeQeury(std::string &link)
+{
     size_t startQuery(link.rfind('?'));
 
     if (std::string::npos == startQuery) {
