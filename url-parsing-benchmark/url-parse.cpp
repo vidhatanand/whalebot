@@ -6,6 +6,7 @@
  */
 
 #include <list>
+#include <vector>
 #include <fstream>
 
 #include <googleurl/src/gurl.h>
@@ -75,6 +76,68 @@ void readTasksFromFile(std::ifstream& file, THtmlTaskList& tasks)
     }
 }
 
+enum eUrlParsers {
+	eMyParser = 0,
+	eGoogleParser,
+	eNeonParser,
+	eHtmlCxxParser,
+	eParsersAtAll	
+};
+
+typedef std::vector<std::string> TParserNames;
+
+static TParserNames getAllNames()
+{
+#define ADD_PARSER_NAME(p) \
+    ret[static_cast<unsigned int>(p)]   =   #p;
+    
+    TParserNames ret(eParsersAtAll, "");
+    
+    for (unsigned int i = eMyParser; i != eParsersAtAll; ++i) {
+        eUrlParsers p(static_cast<eUrlParsers>(i));
+        ADD_PARSER_NAME(p);                
+    }
+#undef ADD_PARSER_NAME
+}
+
+static std::string getParserName( eUrlParsers parser )
+{
+    static const TParserNames   names(getAllNames());
+    return names[static_cast<unsigned int>(parser)];   
+}
+
+class TUrlParseResult {
+public:
+	TUrlParseResult()
+	: m_sHost("")
+	, m_sRequest("")
+	{}
+
+    TUrlParseResult( const TUrlParseResult& another )
+    : m_sHost(another.m_sHost)
+    , m_sRequest(another.m_sRequest)
+    {}
+
+	std::string m_sHost;
+	std::string m_sRequest;
+};
+
+typedef std::vector<TUrlParseResult> TParsersResults;
+
+static TParsersResults CreateResults() 
+{
+	return TParsersResults(eParsersAtAll, TUrlParseResult());
+}
+
+typedef std::vector<eUrlParsers>        TEquivalenceClass;
+typedef std::vector<TEquivalenceClass>  TEquivalenceRelation;
+
+static TEquivalenceRelation FindRelated( const TParsersResults& results )
+{
+    
+}
+
+
 
 
 int main(int argc, char** argv) {
@@ -104,30 +167,31 @@ int main(int argc, char** argv) {
         
 
         for (THtmlTask::TUriList::const_iterator uri = currentUris.begin(); uri != currentUris.end(); ++uri) {
+            
+            TParsersResults results(CreateResults());
 
             GURL    relativeUrl(baseUrl.Resolve(*uri));
-
-            std::string gurlHost(relativeUrl.host());
-            std::string gurlRequest(relativeUrl.PathForRequest());
+            results[eGoogleParser].m_sHost       =   relativeUrl.host();
+            results[eGoogleParser].m_sRequest    =   relativeUrl.PathForRequest();           
             
             linkFactory.pushLink(*uri);
+            results[eMyParser].m_sHost       =   acceptor.m_tLink.getServer();
+            results[eMyParser].m_sRequest    =   acceptor.m_tLink.getUri();
+            
 
-            std::string myHost(acceptor.m_tLink.getServer());
-            std::string myRequest(acceptor.m_tLink.getUri());
-
-            if ((myHost != gurlHost) or (myRequest != gurlRequest)) {
-                std::cout << std::endl;
-                std::cout << "------------------------------------" << std::endl;
-                std::cout << std::endl;
-
-                std::cout << "my   : " << std::endl;
-                std::cout << "      host  : " << myHost << std::endl;
-                std::cout << "      query : " << myRequest << std::endl;
-                std::cout << std::endl;
-                std::cout << "gurl : " << std::endl;
-                std::cout << "      host  : " << gurlHost << std::endl;
-                std::cout << "      query : " << gurlRequest << std::endl;
-            }
+            //~ if ((myHost != gurlHost) or (myRequest != gurlRequest)) {
+                //~ std::cout << std::endl;
+                //~ std::cout << "------------------------------------" << std::endl;
+                //~ std::cout << std::endl;
+//~ 
+                //~ std::cout << "my   : " << std::endl;
+                //~ std::cout << "      host  : " << myHost << std::endl;
+                //~ std::cout << "      query : " << myRequest << std::endl;
+                //~ std::cout << std::endl;
+                //~ std::cout << "gurl : " << std::endl;
+                //~ std::cout << "      host  : " << gurlHost << std::endl;
+                //~ std::cout << "      query : " << gurlRequest << std::endl;
+            //~ }
         }
     }    
 
