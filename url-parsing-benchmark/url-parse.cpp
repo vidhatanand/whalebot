@@ -10,6 +10,8 @@
 #include <fstream>
 
 #include <googleurl/src/gurl.h>
+#include <htmlcxx/html/Uri.h>
+
 #include "../whalebot/webspider/include/link_factory.h"
 
 
@@ -228,6 +230,19 @@ TUrlParseResult googleParse(GURL& baseUrl, const std::string& relativeUrl)
     return TUrlParseResult(relativeGurl.host(), relativeGurl.PathForRequest());
 }
 
+TUrlParseResult htmlCxxParse(htmlcxx::Uri& baseUri, const std::string& relativeUrl)
+{
+    htmlcxx::Uri    tmp(htmlcxx::Uri::decode(relativeUrl));
+    htmlcxx::Uri    relativeUri(tmp.absolute(baseUri));
+
+    return TUrlParseResult(
+                            relativeUri.hostname(),
+                            relativeUri.path() + ( relativeUri.existsQuery()
+                                                        ? "?" + relativeUri.query()
+                                                        : "" )
+                           );
+}
+
 int main(int argc, char** argv) {
 
     if (argc < 2) {
@@ -254,14 +269,16 @@ int main(int argc, char** argv) {
 
     while ((task != tasks.end()) and (not isStopExperiment)) {
         const THtmlTask::TUriList&  currentUris(task->m_lUris);
+
         GURL                        baseUrl(task->m_sBaseUri);
+
         CLinkFactory                linkFactory;
         TEmptyAcceptor              acceptor;
-
         linkFactory.setAcceptor(acceptor);
         linkFactory.pushLink(task->m_sBaseUri);
-
         linkFactory.setFrom(acceptor.m_tLink);
+
+        htmlcxx::Uri                baseUri(htmlcxx::Uri::decode(task->m_sBaseUri));
         
         unsigned int                        currentTask(0);
         THtmlTask::TUriList::const_iterator uri(currentUris.begin());
@@ -272,10 +289,8 @@ int main(int argc, char** argv) {
 
             //duplicate values for testing purposes
             results[eGoogleParser]  =   googleParse(baseUrl, *uri);
-            results[eHtmlCxxParser] =   googleParse(baseUrl, *uri);
-            results[eRegExpParser]  =   TUrlParseResult("1", "1");
+            results[eHtmlCxxParser] =   htmlCxxParse(baseUri, *uri);
             results[eMyParser]      =   myParse(linkFactory, acceptor, *uri);
-            results[eNeonParser]    =   myParse(linkFactory, acceptor, *uri);
             
             TEquivalenceRelation    equivalenceClasses(FindRelated(results));
             
