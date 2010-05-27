@@ -93,7 +93,7 @@ enum eUrlParsers {
 	eGoogleParser,
 	eNeonParser,
 	eHtmlCxxParser,
-        eRegExpParser,
+    eRegExpParser,
 	eParsersAtAll	
 };
 
@@ -218,19 +218,41 @@ TParsersMark    createParsersMark()
     return TParsersMark(eParsersAtAll, TParserMark());
 }
 
-TUrlParseResult myParse(CLinkFactory& factory, TEmptyAcceptor& acceptor, const std::string& relativeUrl)
+//<MyParser>
+void myParseBase( CLinkFactory& factory, TEmptyAcceptor& acceptor, const std::string& baseUrl )
+{
+    factory.setAcceptor(acceptor);
+    factory.pushLink(baseUrl);
+    factory.setFrom(acceptor.m_tLink);
+}
+
+TUrlParseResult myParseRel( CLinkFactory& factory, TEmptyAcceptor& acceptor, const std::string& relativeUrl )
 {
     factory.pushLink(relativeUrl);
     return TUrlParseResult(acceptor.m_tLink.getServer(), acceptor.m_tLink.getUri());
 }
+//</MyParser>
 
-TUrlParseResult googleParse(GURL& baseUrl, const std::string& relativeUrl)
+//<google-url>
+GURL  googleParseBase( const std::string& baseUrl )
+{
+    return GURL(baseUrl);
+}
+
+TUrlParseResult googleParseRel( GURL& baseUrl, const std::string& relativeUrl )
 {
     GURL    relativeGurl(baseUrl.Resolve(relativeUrl));
     return TUrlParseResult(relativeGurl.host(), relativeGurl.PathForRequest());
 }
+//</google-url>
 
-TUrlParseResult htmlCxxParse(htmlcxx::Uri& baseUri, const std::string& relativeUrl)
+//<htmlcxx>
+htmlcxx::Uri htmlCxxParseBase( const std::string& baseUrl )
+{
+    return htmlcxx::Uri(htmlcxx::Uri::decode(baseUrl));
+}
+
+TUrlParseResult htmlCxxParseRel( htmlcxx::Uri& baseUri, const std::string& relativeUrl )
 {
     htmlcxx::Uri    tmp(htmlcxx::Uri::decode(relativeUrl));
     htmlcxx::Uri    relativeUri(tmp.absolute(baseUri));
@@ -242,6 +264,7 @@ TUrlParseResult htmlCxxParse(htmlcxx::Uri& baseUri, const std::string& relativeU
                                                         : "" )
                            );
 }
+//</htmlcxx>
 
 int main(int argc, char** argv) {
 
@@ -269,16 +292,16 @@ int main(int argc, char** argv) {
 
     while ((task != tasks.end()) and (not isStopExperiment)) {
         const THtmlTask::TUriList&  currentUris(task->m_lUris);
+        const std::string&          strBaseUrl(task->m_sBaseUri);
 
-        GURL                        baseUrl(task->m_sBaseUri);
+        GURL                        gUrl(googleParseBase(strBaseUrl));
 
         CLinkFactory                linkFactory;
         TEmptyAcceptor              acceptor;
-        linkFactory.setAcceptor(acceptor);
-        linkFactory.pushLink(task->m_sBaseUri);
-        linkFactory.setFrom(acceptor.m_tLink);
+                
+        myParseBase(linkFactory, acceptor, strBaseUrl);
 
-        htmlcxx::Uri                baseUri(htmlcxx::Uri::decode(task->m_sBaseUri));
+        htmlcxx::Uri                hUrl(htmlCxxParseBase(strBaseUrl));
         
         unsigned int                        currentTask(0);
         THtmlTask::TUriList::const_iterator uri(currentUris.begin());
@@ -288,29 +311,34 @@ int main(int argc, char** argv) {
             TParsersResults results(createResults());
 
             //duplicate values for testing purposes
-            results[eGoogleParser]  =   googleParse(baseUrl, *uri);
-            results[eHtmlCxxParser] =   htmlCxxParse(baseUri, *uri);
-            results[eMyParser]      =   myParse(linkFactory, acceptor, *uri);
+            results[eGoogleParser]  =   googleParseRel(gUrl, *uri);
+            results[eHtmlCxxParser] =   htmlCxxParseRel(hUrl, *uri);
+            results[eMyParser]      =   myParseRel(linkFactory, acceptor, *uri);
             
-            TEquivalenceRelation    equivalenceClasses(FindRelated(results));
-            
-            if (equivalenceClasses.size() > 1) {
+            TEquivalenceRelation    equivalenceClasses(FindRelated(results));            
+            unsigned int            classesCount(equivalenceClasses.size());            
+            if (classesCount > 1) {
                 std::cout   << "=== block # " << currentTaskBlock
-                        << " task # " << currentTask << " ===" << std::endl;
+                            << " task # " << currentTask << " ===" << std::endl;
                 
-                for (unsigned int clas = 0; clas != equivalenceClasses.size(); ++clas) {
+                for (unsigned int clas = 0; clas != classesCount; ++clas) {
+                    
                     const TEquivalenceClass&    currentClass(equivalenceClasses[clas]);
+                    
                     for (unsigned int parser = 0; parser != currentClass.size(); ++parser) {
                         std::cout   << getParserName(currentClass[parser])
                                     << " : " << std::endl;
                     }
-                    std::cout << "\thost    : " << results[*currentClass.begin()].m_sHost << std::endl;
-                    std::cout << "\trequest : " << results[*currentClass.begin()].m_sRequest << std::endl;
+                    const TUrlParseResult&  resultOfClass(results[*currentClass.begin()]);
+                    
+                    std::cout << "\thost    : " << resultOfClass.m_sHost << std::endl;
+                    std::cout << "\trequest : " << resultOfClass.m_sRequest << std::endl;
                 }
 
 
                 std::cout << "Who is rigth?" << std::endl;
-                for (unsigned int clas = 0; clas != equivalenceClasses.size(); ++clas) {
+                
+                for (unsigned int clas = 0; clas != classesCount; ++clas) {
                     const TEquivalenceClass&    currentClass(equivalenceClasses[clas]);
 
                     std::cout << clas << " ) ";
@@ -320,22 +348,22 @@ int main(int argc, char** argv) {
                     }
                     std::cout << std::endl;
                 }
-                std::cout << equivalenceClasses.size() << " ) Nobody" << std::endl;
-                std::cout << equivalenceClasses.size() + 1 << " ) Stop Experiment" << std::endl;
+                std::cout << classesCount << " ) Nobody" << std::endl;
+                std::cout << classesCount + 1 << " ) Stop Experiment" << std::endl;
 
-                unsigned int choice(equivalenceClasses.size() + 1);
+                unsigned int choice(classesCount + 1);
                 std::cout   << "Enter number : ";
                 std::cin    >> choice;
                 std::cout   << std::endl;
 
-                if (choice < equivalenceClasses.size()) {
+                if (choice < classesCount) {
                     const TEquivalenceClass&    correctClass(equivalenceClasses[choice]);
                     for (unsigned int parser = 0; parser != correctClass.size(); ++parser) {
                         ++marks[static_cast<unsigned int>(correctClass[parser])].m_iCorrectCount;
                     }
                     //TODO : add correct answer recording
                 }
-                else if ((equivalenceClasses.size() + 1) == choice) {
+                else if ((classesCount + 1) == choice) {
                     isStopExperiment    =   true;
                 }
             }
