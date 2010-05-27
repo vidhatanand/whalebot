@@ -13,6 +13,7 @@
 
 #include <googleurl/src/gurl.h>
 #include <htmlcxx/html/Uri.h>
+#include <htmlcxx/html/utils.h>
 
 #include "../whalebot/webspider/include/link_factory.h"
 
@@ -265,12 +266,12 @@ private:
 //<google-url>
 GURL  googleParseBase( const std::string& baseUrl )
 {
-    return GURL(baseUrl);
+    return GURL(htmlcxx::HTML::decode_entities(htmlcxx::Uri::decode(baseUrl)));
 }
 
 TUrlParseResult googleParseRel( GURL& baseUrl, const std::string& relativeUrl )
 {
-    GURL    relativeGurl(baseUrl.Resolve(relativeUrl));
+    GURL    relativeGurl(baseUrl.Resolve(htmlcxx::HTML::decode_entities(htmlcxx::Uri::decode(relativeUrl))));
     return TUrlParseResult(relativeGurl.host(), relativeGurl.PathForRequest());
 }
 
@@ -294,12 +295,12 @@ private:
 //<htmlcxx>
 htmlcxx::Uri htmlCxxParseBase( const std::string& baseUrl )
 {
-    return htmlcxx::Uri(htmlcxx::Uri::decode(baseUrl));
+    return htmlcxx::Uri(htmlcxx::HTML::decode_entities(htmlcxx::Uri::decode(baseUrl)));
 }
 
 TUrlParseResult htmlCxxParseRel( htmlcxx::Uri& baseUri, const std::string& relativeUrl )
 {
-    htmlcxx::Uri    tmp(htmlcxx::Uri::decode(relativeUrl));
+    htmlcxx::Uri    tmp(htmlcxx::HTML::decode_entities(htmlcxx::Uri::decode(relativeUrl)));
     htmlcxx::Uri    relativeUri(tmp.absolute(baseUri));
 
     return TUrlParseResult(
