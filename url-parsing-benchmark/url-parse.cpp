@@ -9,10 +9,14 @@
 #include <vector>
 #include <fstream>
 
+#include <boost/date_time/posix_time/posix_time_types.hpp>
+
 #include <googleurl/src/gurl.h>
 #include <htmlcxx/html/Uri.h>
 
 #include "../whalebot/webspider/include/link_factory.h"
+
+using namespace boost::posix_time;
 
 
 class TEmptyAcceptor : public IAcceptor {
@@ -92,8 +96,8 @@ enum eUrlParsers {
 	eMyParser = 0,
 	eGoogleParser,
 	eNeonParser,
-	eHtmlCxxParser,
-    eRegExpParser,
+        eHtmlCxxParser,
+        eRegExpParser,
 	eParsersAtAll	
 };
 
@@ -231,6 +235,31 @@ TUrlParseResult myParseRel( CLinkFactory& factory, TEmptyAcceptor& acceptor, con
     factory.pushLink(relativeUrl);
     return TUrlParseResult(acceptor.m_tLink.getServer(), acceptor.m_tLink.getUri());
 }
+
+
+class TMyParser {
+public:
+    TMyParser()
+    {
+        m_tFactory.setAcceptor(m_tAcceptor);
+    }
+
+    void ParseBase( const std::string& baseUri )
+    {
+        m_tFactory.pushLink(baseUri);
+        m_tFactory.setFrom(m_tAcceptor.m_tLink);
+    }
+
+    void ParseRel( const std::string& relUri )
+    {
+        m_tFactory.pushLink(relUri);
+    }
+
+private:
+    TEmptyAcceptor  m_tAcceptor;
+    CLinkFactory    m_tFactory;
+
+};
 //</MyParser>
 
 //<google-url>
@@ -244,6 +273,22 @@ TUrlParseResult googleParseRel( GURL& baseUrl, const std::string& relativeUrl )
     GURL    relativeGurl(baseUrl.Resolve(relativeUrl));
     return TUrlParseResult(relativeGurl.host(), relativeGurl.PathForRequest());
 }
+
+class TGurlClass {
+public:
+    void ParseBase( const std::string& baseUri )
+    {
+        m_tUri  =   googleParseBase(baseUri);
+    }
+
+    void ParseRel( const std::string& relUri )
+    {
+        googleParseRel(m_tUri, relUri);
+    }
+
+private:
+    GURL    m_tUri;
+};
 //</google-url>
 
 //<htmlcxx>
@@ -264,7 +309,42 @@ TUrlParseResult htmlCxxParseRel( htmlcxx::Uri& baseUri, const std::string& relat
                                                         : "" )
                            );
 }
+
+class THtmlCxxClass {
+public:
+    void ParseBase( const std::string& baseUri )
+    {
+        m_tUri  =   htmlCxxParseBase(baseUri);
+    }
+
+    void ParseRel( const std::string& relUri )
+    {
+        htmlCxxParseRel(m_tUri, relUri);
+    }
+
+private:
+    htmlcxx::Uri    m_tUri;
+};
+
 //</htmlcxx>
+
+template <class T>
+void fullTest(const THtmlTaskList& tasks)
+{
+    T   parser;
+    for (THtmlTaskList::const_iterator task = tasks.begin(); task != tasks.end(); ++task) {
+        parser.ParseBase(task->m_sBaseUri);
+
+        const THtmlTask::TUriList&  currentUris(task->m_lUris);
+        for (
+                THtmlTask::TUriList::const_iterator uri = currentUris.begin();
+                uri != currentUris.end();
+                ++uri
+             ) {
+           parser.ParseRel(*uri);
+       }
+    }
+}
 
 int main(int argc, char** argv) {
 
@@ -286,9 +366,15 @@ int main(int argc, char** argv) {
     
     unsigned int    currentTaskBlock(0);
 
+    std::cout << "=============================" << std::endl;
+    std::cout << "\tCorrectness testing" << std::endl;
+    std::cout << "=============================" << std::endl;
+
     TParsersMark                    marks(createParsersMark());
     THtmlTaskList::const_iterator   task(tasks.begin());
     bool                            isStopExperiment(false);
+
+
 
     while ((task != tasks.end()) and (not isStopExperiment)) {
         const THtmlTask::TUriList&  currentUris(task->m_lUris);
@@ -358,7 +444,7 @@ int main(int argc, char** argv) {
 
                 if (choice < classesCount) {
                     const TEquivalenceClass&    correctClass(equivalenceClasses[choice]);
-                    for (unsigned int parser = 0; parser != correctClass.size(); ++parser) {
+                    for (unsigned int parser = 0; parser != correctClass.size(); ++parser) {                        
                         ++marks[static_cast<unsigned int>(correctClass[parser])].m_iCorrectCount;
                     }
                     //TODO : add correct answer recording
@@ -382,6 +468,29 @@ int main(int argc, char** argv) {
         ++task;
     }
 
+    std::cout << "=============================" << std::endl;
+    std::cout << "\tSpeed testing" << std::endl;
+    std::cout << "=============================" << std::endl;
+
+    ptime    start(microsec_clock::local_time());
+    fullTest<TGurlClass>(tasks);
+    ptime    stop(microsec_clock::local_time());
+
+    marks[static_cast<unsigned int>(eGoogleParser)].m_iTimeConsumed =   time_period(start, stop).length().total_microseconds();
+
+    start   =   microsec_clock::local_time();
+    fullTest<THtmlCxxClass>(tasks);
+    stop    =   microsec_clock::local_time();
+
+
+    marks[static_cast<unsigned int>(eHtmlCxxParser)].m_iTimeConsumed =   time_period(start, stop).length().total_microseconds();
+
+
+    start   =   microsec_clock::local_time();
+    fullTest<TMyParser>(tasks);
+    stop    =   microsec_clock::local_time();
+
+    marks[static_cast<unsigned int>(eMyParser)].m_iTimeConsumed =   time_period(start, stop).length().total_microseconds();
 
     std::cout << "=============================" << std::endl;
     std::cout << "\tResults" << std::endl;
@@ -391,6 +500,7 @@ int main(int argc, char** argv) {
         std::cout   << getParserName(static_cast<eUrlParsers>(i))
                     << " : " << std::endl;
         std::cout   << "\tcorrect : " << marks[i].m_iCorrectCount << std::endl;
+        std::cout   << "\ttime    : " << marks[i].m_iTimeConsumed << std::endl;
     }
 
 
