@@ -1,0 +1,30 @@
+#labels benchmark,url,parse,c,cpp
+= Introduction =
+
+The task is to benchmark existing url parsing algorithm for correctness and time-consuming. Target is to choose most appropriate parser
+
+Challengers are
+ *[http://code.google.com/p/whalebot/source/browse/trunk/whalebot/webspider/include/link_factory.h my realisation]
+ *[http://code.google.com/p/google-url google-url] 
+ *[http://htmlcxx.cvs.sourceforge.net/viewvc/htmlcxx/htmlcxx/html/Uri.h?revision=1.2&view=markup htmlcxx url parse]
+
+More challengers will be added later.
+If you have special wishes, leave a comment.
+
+= Method =
+
+Collect [http://code.google.com/p/whalebot/downloads/detail?name=links.zip url collection] from webspider fetch session.
+Using special [http://code.google.com/p/whalebot/source/browse/#svn/trunk/url-parsing-benchmark app] asses url parsing realisation.
+Correctness checked based on human judgement( ability to record correct answers will be added later).
+Key principle is 'use same method for speed and correctness'
+
+= Results =
+At this moment only speed tests
+Mark\Parser||my parser||google-url||htmlcxx||
+speed, microseconds||1507155||821829||747581||
+
+= Conclusion =
+My parser sucks. I know this. This is the reason of this study.
+Google-url may lose because of non-native htmlcxx character replacements. I have no idea how to use GURL::URlReplacements
+The winner of speed test is *htmlcxx*
+
