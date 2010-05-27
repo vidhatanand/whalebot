@@ -6,10 +6,19 @@ Move to CMake (release 0.01.00) - *Done*
 Move to libneon(release 0.02.00)
 
 =Url parsing=
-benchmark -- select most appropriate uri-parser(release 0.03.0)
+benchmark -- select right uri-parser(release 0.03.0)
+
+=HTTP-Header=
+Referrer filed:
+ * real
+ * not send
+ * main-page
+
 
 =Parsing=
 Robots.txt
+More places to cut URLs from HTML
+
 
 =Storage=
 Tokyo/Kyoto cabinet + uuid for files
