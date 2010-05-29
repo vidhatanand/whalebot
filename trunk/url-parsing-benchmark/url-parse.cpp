@@ -15,7 +15,10 @@
 #include <htmlcxx/html/Uri.h>
 #include <htmlcxx/html/utils.h>
 
+#include <neon/ne_uri.h>
+
 #include "../whalebot/webspider/include/link_factory.h"
+#include "../whalebot/webspider/include/prefix.h"
 
 using namespace boost::posix_time;
 
@@ -76,6 +79,10 @@ void readTasksFromFile( std::ifstream& file, THtmlTaskList& tasks )
         }
 
         tmpStr.erase(0, 1);
+
+        if ((prefix::isMail(tmpStr)) or (prefix::isJavaScript(tmpStr))) {
+            continue;
+        }
 
         task.m_lUris.push_back(tmpStr);
     }
@@ -224,7 +231,9 @@ TParsersMark    createParsersMark()
 }
 
 //<MyParser>
-void myParseBase( CLinkFactory& factory, TEmptyAcceptor& acceptor, const std::string& baseUrl )
+void myParseBase( CLinkFactory& factory,
+                  TEmptyAcceptor& acceptor,
+                  const std::string& baseUrl )
 {
     factory.setAcceptor(acceptor);
     factory.pushLink(baseUrl);
@@ -238,9 +247,9 @@ TUrlParseResult myParseRel( CLinkFactory& factory, TEmptyAcceptor& acceptor, con
 }
 
 
-class TMyParser {
+class TMyClass {
 public:
-    TMyParser()
+    TMyClass()
     {
         m_tFactory.setAcceptor(m_tAcceptor);
     }
@@ -262,6 +271,65 @@ private:
 
 };
 //</MyParser>
+
+//<libneon>
+ne_uri* neonParseBase( const std::string& baseUrl)
+{
+    ne_uri* base(static_cast<ne_uri*>(malloc(sizeof(ne_uri))));
+    char*   decoded(ne_path_unescape(baseUrl.c_str()));
+    ne_uri_parse(decoded, base);
+    free(decoded);
+
+    return base;
+}
+
+TUrlParseResult neonParseRel( ne_uri* baseUrl, const std::string& relativeUrl )
+{
+    ne_uri* relUrl(static_cast<ne_uri*>(malloc(sizeof(ne_uri))));
+    char*   decoded(ne_path_unescape(relativeUrl.c_str()));
+    ne_uri_parse(decoded, relUrl);
+    free(decoded);
+
+
+    ne_uri* resUrl(static_cast<ne_uri*>(malloc(sizeof(ne_uri))));
+    ne_uri_resolve(baseUrl, relUrl, resUrl);
+    ne_uri_free(relUrl);
+
+    TUrlParseResult ret(resUrl->host, resUrl->path);
+
+    if (0 != resUrl->query) {
+        ret.m_sRequest.append(1, '?');
+        ret.m_sRequest.append(resUrl->query);
+    }
+    ne_uri_free(resUrl);
+
+    return ret;
+}
+
+class TNeonClass {
+public:
+    TNeonClass()
+    :m_tUri(0)
+    {}
+
+    void ParseBase( const std::string& baseUri )
+    {
+        if (0 != m_tUri) {
+            ne_uri_free(m_tUri);
+        }
+        m_tUri  =   neonParseBase(baseUri);
+    }
+
+    void ParseRel( const std::string& relUri )
+    {
+        neonParseRel(m_tUri, relUri);
+    }
+
+private:
+    ne_uri* m_tUri;
+};
+
+//<\libneon>
 
 //<google-url>
 GURL  googleParseBase( const std::string& baseUrl )
@@ -389,6 +457,8 @@ int main(int argc, char** argv) {
         myParseBase(linkFactory, acceptor, strBaseUrl);
 
         htmlcxx::Uri                hUrl(htmlCxxParseBase(strBaseUrl));
+
+        ne_uri*                     nUrl(neonParseBase(strBaseUrl));
         
         unsigned int                        currentTask(0);
         THtmlTask::TUriList::const_iterator uri(currentUris.begin());
@@ -401,6 +471,7 @@ int main(int argc, char** argv) {
             results[eGoogleParser]  =   googleParseRel(gUrl, *uri);
             results[eHtmlCxxParser] =   htmlCxxParseRel(hUrl, *uri);
             results[eMyParser]      =   myParseRel(linkFactory, acceptor, *uri);
+            results[eNeonParser]    =   neonParseRel(nUrl, *uri);
             
             TEquivalenceRelation    equivalenceClasses(FindRelated(results));            
             unsigned int            classesCount(equivalenceClasses.size());            
@@ -465,6 +536,8 @@ int main(int argc, char** argv) {
             ++currentTask;
             ++uri;
         }
+        ne_uri_free(nUrl);
+
         ++currentTaskBlock;
         ++task;
     }
@@ -488,10 +561,17 @@ int main(int argc, char** argv) {
 
 
     start   =   microsec_clock::local_time();
-    fullTest<TMyParser>(tasks);
+    fullTest<TMyClass>(tasks);
     stop    =   microsec_clock::local_time();
 
     marks[static_cast<unsigned int>(eMyParser)].m_iTimeConsumed =   time_period(start, stop).length().total_microseconds();
+
+
+    start   =   microsec_clock::local_time();
+    fullTest<TNeonClass>(tasks);
+    stop    =   microsec_clock::local_time();
+
+    marks[static_cast<unsigned int>(eNeonParser)].m_iTimeConsumed =   time_period(start, stop).length().total_microseconds();
 
     std::cout << "=============================" << std::endl;
     std::cout << "\tResults" << std::endl;

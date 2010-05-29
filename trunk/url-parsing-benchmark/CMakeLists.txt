@@ -14,6 +14,9 @@ link_directories ("../whalebot/statsem_string/bin")
 #htmlcxx
 find_library ( HTMLCXX_LIBRARY  "htmlcxx" )
 
+#libneon
+find_library (NEON_LIBRARY "neon")
+
 find_package ( Boost 1.37 REQUIRED date_time )
 
 include_directories ( ${Boost_INCLUDE_DIRS} )
@@ -27,4 +30,10 @@ list(APPEND SOURCES
         "../whalebot/webspider/src/link_factory.cpp" )
 
 add_executable( url_parse ${SOURCES})
-target_link_libraries ( url_parse ${Boost_LIBRARIES} string_parse gurl pthread icuuc  ${HTMLCXX_LIBRARY})
+
+target_link_libraries ( url_parse
+                        ${Boost_LIBRARIES}
+                        string_parse gurl
+                        pthread icuuc
+                        ${HTMLCXX_LIBRARY}
+                        ${NEON_LIBRARY})
