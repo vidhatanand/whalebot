@@ -22,20 +22,6 @@
 
 using namespace boost::posix_time;
 
-
-class TEmptyAcceptor : public IAcceptor {
-public:
-    void    pushLink( const CLink& link )
-    {
-        m_tLink =   link;
-        return;
-    }
-
-    CLink   m_tLink;
-
-};
-
-
 struct THtmlTask {
     std::string m_sBaseUri;
     typedef std::list<std::string>  TUriList;
@@ -97,6 +83,8 @@ void readTasksFromFile( std::ifstream& file, THtmlTaskList& tasks )
             ++taskIter;
         }
     }
+
+    //remove duplicates
 
 }
 
@@ -231,6 +219,19 @@ TParsersMark    createParsersMark()
 }
 
 //<MyParser>
+
+class TEmptyAcceptor : public IAcceptor {
+public:
+    void    pushLink( const CLink& link )
+    {
+        m_tLink =   link;
+        return;
+    }
+
+    CLink   m_tLink;
+
+};
+
 void myParseBase( CLinkFactory& factory,
                   TEmptyAcceptor& acceptor,
                   const std::string& baseUrl )
@@ -273,11 +274,11 @@ private:
 //</MyParser>
 
 //<libneon>
-ne_uri* neonParseBase( const std::string& baseUrl)
+ne_uri neonParseBase( const std::string& baseUrl )
 {
-    ne_uri* base(static_cast<ne_uri*>(malloc(sizeof(ne_uri))));
+    ne_uri base;
     char*   decoded(ne_path_unescape(baseUrl.c_str()));
-    ne_uri_parse(decoded, base);
+    ne_uri_parse(decoded, &base);
     free(decoded);
 
     return base;
@@ -285,48 +286,47 @@ ne_uri* neonParseBase( const std::string& baseUrl)
 
 TUrlParseResult neonParseRel( ne_uri* baseUrl, const std::string& relativeUrl )
 {
-    ne_uri* relUrl(static_cast<ne_uri*>(malloc(sizeof(ne_uri))));
+    ne_uri  relUrl;
     char*   decoded(ne_path_unescape(relativeUrl.c_str()));
-    ne_uri_parse(decoded, relUrl);
+    ne_uri_parse(decoded, &relUrl);
     free(decoded);
 
+    ne_uri  resUrl;
+    ne_uri_resolve(baseUrl, &relUrl, &resUrl);
+    ne_uri_free(&relUrl);
 
-    ne_uri* resUrl(static_cast<ne_uri*>(malloc(sizeof(ne_uri))));
-    ne_uri_resolve(baseUrl, relUrl, resUrl);
-    ne_uri_free(relUrl);
+    TUrlParseResult ret(resUrl.host, resUrl.path);
 
-    TUrlParseResult ret(resUrl->host, resUrl->path);
-
-    if (0 != resUrl->query) {
+    if (0 != resUrl.query) {
         ret.m_sRequest.append(1, '?');
-        ret.m_sRequest.append(resUrl->query);
+        ret.m_sRequest.append(resUrl.query);
     }
-    ne_uri_free(resUrl);
+    ne_uri_free(&resUrl);
 
     return ret;
 }
 
 class TNeonClass {
 public:
-    TNeonClass()
-    :m_tUri(0)
-    {}
 
     void parseBase( const std::string& baseUri )
     {
-        if (0 != m_tUri) {
-            ne_uri_free(m_tUri);
-        }
+        ne_uri_free(&m_tUri);
         m_tUri  =   neonParseBase(baseUri);
     }
 
     void parseRel( const std::string& relUri )
     {
-        neonParseRel(m_tUri, relUri);
+        neonParseRel(&m_tUri, relUri);
+    }
+
+    ~TNeonClass()
+    {
+        ne_uri_free(&m_tUri);
     }
 
 private:
-    ne_uri* m_tUri;
+    ne_uri m_tUri;
 };
 
 //<\libneon>
@@ -544,7 +544,7 @@ int main(int argc, char** argv) {
 
         htmlcxx::Uri                hUrl(htmlCxxParseBase(strBaseUrl));
 
-        ne_uri*                     nUrl(neonParseBase(strBaseUrl));
+        ne_uri                      nUrl(neonParseBase(strBaseUrl));
         
         unsigned int                currentTask(0);
         THtmlTask::TUriList::const_iterator uri(currentUris.begin());
@@ -557,7 +557,7 @@ int main(int argc, char** argv) {
             results[eGoogleParser]  =   googleParseRel(gUrl, *uri);
             results[eHtmlCxxParser] =   htmlCxxParseRel(hUrl, *uri);
             results[eMyParser]      =   myParseRel(linkFactory, acceptor, *uri);
-            results[eNeonParser]    =   neonParseRel(nUrl, *uri);
+            results[eNeonParser]    =   neonParseRel(&nUrl, *uri);
 
 
             const THtmlAnswer* const curAnswer(
@@ -655,7 +655,7 @@ int main(int argc, char** argv) {
             ++currentTask;
             ++uri;
         }
-        ne_uri_free(nUrl);
+        ne_uri_free(&nUrl);
 
         ++currentTaskBlock;
         ++task;
@@ -692,11 +692,11 @@ int main(int argc, char** argv) {
     marks[static_cast<unsigned int>(eMyParser)].m_iTimeConsumed =   time_period(start, stop).length().total_microseconds();
 
 
-//    start   =   microsec_clock::local_time();
-//    fullTest<TNeonClass>(tasks);
-//    stop    =   microsec_clock::local_time();
+    start   =   microsec_clock::local_time();
+    fullTest<TNeonClass>(tasks);
+    stop    =   microsec_clock::local_time();
 
-//    marks[static_cast<unsigned int>(eNeonParser)].m_iTimeConsumed =   time_period(start, stop).length().total_microseconds();
+    marks[static_cast<unsigned int>(eNeonParser)].m_iTimeConsumed =   time_period(start, stop).length().total_microseconds();
 
     std::cout << "=============================" << std::endl;
     std::cout << "\tResults" << std::endl;
