@@ -153,8 +153,8 @@ public:
         return ((m_sHost.empty()) and (m_sRequest.empty()));
     }
 
-	std::string m_sHost;
-	std::string m_sRequest;
+    std::string m_sHost;
+    std::string m_sRequest;
 };
 
 typedef std::vector<TUrlParseResult> TParsersResults;
@@ -254,13 +254,13 @@ public:
         m_tFactory.setAcceptor(m_tAcceptor);
     }
 
-    void ParseBase( const std::string& baseUri )
+    void parseBase( const std::string& baseUri )
     {
         m_tFactory.pushLink(baseUri);
         m_tFactory.setFrom(m_tAcceptor.m_tLink);
     }
 
-    void ParseRel( const std::string& relUri )
+    void parseRel( const std::string& relUri )
     {
         m_tFactory.pushLink(relUri);
     }
@@ -312,7 +312,7 @@ public:
     :m_tUri(0)
     {}
 
-    void ParseBase( const std::string& baseUri )
+    void parseBase( const std::string& baseUri )
     {
         if (0 != m_tUri) {
             ne_uri_free(m_tUri);
@@ -320,7 +320,7 @@ public:
         m_tUri  =   neonParseBase(baseUri);
     }
 
-    void ParseRel( const std::string& relUri )
+    void parseRel( const std::string& relUri )
     {
         neonParseRel(m_tUri, relUri);
     }
@@ -339,18 +339,18 @@ GURL  googleParseBase( const std::string& baseUrl )
 
 TUrlParseResult googleParseRel( GURL& baseUrl, const std::string& relativeUrl )
 {
-    GURL    relativeGurl(baseUrl.Resolve(htmlcxx::HTML::decode_entities(htmlcxx::Uri::decode(relativeUrl))));
+    GURL   relativeGurl(baseUrl.Resolve(htmlcxx::HTML::decode_entities(htmlcxx::Uri::decode(relativeUrl))));
     return TUrlParseResult(relativeGurl.host(), relativeGurl.PathForRequest());
 }
 
 class TGurlClass {
 public:
-    void ParseBase( const std::string& baseUri )
+    void parseBase( const std::string& baseUri )
     {
         m_tUri  =   googleParseBase(baseUri);
     }
 
-    void ParseRel( const std::string& relUri )
+    void parseRel( const std::string& relUri )
     {
         googleParseRel(m_tUri, relUri);
     }
@@ -381,12 +381,12 @@ TUrlParseResult htmlCxxParseRel( htmlcxx::Uri& baseUri, const std::string& relat
 
 class THtmlCxxClass {
 public:
-    void ParseBase( const std::string& baseUri )
+    void parseBase( const std::string& baseUri )
     {
         m_tUri  =   htmlCxxParseBase(baseUri);
     }
 
-    void ParseRel( const std::string& relUri )
+    void parseRel( const std::string& relUri )
     {
         htmlCxxParseRel(m_tUri, relUri);
     }
@@ -402,7 +402,7 @@ void fullTest(const THtmlTaskList& tasks)
 {
     T   parser;
     for (THtmlTaskList::const_iterator task = tasks.begin(); task != tasks.end(); ++task) {
-        parser.ParseBase(task->m_sBaseUri);
+        parser.parseBase(task->m_sBaseUri);
 
         const THtmlTask::TUriList&  currentUris(task->m_lUris);
         for (
@@ -410,17 +410,89 @@ void fullTest(const THtmlTaskList& tasks)
                 uri != currentUris.end();
                 ++uri
              ) {
-           parser.ParseRel(*uri);
+           parser.parseRel(*uri);
        }
     }
 }
 
+
+typedef TUrlParseResult             THtmlAnswer;
+typedef std::vector<THtmlAnswer>    TAnswersList;
+typedef std::vector<TAnswersList>   TAnswersBase;
+
+
+class CAnswerBase {
+public:
+
+    void addAnswer( unsigned int taskBlockNum,
+                    unsigned int taskNum,
+                    const THtmlAnswer& answer );
+
+    const THtmlAnswer* const getAnswer( unsigned int taskBlockNum,
+                                        unsigned int taskNum ) const;
+
+    bool read( const std::string& path );
+
+    bool write( const std::string& path );
+
+
+private:
+    TAnswersBase m_tBase;
+};
+
+void CAnswerBase::addAnswer( unsigned int taskBlockNum,
+                             unsigned int taskNum,
+                             const THtmlAnswer& answer )
+{
+    if (m_tBase.size() <= taskBlockNum) {
+        m_tBase.resize(taskBlockNum + 1);
+    }
+
+    TAnswersList&   curList(m_tBase[taskBlockNum]);
+
+    if (curList.size() <= taskNum) {
+        curList.resize(taskNum + 1);
+    }
+
+    curList[taskNum]    =   answer;
+
+}
+
+const THtmlAnswer* const CAnswerBase::getAnswer(    unsigned int taskBlockNum,
+                                                    unsigned int taskNum ) const {
+
+    if (m_tBase.size() <= taskBlockNum) {
+        return 0;
+    }
+
+    const TAnswersList&   curList(m_tBase[taskBlockNum]);
+
+    if (curList.size() <= taskNum) {
+        return 0;
+    }
+
+    return &curList[taskNum];
+}
+
+bool CAnswerBase::read( const std::string &path )
+{
+    return true;
+}
+
+bool CAnswerBase::write( const std::string &path )
+{
+    return true;
+}
+
+
 int main(int argc, char** argv) {
 
     if (argc < 2) {
-        std::cout << argv[0] << " \"link file\"" << std::endl;
+        std::cout << argv[0] << " \"link file\" [\"answer base\"]" << std::endl;
         return 1;
     }
+
+
 
     std::ifstream   file(argv[1]);
 
@@ -428,10 +500,24 @@ int main(int argc, char** argv) {
         std::cerr << "couldnt open '" << argv[1] << "' file" << std::endl;
         return 1;
     }
-
     THtmlTaskList   tasks;
-
     readTasksFromFile(file, tasks);
+
+
+    std::string answerBasePath("");
+
+    if (argc >= 3) {
+        answerBasePath  =   argv[2];
+    }
+
+    CAnswerBase     rigthAnswers;
+
+    if (not answerBasePath.empty()) {
+        if (not rigthAnswers.read(answerBasePath)) {
+            std::cerr << "couldnt load answers from " << answerBasePath << std::endl;
+            return 1;
+        }
+    }
     
     unsigned int    currentTaskBlock(0);
 
@@ -460,7 +546,7 @@ int main(int argc, char** argv) {
 
         ne_uri*                     nUrl(neonParseBase(strBaseUrl));
         
-        unsigned int                        currentTask(0);
+        unsigned int                currentTask(0);
         THtmlTask::TUriList::const_iterator uri(currentUris.begin());
 
         while (( uri != currentUris.end()) and (not isStopExperiment)) {
@@ -472,66 +558,99 @@ int main(int argc, char** argv) {
             results[eHtmlCxxParser] =   htmlCxxParseRel(hUrl, *uri);
             results[eMyParser]      =   myParseRel(linkFactory, acceptor, *uri);
             results[eNeonParser]    =   neonParseRel(nUrl, *uri);
-            
-            TEquivalenceRelation    equivalenceClasses(FindRelated(results));            
-            unsigned int            classesCount(equivalenceClasses.size());            
-            if (classesCount > 1) {
-                std::cout   << "=== block # " << currentTaskBlock
-                            << " task # " << currentTask << " ===" << std::endl;
-                
-                for (unsigned int clas = 0; clas != classesCount; ++clas) {
-                    
-                    const TEquivalenceClass&    currentClass(equivalenceClasses[clas]);
-                    
-                    for (unsigned int parser = 0; parser != currentClass.size(); ++parser) {
-                        std::cout   << getParserName(currentClass[parser])
-                                    << " : " << std::endl;
+
+
+            const THtmlAnswer* const curAnswer(
+                                                rigthAnswers.getAnswer(
+                                                                        currentTaskBlock,
+                                                                        currentTask
+                                                                      )
+                                              );
+
+            if ((0 == curAnswer) or (curAnswer->isNull())) {
+
+                //we dont know correct answer
+
+                TEquivalenceRelation    equivalenceClasses(FindRelated(results));
+                unsigned int            classesCount(equivalenceClasses.size());
+                if (classesCount > 1) {
+                    std::cout   << "=== block # " << currentTaskBlock
+                                << " task # " << currentTask << " ===" << std::endl;
+
+                    for (unsigned int clas = 0; clas != classesCount; ++clas) {
+
+                        const TEquivalenceClass&    currentClass(equivalenceClasses[clas]);
+
+                        for (unsigned int parser = 0; parser != currentClass.size(); ++parser) {
+                            std::cout   << getParserName(currentClass[parser])
+                                        << " : " << std::endl;
+                        }
+                        const TUrlParseResult&  resultOfClass(results[*currentClass.begin()]);
+
+                        std::cout << "\thost    : " << resultOfClass.m_sHost << std::endl;
+                        std::cout << "\trequest : " << resultOfClass.m_sRequest << std::endl;
                     }
-                    const TUrlParseResult&  resultOfClass(results[*currentClass.begin()]);
-                    
-                    std::cout << "\thost    : " << resultOfClass.m_sHost << std::endl;
-                    std::cout << "\trequest : " << resultOfClass.m_sRequest << std::endl;
-                }
 
 
-                std::cout << "Who is rigth?" << std::endl;
-                
-                for (unsigned int clas = 0; clas != classesCount; ++clas) {
-                    const TEquivalenceClass&    currentClass(equivalenceClasses[clas]);
+                    std::cout << "Who is rigth?" << std::endl;
 
-                    std::cout << clas << " ) ";
-                    for (unsigned int parser = 0; parser != currentClass.size(); ++parser) {
-                        std::cout   << getParserName(currentClass[parser])
-                                    << " & ";
+                    for (unsigned int clas = 0; clas != classesCount; ++clas) {
+                        const TEquivalenceClass&    currentClass(equivalenceClasses[clas]);
+
+                        std::cout << clas << " ) ";
+                        for (unsigned int parser = 0; parser != currentClass.size(); ++parser) {
+                            std::cout   << getParserName(currentClass[parser])
+                                        << " & ";
+                        }
+                        std::cout << std::endl;
                     }
-                    std::cout << std::endl;
-                }
-                std::cout << classesCount << " ) Nobody" << std::endl;
-                std::cout << classesCount + 1 << " ) Stop Experiment" << std::endl;
+                    std::cout << classesCount << " ) Nobody" << std::endl;
+                    std::cout << classesCount + 1 << " ) Stop Experiment" << std::endl;
 
-                unsigned int choice(classesCount + 1);
-                std::cout   << "Enter number : ";
-                std::cin    >> choice;
-                std::cout   << std::endl;
+                    unsigned int choice(classesCount + 1);
+                    std::cout   << "Enter number : ";
+                    std::cin    >> choice;
+                    std::cout   << std::endl;
 
-                if (choice < classesCount) {
-                    const TEquivalenceClass&    correctClass(equivalenceClasses[choice]);
-                    for (unsigned int parser = 0; parser != correctClass.size(); ++parser) {                        
-                        ++marks[static_cast<unsigned int>(correctClass[parser])].m_iCorrectCount;
+                    if (choice < classesCount) {
+                        const TEquivalenceClass&    correctClass(equivalenceClasses[choice]);
+                        for (unsigned int parser = 0; parser != correctClass.size(); ++parser) {
+                            ++marks[static_cast<unsigned int>(correctClass[parser])].m_iCorrectCount;
+                        }
+                        rigthAnswers.addAnswer(
+                                                currentTaskBlock,
+                                                currentTask,
+                                                results[*correctClass.begin()]
+                                              );
                     }
-                    //TODO : add correct answer recording
+                    else if ((classesCount + 1) == choice) {
+                        isStopExperiment    =   true;
+                    }
                 }
-                else if ((classesCount + 1) == choice) {
-                    isStopExperiment    =   true;
+                else {
+                    //everybody cant be wrong
+                    for (unsigned int i = 0; i != marks.size(); ++i) {
+                        ++marks[i].m_iCorrectCount;
+                    }
+                    rigthAnswers.addAnswer(
+                                            currentTaskBlock,
+                                            currentTask,
+                                            results[*(equivalenceClasses.begin()->begin())]
+                                          );
                 }
+
             }
             else {
-                //everybody cant be wrong
-                for (unsigned int i = 0; i != marks.size(); ++i) {
-                    ++marks[i].m_iCorrectCount;
+                //we know correct answer
+                for (unsigned int i = 0; i < results.size(); ++i) {
+                    const TUrlParseResult&  result(results[i]);
+                    if (result == *curAnswer) {
+                        marks[i].m_iCorrectCount += 1;
+                    }
                 }
-                //TODO : add correct answer recording
             }
+            
+
             
             ++currentTask;
             ++uri;
@@ -540,6 +659,12 @@ int main(int argc, char** argv) {
 
         ++currentTaskBlock;
         ++task;
+    }
+
+    if (not answerBasePath.empty()) {
+        if (not rigthAnswers.write(answerBasePath)) {
+            std::cerr << "couldnt write answers to " << answerBasePath << std::endl;
+        }
     }
 
     std::cout << "=============================" << std::endl;
@@ -567,11 +692,11 @@ int main(int argc, char** argv) {
     marks[static_cast<unsigned int>(eMyParser)].m_iTimeConsumed =   time_period(start, stop).length().total_microseconds();
 
 
-    start   =   microsec_clock::local_time();
-    fullTest<TNeonClass>(tasks);
-    stop    =   microsec_clock::local_time();
+//    start   =   microsec_clock::local_time();
+//    fullTest<TNeonClass>(tasks);
+//    stop    =   microsec_clock::local_time();
 
-    marks[static_cast<unsigned int>(eNeonParser)].m_iTimeConsumed =   time_period(start, stop).length().total_microseconds();
+//    marks[static_cast<unsigned int>(eNeonParser)].m_iTimeConsumed =   time_period(start, stop).length().total_microseconds();
 
     std::cout << "=============================" << std::endl;
     std::cout << "\tResults" << std::endl;
@@ -583,9 +708,6 @@ int main(int argc, char** argv) {
         std::cout   << "\tcorrect : " << marks[i].m_iCorrectCount << std::endl;
         std::cout   << "\ttime    : " << marks[i].m_iTimeConsumed << std::endl;
     }
-
-
-
 
     return 0;
 }
