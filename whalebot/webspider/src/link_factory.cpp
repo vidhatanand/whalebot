@@ -65,7 +65,7 @@ void CLinkFactory::cutCutId(std::string &link){
             link.erase(pos);
 }
 void CLinkFactory::cutHtml(std::string &link){
-    boost::replace_all(link,"&amp;","&");
+//    boost::replace_all(link,"&amp;","&");
     boost::erase_all(link,"\r");
     boost::erase_all(link,"\n");
 }

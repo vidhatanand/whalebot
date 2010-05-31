@@ -64,7 +64,7 @@ void readTasksFromFile( std::ifstream& file, THtmlTaskList& tasks )
         if (*tmpStr.begin() != kDelimiter) {
             tasks.push_back(task);
 
-            task.m_sBaseUri =   tmpStr;
+            task.m_sBaseUri =   htmlcxx::HTML::decode_entities(tmpStr);
             task.m_lUris.clear();
             continue;
         }
@@ -75,7 +75,7 @@ void readTasksFromFile( std::ifstream& file, THtmlTaskList& tasks )
             continue;
         }
 
-        task.m_lUris.push_back(tmpStr);
+        task.m_lUris.push_back(htmlcxx::HTML::decode_entities(tmpStr));
     }
 
     //remove empty tasks
@@ -361,12 +361,12 @@ private:
 //<google-url>
 GURL  googleParseBase( const std::string& baseUrl )
 {
-    return GURL(htmlcxx::HTML::decode_entities(htmlcxx::Uri::decode(baseUrl)));
+    return GURL(htmlcxx::Uri::decode(baseUrl));
 }
 
 TUrlParseResult googleParseRel( GURL& baseUrl, const std::string& relativeUrl )
 {
-    GURL   relativeGurl(baseUrl.Resolve(htmlcxx::HTML::decode_entities(htmlcxx::Uri::decode(relativeUrl))));
+    GURL   relativeGurl(baseUrl.Resolve(htmlcxx::Uri::decode(relativeUrl)));
     return TUrlParseResult(relativeGurl.host(), relativeGurl.PathForRequest());
 }
 
@@ -390,12 +390,12 @@ private:
 //<htmlcxx>
 htmlcxx::Uri htmlCxxParseBase( const std::string& baseUrl )
 {
-    return htmlcxx::Uri(htmlcxx::HTML::decode_entities(htmlcxx::Uri::decode(baseUrl)));
+    return htmlcxx::Uri(htmlcxx::Uri::decode(baseUrl));
 }
 
 TUrlParseResult htmlCxxParseRel( htmlcxx::Uri& baseUri, const std::string& relativeUrl )
 {
-    htmlcxx::Uri    tmp(htmlcxx::HTML::decode_entities(htmlcxx::Uri::decode(relativeUrl)));
+    htmlcxx::Uri    tmp(htmlcxx::Uri::decode(relativeUrl));
     htmlcxx::Uri    relativeUri(tmp.absolute(baseUri));
 
     return TUrlParseResult(
