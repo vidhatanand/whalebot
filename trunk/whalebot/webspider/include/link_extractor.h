@@ -6,6 +6,7 @@
 #include <string>
 
 #include <htmlcxx/html/ParserSax.h>
+#include <htmlcxx/html/utils.h>
 
 #include <prefix.h>
 #include <link.h>
@@ -40,7 +41,7 @@ protected:
             node.parseAttributes();
             std::pair<bool, std::string > res(node.attribute("href"));
             if (res.first) {
-                m_out.pushLink(res.second);
+                m_out.pushLink(htmlcxx::HTML::decode_entities(res.second));
             }
         }
     }
