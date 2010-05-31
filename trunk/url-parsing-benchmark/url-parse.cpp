@@ -11,6 +11,11 @@
 
 #include <boost/date_time/posix_time/posix_time_types.hpp>
 
+#include <boost/archive/text_oarchive.hpp>
+#include <boost/archive/text_iarchive.hpp>
+#include <boost/serialization/vector.hpp>
+#include <boost/serialization/string.hpp>
+
 #include <googleurl/src/gurl.h>
 #include <htmlcxx/html/Uri.h>
 #include <htmlcxx/html/utils.h>
@@ -116,6 +121,7 @@ static std::string getParserName( eUrlParsers parser )
 
 class TUrlParseResult {
 public:
+
     TUrlParseResult()
     : m_sHost("")
     , m_sRequest("")
@@ -144,6 +150,21 @@ public:
     std::string m_sHost;
     std::string m_sRequest;
 };
+
+namespace boost {
+namespace serialization {
+
+template<class Archive>
+void serialize(Archive& ar, TUrlParseResult& res, const unsigned int version)
+{
+
+    ar & res.m_sHost;
+    ar & res.m_sRequest;
+}
+
+} // namespace serialization
+} // namespace boost
+
 
 typedef std::vector<TUrlParseResult> TParsersResults;
 
@@ -293,7 +314,6 @@ TUrlParseResult neonParseRel( ne_uri* baseUrl, const std::string& relativeUrl )
 
     ne_uri  resUrl;
     ne_uri_resolve(baseUrl, &relUrl, &resUrl);
-    ne_uri_free(&relUrl);
 
     TUrlParseResult ret(resUrl.host, resUrl.path);
 
@@ -301,13 +321,20 @@ TUrlParseResult neonParseRel( ne_uri* baseUrl, const std::string& relativeUrl )
         ret.m_sRequest.append(1, '?');
         ret.m_sRequest.append(resUrl.query);
     }
+
     ne_uri_free(&resUrl);
+    ne_uri_free(&relUrl);
 
     return ret;
 }
 
 class TNeonClass {
 public:
+
+    TNeonClass()
+    {
+        ne_uri_parse("www.example.com", &m_tUri);
+    }
 
     void parseBase( const std::string& baseUri )
     {
@@ -400,7 +427,8 @@ private:
 template <class T>
 void fullTest(const THtmlTaskList& tasks)
 {
-    T   parser;
+    T               parser;
+    unsigned int    blockNum(0);
     for (THtmlTaskList::const_iterator task = tasks.begin(); task != tasks.end(); ++task) {
         parser.parseBase(task->m_sBaseUri);
 
@@ -412,6 +440,8 @@ void fullTest(const THtmlTaskList& tasks)
              ) {
            parser.parseRel(*uri);
        }
+
+       ++blockNum;
     }
 }
 
@@ -435,8 +465,6 @@ public:
 
     bool write( const std::string& path );
 
-
-private:
     TAnswersBase m_tBase;
 };
 
@@ -474,13 +502,44 @@ const THtmlAnswer* const CAnswerBase::getAnswer(    unsigned int taskBlockNum,
     return &curList[taskNum];
 }
 
+
+
+namespace boost {
+namespace serialization {
+
+template<class Archive>
+void serialize(Archive& ar, CAnswerBase& base, const unsigned int version)
+{
+    serialize(ar, base.m_tBase, version);
+}
+
+} // namespace serialization
+} // namespace boost
+
 bool CAnswerBase::read( const std::string &path )
 {
+    std::ifstream                   ifs(path.c_str());
+
+    if (not ifs.is_open()) {
+        return false;
+    }
+
+    boost::archive::text_iarchive   ia(ifs);
+    boost::serialization::serialize(ia, *this, 1);
+
     return true;
 }
 
 bool CAnswerBase::write( const std::string &path )
 {
+    std::ofstream                   ofs(path.c_str());
+
+    if (not ofs.is_open()) {
+        return false;
+    }
+    boost::archive::text_oarchive   oa(ofs);
+    boost::serialization::serialize(oa, *this, 1);
+
     return true;
 }
 
@@ -515,7 +574,7 @@ int main(int argc, char** argv) {
     if (not answerBasePath.empty()) {
         if (not rigthAnswers.read(answerBasePath)) {
             std::cerr << "couldnt load answers from " << answerBasePath << std::endl;
-            return 1;
+            //return 1;
         }
     }
     

@@ -4,6 +4,9 @@ project(url_parse)
 add_subdirectory("./google-url")
 
 
+
+
+
 include_directories("./google-url")
 include_directories("./google-url/googleurl")
 include_directories("../whalebot/webspider/include")
@@ -17,7 +20,7 @@ find_library ( HTMLCXX_LIBRARY  "htmlcxx" )
 #libneon
 find_library (NEON_LIBRARY "neon")
 
-find_package ( Boost 1.37 REQUIRED date_time )
+find_package ( Boost 1.37 REQUIRED date_time serialization )
 
 include_directories ( ${Boost_INCLUDE_DIRS} )
 link_directories ( ${Boost_LIBRARY_DIRS} )
