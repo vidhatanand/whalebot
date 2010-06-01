@@ -4,12 +4,12 @@ using namespace htmlcxx;
 
 htmlcxx::Uri htmlcxx::gParseBase( const std::string& baseUrl )
 {
-    return htmlcxx::Uri(htmlcxx::Uri::decode(baseUrl));
+    return htmlcxx::Uri(baseUrl);
 }
 
 TUrlParseResult htmlcxx::gParseRel( htmlcxx::Uri& baseUri, const std::string& relativeUrl )
 {
-    htmlcxx::Uri    tmp(htmlcxx::Uri::decode(relativeUrl));
+    htmlcxx::Uri    tmp(relativeUrl);
     htmlcxx::Uri    relativeUri(tmp.absolute(baseUri));
 
     return TUrlParseResult(

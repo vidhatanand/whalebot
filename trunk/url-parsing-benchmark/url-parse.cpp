@@ -79,6 +79,16 @@ static unsigned int speedTest(const THtmlTaskList& tasks)
 
 
 
+static void showHeader(std::ostream& stream, const std::string& label)
+{
+    stream << "============================" << std::endl;
+    stream << '\t' << label << std::endl;
+    stream << "============================" << std::endl;
+
+}
+
+
+
 int main(int argc, char** argv) {
 
     if (argc < 2) {
@@ -108,15 +118,14 @@ int main(int argc, char** argv) {
     if (not answerBasePath.empty()) {
         if (not rigthAnswers.read(answerBasePath)) {
             std::cerr << "couldnt load answers from " << answerBasePath << std::endl;
-            //return 1;
         }
     }
     
     unsigned int    currentTaskBlock(0);
 
-    std::cout << "=============================" << std::endl;
-    std::cout << "\tCorrectness testing" << std::endl;
-    std::cout << "=============================" << std::endl;
+
+    showHeader(std::cout, "Correctness testing");
+
 
     TParsersMark                    marks(createParsersMark());
     THtmlTaskList::const_iterator   task(tasks.begin());
@@ -241,7 +250,6 @@ int main(int argc, char** argv) {
                     }
                 }
             }
-            
 
             
             ++currentTask;
@@ -259,18 +267,16 @@ int main(int argc, char** argv) {
         }
     }
 
-    std::cout << "=============================" << std::endl;
-    std::cout << "\tSpeed testing" << std::endl;
-    std::cout << "=============================" << std::endl;
+
+    showHeader(std::cout, "Speed testing");
+
 
     marks[static_cast<unsigned int>(eGoogleParser)].m_iTimeConsumed     =   speedTest<gurl::CParser>(tasks);
     marks[static_cast<unsigned int>(eHtmlCxxParser)].m_iTimeConsumed    =   speedTest<htmlcxx::CParser>(tasks);
     marks[static_cast<unsigned int>(eMyParser)].m_iTimeConsumed         =   speedTest<whalebot::CParser>(tasks);
-    marks[static_cast<unsigned int>(eNeonParser)].m_iTimeConsumed       =   speedTest<neon::CParser>(tasks);
+    //marks[static_cast<unsigned int>(eNeonParser)].m_iTimeConsumed       =   speedTest<neon::CParser>(tasks);
 
-    std::cout << "=============================" << std::endl;
-    std::cout << "\tResults" << std::endl;
-    std::cout << "=============================" << std::endl;
+    showHeader(std::cout, "Results");
 
     for (unsigned int i = 0; i < marks.size(); ++i) {
         std::cout   << gGetParserName(static_cast<eUrlParsers>(i))

@@ -4,12 +4,12 @@ using namespace gurl;
 
 GURL gurl::gParseBase( const std::string& baseUrl )
 {
-    return GURL(htmlcxx::Uri::decode(baseUrl));
+    return GURL(baseUrl);
 }
 
 TUrlParseResult gurl::gParseRel( GURL& baseUrl, const std::string& relativeUrl )
 {
-    GURL   relativeGurl(baseUrl.Resolve(htmlcxx::Uri::decode(relativeUrl)));
+    GURL   relativeGurl(baseUrl.Resolve(relativeUrl));
     return TUrlParseResult(relativeGurl.host(), relativeGurl.PathForRequest());
 }
 
