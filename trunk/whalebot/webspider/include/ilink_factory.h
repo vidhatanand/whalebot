@@ -9,7 +9,8 @@
 #define	_ILINK_FACTORY_H
 
 #include <iacceptor.h>
-#include <link.h>
+
+class CLink;
 
 class ILinkFactory {
 public:

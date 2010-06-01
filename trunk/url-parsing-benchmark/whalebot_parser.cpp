@@ -9,6 +9,7 @@ void whalebot::gParseBase( CLinkFactory& factory,
     factory.setAcceptor(acceptor);
     factory.pushLink(baseUrl);
     factory.setFrom(acceptor.m_tLink);
+    acceptor.m_tLink.nil();
 }
 
 TUrlParseResult whalebot::gParseRel( CLinkFactory& factory,
@@ -16,7 +17,9 @@ TUrlParseResult whalebot::gParseRel( CLinkFactory& factory,
                                      const std::string& relativeUrl )
 {
     factory.pushLink(relativeUrl);
-    return TUrlParseResult(acceptor.m_tLink.getServer(), acceptor.m_tLink.getUri());
+    TUrlParseResult ret(acceptor.m_tLink.getServer(), acceptor.m_tLink.getUri());
+    acceptor.m_tLink.nil();
+    return ret;
 }
 
 CParser::CParser()

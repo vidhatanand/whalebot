@@ -10,7 +10,8 @@
 
 #include <string>
 
-#include "ilink_factory.h"
+#include <ilink_factory.h>
+#include <whale_link.h>
 
 
 
