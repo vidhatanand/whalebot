@@ -26,7 +26,7 @@ Key principle is _use same method for speed and correctness_
 At this moment only speed tests
 
 ||Mark\Parser||my parser||google-url||htmlcxx||
-||speed, microseconds||1507155||821829||747581||
+||speed, microseconds||1507155||520954||445431||
 
 
 = Conclusion =
@@ -35,3 +35,8 @@ My parser sucks. I know this. This is the reason of this study.
 Google-url may lose because of non-native htmlcxx character replacements. I have no idea how to use GURL::UrlReplacements.
 
 The winner of speed test is *htmlcxx*
+
+*Update1 : * 
+ # move out decoding html symbols (for example &amp) from parsing time, because noone of uri-parsing libs do this
+ # move out uri decoding (replace '%3A%2F%2F' to '://'), because it is wrong to send decoded uris to server
+google-url and htmlcxx gain significant speedup, but leader is htmlcxx as before
