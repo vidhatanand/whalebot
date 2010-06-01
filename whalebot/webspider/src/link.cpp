@@ -4,7 +4,7 @@
 
 #include <parserbase.h>
 
-#include "link.h"
+#include <whale_link.h>
 
 
 

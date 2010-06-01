@@ -7,7 +7,7 @@
 
 #ifndef _FILTER_H
 #define	_FILTER_H
-#include <link.h>
+#include <whale_link.h>
 
 class IFilter{
 public:

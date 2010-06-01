@@ -6,7 +6,7 @@
 
 #include <boost/unordered_set.hpp>
 
-#include <link.h>
+#include <whale_link.h>
 #include <ilink_buffer.h>
 
 
@@ -36,7 +36,5 @@ private:
     std::list<CLink>	m_futureLinks;
     boost::unordered_set<CLink, ihash>
                         m_usedLinks;
-    //IFilter             &m_serverFilter,
-    //                    &m_uriFilter;
 };
 #endif //_LINK_BUFFER_H_
