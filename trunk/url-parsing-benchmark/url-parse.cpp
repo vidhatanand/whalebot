@@ -13,12 +13,6 @@
 
 
 
-
-#include <googleurl/src/gurl.h>
-
-
-#include <neon/ne_uri.h>
-
 #include "html_task.h"
 #include "parser_type.h"
 #include "answer.h"
@@ -26,6 +20,8 @@
 #include "answer_base.h"
 #include "htmlcxx_parser.h"
 #include "whalebot_parser.h"
+#include "gurl_parser.h"
+#include "neon_parser.h"
 
 
 using namespace boost::posix_time;
@@ -48,103 +44,6 @@ static TParsersMark createParsersMark()
 {
     return TParsersMark(eParsersAtAll, TParserMark());
 }
-
-
-
-//<libneon>
-ne_uri neonParseBase( const std::string& baseUrl )
-{
-    ne_uri base;
-    char*   decoded(ne_path_unescape(baseUrl.c_str()));
-    ne_uri_parse(decoded, &base);
-    free(decoded);
-
-    return base;
-}
-
-TUrlParseResult neonParseRel( ne_uri* baseUrl, const std::string& relativeUrl )
-{
-    ne_uri  relUrl;
-    char*   decoded(ne_path_unescape(relativeUrl.c_str()));
-    ne_uri_parse(decoded, &relUrl);
-    free(decoded);
-
-    ne_uri  resUrl;
-    ne_uri_resolve(baseUrl, &relUrl, &resUrl);
-
-    TUrlParseResult ret(resUrl.host, resUrl.path);
-
-    if (0 != resUrl.query) {
-        ret.m_sRequest.append(1, '?');
-        ret.m_sRequest.append(resUrl.query);
-    }
-
-    ne_uri_free(&resUrl);
-    ne_uri_free(&relUrl);
-
-    return ret;
-}
-
-class TNeonClass {
-public:
-
-    TNeonClass()
-    {
-        ne_uri_parse("www.example.com", &m_tUri);
-    }
-
-    void parseBase( const std::string& baseUri )
-    {
-        ne_uri_free(&m_tUri);
-        m_tUri  =   neonParseBase(baseUri);
-    }
-
-    void parseRel( const std::string& relUri )
-    {
-        neonParseRel(&m_tUri, relUri);
-    }
-
-    ~TNeonClass()
-    {
-        ne_uri_free(&m_tUri);
-    }
-
-private:
-    ne_uri m_tUri;
-};
-
-//<\libneon>
-
-//<google-url>
-GURL  googleParseBase( const std::string& baseUrl )
-{
-    return GURL(htmlcxx::Uri::decode(baseUrl));
-}
-
-TUrlParseResult googleParseRel( GURL& baseUrl, const std::string& relativeUrl )
-{
-    GURL   relativeGurl(baseUrl.Resolve(htmlcxx::Uri::decode(relativeUrl)));
-    return TUrlParseResult(relativeGurl.host(), relativeGurl.PathForRequest());
-}
-
-class TGurlClass {
-public:
-    void parseBase( const std::string& baseUri )
-    {
-        m_tUri  =   googleParseBase(baseUri);
-    }
-
-    void parseRel( const std::string& relUri )
-    {
-        googleParseRel(m_tUri, relUri);
-    }
-
-private:
-    GURL    m_tUri;
-};
-//</google-url>
-
-
 
 template <class T>
 static void fullTest(const THtmlTaskList& tasks)
@@ -229,7 +128,7 @@ int main(int argc, char** argv) {
         const THtmlTask::TUriList&  currentUris(task->m_lUris);
         const std::string&          strBaseUrl(task->m_sBaseUri);
 
-        GURL                        gUrl(googleParseBase(strBaseUrl));
+        GURL                        gUrl(gurl::gParseBase(strBaseUrl));
 
         CLinkFactory                linkFactory;
         whalebot::CEmptyAcceptor    acceptor;
@@ -237,7 +136,7 @@ int main(int argc, char** argv) {
 
         htmlcxx::Uri                hUrl(htmlcxx::gParseBase(strBaseUrl));
 
-        ne_uri                      nUrl(neonParseBase(strBaseUrl));
+        ne_uri                      nUrl(neon::gParseBase(strBaseUrl));
         
         unsigned int                currentTask(0);
         THtmlTask::TUriList::const_iterator uri(currentUris.begin());
@@ -247,10 +146,10 @@ int main(int argc, char** argv) {
             TParsersResults results(gCreateResults());
 
             //duplicate values for testing purposes
-            results[eGoogleParser]  =   googleParseRel(gUrl, *uri);
+            results[eGoogleParser]  =   gurl::gParseRel(gUrl, *uri);
             results[eHtmlCxxParser] =   htmlcxx::gParseRel(hUrl, *uri);
             results[eMyParser]      =   whalebot::gParseRel(linkFactory, acceptor, *uri);
-            results[eNeonParser]    =   neonParseRel(&nUrl, *uri);
+            results[eNeonParser]    =   neon::gParseRel(&nUrl, *uri);
 
 
             const THtmlAnswer* const curAnswer(
@@ -364,10 +263,10 @@ int main(int argc, char** argv) {
     std::cout << "\tSpeed testing" << std::endl;
     std::cout << "=============================" << std::endl;
 
-    marks[static_cast<unsigned int>(eGoogleParser)].m_iTimeConsumed     =   speedTest<TGurlClass>(tasks);
+    marks[static_cast<unsigned int>(eGoogleParser)].m_iTimeConsumed     =   speedTest<gurl::CParser>(tasks);
     marks[static_cast<unsigned int>(eHtmlCxxParser)].m_iTimeConsumed    =   speedTest<htmlcxx::CParser>(tasks);
     marks[static_cast<unsigned int>(eMyParser)].m_iTimeConsumed         =   speedTest<whalebot::CParser>(tasks);
-    marks[static_cast<unsigned int>(eNeonParser)].m_iTimeConsumed       =   speedTest<TNeonClass>(tasks);
+    marks[static_cast<unsigned int>(eNeonParser)].m_iTimeConsumed       =   speedTest<neon::CParser>(tasks);
 
     std::cout << "=============================" << std::endl;
     std::cout << "\tResults" << std::endl;
