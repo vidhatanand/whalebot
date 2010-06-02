@@ -6,19 +6,15 @@ using namespace neon;
 ne_uri neon::gParseBase( const std::string& baseUrl )
 {
     ne_uri base;
-    char*   decoded(ne_path_unescape(baseUrl.c_str()));
-    ne_uri_parse(decoded, &base);
-    free(decoded);
-
+    ne_uri_parse(baseUrl.c_str(), &base);
     return base;
 }
 
 TUrlParseResult neon::gParseRel( ne_uri* baseUrl, const std::string& relativeUrl )
 {
     ne_uri  relUrl;
-    char*   decoded(ne_path_unescape(relativeUrl.c_str()));
-    ne_uri_parse(decoded, &relUrl);
-    free(decoded);
+    ne_uri_parse(relativeUrl.c_str(), &relUrl);
+    
 
     ne_uri  resUrl;
     ne_uri_resolve(baseUrl, &relUrl, &resUrl);
