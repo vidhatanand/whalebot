@@ -183,19 +183,26 @@ int main(int argc, char** argv) {
                     
                     showHeader(std::cout, blockHeader);
                     
+                    std::cout << "Task is   : " << std::endl;
+                    
+                    std::cout << "\tbase url     : " << strBaseUrl << std::endl;
+                    std::cout << "\trelative url : " << *uri << std::endl;
+                    
+                    std::cout << "Answer is : " << std::endl;                
+                    
 
                     for (unsigned int clas = 0; clas != classesCount; ++clas) {
 
                         const TEquivalenceClass&    currentClass(equivalenceClasses[clas]);
 
                         for (unsigned int parser = 0; parser != currentClass.size(); ++parser) {
-                            std::cout   << gGetParserName(currentClass[parser])
+                            std::cout   << '\t' << gGetParserName(currentClass[parser])
                                         << " : " << std::endl;
                         }
                         const TUrlParseResult&  resultOfClass(results[*currentClass.begin()]);
 
-                        std::cout << "\thost    : " << resultOfClass.m_sHost << std::endl;
-                        std::cout << "\trequest : " << resultOfClass.m_sRequest << std::endl;
+                        std::cout << "\t\thost    : " << resultOfClass.m_sHost << std::endl;
+                        std::cout << "\t\trequest : " << resultOfClass.m_sRequest << std::endl;
                     }
 
 
@@ -204,23 +211,23 @@ int main(int argc, char** argv) {
                     for (unsigned int clas = 0; clas != classesCount; ++clas) {
                         const TEquivalenceClass&    currentClass(equivalenceClasses[clas]);
 
-                        std::cout << clas << " ) ";
+                        std::cout << clas + 1 << " ) ";
                         for (unsigned int parser = 0; parser != currentClass.size(); ++parser) {
                             std::cout   << gGetParserName(currentClass[parser])
                                         << " & ";
                         }
                         std::cout << std::endl;
                     }
-                    std::cout << classesCount << " ) Nobody" << std::endl;
-                    std::cout << classesCount + 1 << " ) Stop Experiment" << std::endl;
+                    std::cout << classesCount + 1 << " ) Nobody" << std::endl;
+                    std::cout << classesCount + 2 << " ) Stop Experiment" << std::endl;
 
-                    unsigned int choice(classesCount + 1);
+                    unsigned int choice(classesCount + 2);
                     std::cout   << "Enter number : ";
                     std::cin    >> choice;
                     std::cout   << std::endl;
 
-                    if (choice < classesCount) {
-                        const TEquivalenceClass&    correctClass(equivalenceClasses[choice]);
+                    if (choice - 1 < classesCount) {
+                        const TEquivalenceClass&    correctClass(equivalenceClasses[choice - 1]);
                         for (unsigned int parser = 0; parser != correctClass.size(); ++parser) {
                             ++marks[static_cast<unsigned int>(correctClass[parser])].m_iCorrectCount;
                         }
@@ -230,7 +237,7 @@ int main(int argc, char** argv) {
                                                 results[*correctClass.begin()]
                                               );
                     }
-                    else if ((classesCount + 1) == choice) {
+                    else if ((classesCount + 1) == (choice - 1)) {
                         isStopExperiment    =   true;
                     }
                 }
@@ -275,7 +282,6 @@ int main(int argc, char** argv) {
 
 
     showHeader(std::cout, "Speed testing");
-
 
     marks[static_cast<unsigned int>(eGoogleParser)].m_iTimeConsumed     =   speedTest<gurl::CParser>(tasks);
     marks[static_cast<unsigned int>(eHtmlCxxParser)].m_iTimeConsumed    =   speedTest<htmlcxx::CParser>(tasks);
