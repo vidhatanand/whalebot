@@ -12,7 +12,7 @@ std::string gGetParserName( eUrlParsers parser )
             PARSER_CASE(GoogleParser);
             PARSER_CASE(NeonParser);
             PARSER_CASE(HtmlCxxParser);
-            PARSER_CASE(RegExpParser);
+            //PARSER_CASE(RegExpParser);
         default:
             return "unknown";
         }
