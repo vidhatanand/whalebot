@@ -14,9 +14,11 @@ TUrlParseResult htmlcxx::gParseRel( htmlcxx::Uri& baseUri, const std::string& re
 
     return TUrlParseResult(
                             relativeUri.hostname(),
-                            relativeUri.path() + ( relativeUri.existsQuery()
-                                                        ? "?" + relativeUri.query()
-                                                        : "" )
+                            htmlcxx::Uri::encode(relativeUri.path())
+                            +
+                            ( relativeUri.existsQuery()
+                              ? "?" + htmlcxx::Uri::encode(relativeUri.query())
+                              : "" )
                            );
 }
 

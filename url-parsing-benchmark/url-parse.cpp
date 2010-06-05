@@ -11,6 +11,7 @@
 
 #include <boost/date_time/posix_time/posix_time_types.hpp>
 
+#include <to_string.h>
 
 
 #include "html_task.h"
@@ -84,7 +85,6 @@ static void showHeader(std::ostream& stream, const std::string& label)
     stream << "============================" << std::endl;
     stream << '\t' << label << std::endl;
     stream << "============================" << std::endl;
-
 }
 
 
@@ -175,8 +175,14 @@ int main(int argc, char** argv) {
                 TEquivalenceRelation    equivalenceClasses(gFindRelated(results));
                 unsigned int            classesCount(equivalenceClasses.size());
                 if (classesCount > 1) {
-                    std::cout   << "=== block # " << currentTaskBlock
-                                << " task # " << currentTask << " ===" << std::endl;
+                    
+                    std::string blockHeader("block # ");
+                    blockHeader +=  toString(currentTaskBlock);
+                    blockHeader +=  " task # ";
+                    blockHeader +=  toString(currentTask);
+                    
+                    showHeader(std::cout, blockHeader);
+                    
 
                     for (unsigned int clas = 0; clas != classesCount; ++clas) {
 

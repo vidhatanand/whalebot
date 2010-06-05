@@ -20,9 +20,9 @@ TEquivalenceRelation gFindRelated( const TParsersResults& results )
 
         const TUrlParseResult&  currentResult(results[i]);
 
-        if (currentResult.isNull()) {
-            continue;
-        }
+//        if (currentResult.isNull()) {
+//            continue;
+//        }
 
         TEquivalenceClass   currentClass(1, static_cast<eUrlParsers>(i));
 
@@ -34,9 +34,9 @@ TEquivalenceRelation gFindRelated( const TParsersResults& results )
 
             const TUrlParseResult&  secondResult(results[j]);
 
-            if (secondResult.isNull()) {
-                continue;
-            }
+//            if (secondResult.isNull()) {
+//                continue;
+//            }
 
             if (secondResult == currentResult) {
                 included[j] =   true;

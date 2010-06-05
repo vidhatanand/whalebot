@@ -7,7 +7,6 @@ enum eUrlParsers {
         eGoogleParser,
         eNeonParser,
         eHtmlCxxParser,
-        eRegExpParser,
         eParsersAtAll
 };
 
