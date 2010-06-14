@@ -5,9 +5,9 @@
 
 #include "answer_base.h"
 
-void CAnswerBase::addAnswer( unsigned int taskBlockNum,
-                             unsigned int taskNum,
-                             const THtmlAnswer& answer )
+void CAnswerBase::addAnswer( unsigned int taskBlockNum
+                           , unsigned int taskNum
+                           , const THtmlAnswer& answer )
 {
     if (m_tBase.size() <= taskBlockNum) {
         m_tBase.resize(taskBlockNum + 1);
@@ -23,8 +23,8 @@ void CAnswerBase::addAnswer( unsigned int taskBlockNum,
 
 }
 
-const THtmlAnswer* const CAnswerBase::getAnswer(    unsigned int taskBlockNum,
-                                                    unsigned int taskNum ) const {
+const THtmlAnswer* const CAnswerBase::getAnswer( unsigned int taskBlockNum
+                                               , unsigned int taskNum ) const {
 
     if (m_tBase.size() <= taskBlockNum) {
         return 0;

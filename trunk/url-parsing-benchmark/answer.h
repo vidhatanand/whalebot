@@ -25,6 +25,8 @@ public:
 
     bool operator == ( const TUrlParseResult& another ) const;
 
+    const TUrlParseResult& operator = (const TUrlParseResult& another );
+
     bool isNull() const;
 
     std::string m_sHost;
