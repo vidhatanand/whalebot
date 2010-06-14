@@ -19,7 +19,15 @@ TUrlParseResult neon::gParseRel( ne_uri* baseUrl, const std::string& relativeUrl
     ne_uri  resUrl;
     ne_uri_resolve(baseUrl, &relUrl, &resUrl);
 
-    TUrlParseResult ret(resUrl.host, resUrl.path);
+    TUrlParseResult ret;
+
+    if (0 != resUrl.host) {
+        ret.m_sHost =   resUrl.host;
+    }
+
+    if (0 != resUrl.path) {
+        ret.m_sRequest  =   resUrl.path;
+    }
 
     if (0 != resUrl.query) {
         ret.m_sRequest.append(1, '?');

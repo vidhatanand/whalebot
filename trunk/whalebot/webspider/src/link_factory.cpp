@@ -1,4 +1,4 @@
-#include <map>
+#include <set>
 #include <iostream>
 
 #include <boost/algorithm/string/replace.hpp>
@@ -148,24 +148,26 @@ void CLinkFactory::normolizeQeury(std::string &link)
     size_t  elementCount(parser.size());
     
     
-    typedef std::map<std::string, std::string>  TQueryParams;
+    typedef std::set<std::string>  TQueryParams;
     TQueryParams    params;
     
     for (unsigned int i = 0; i + 1 < elementCount; i += 2) {
         std::string key(parser.unsafe_getElement(i));
         std::string value(parser.unsafe_getElement(i + 1));
-        params.insert(std::make_pair(key, value));
+        TQueryParams::iterator  curKeyPlace(params.lower_bound(key));
+        if ((params.end() == curKeyPlace) or (*curKeyPlace != key)) {
+            link    +=  key;
+            link    +=  "=";
+            link    +=  value;
+            link    +=  "&";
+            params.insert(curKeyPlace, key);
+        }
+
+
     }
 
-    for (TQueryParams::const_iterator i = params.begin(); i != params.end(); ++i) {
-        link    +=  i->first;
-        link    +=  '=';
-        link    +=  i->second;
-        link    +=  '&';
-    }
 
-
-    if (link[link.size()-1] == '&') {
+    if ('&' == link[link.size()-1]) {
         link.erase(link.size() - 1);
     }
 }
