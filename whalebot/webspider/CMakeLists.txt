@@ -18,6 +18,6 @@ link_directories ( ${Boost_LIBRARY_DIRS}  "../statsem_string/bin")
 aux_source_directory("./src/" SOURCES)
 
 add_executable( whalebot ${SOURCES} )
-target_link_libraries ( whalebot ${Boost_LIBRARIES} ${HTMLCXX_LIBRARY} ${NEON_LIBRARY} string_parse )
+target_link_libraries ( whalebot ${Boost_LIBRARIES} ${HTMLCXX_LIBRARY} ${NEON_LIBRARY} string_parse pthread)
 
 install ( TARGETS whalebot RUNTIME DESTINATION bin CONFIGURATIONS RELEASE)
