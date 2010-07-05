@@ -9,6 +9,8 @@ Challengers are
  * [http://code.google.com/p/whalebot/source/browse/trunk/whalebot/webspider/include/link_factory.h my realisation]
  * [http://code.google.com/p/google-url google-url] 
  * [http://htmlcxx.cvs.sourceforge.net/viewvc/htmlcxx/htmlcxx/html/Uri.h?revision=1.2&view=markup htmlcxx url parse]
+ * [http://www.webdav.org/neon/ libneon]
+ 
 
 More challengers will be added later.
 
@@ -25,8 +27,9 @@ Key principle is _use same method for speed and correctness_
 = Results =
 At this moment only speed tests
 
-||Mark\Parser||my parser||google-url||htmlcxx||
-||speed, microseconds||1507155||520954||445431||
+||Mark\Parser||my parser||google-url||neon||htmlcxx||
+||speed, microseconds||499726||279525||269892||259033||
+||correctness||96%||100%||~100%||~100%||
 
 
 = Conclusion =
@@ -40,3 +43,9 @@ The winner of speed test is *htmlcxx*
  # move out decoding html symbols (for example &amp) from parsing time, because noone of uri-parsing libs do this
  # move out uri decoding (replace '%3A%2F%2F' to '://'), because it is wrong to send decoded uris to server
 google-url and htmlcxx gain significant speedup, but leader is htmlcxx as before
+
+*Update2 : * 
+ # I update my notebook, so time is less now
+ # add partial correctness testing (first 2049 urls)
+ # libneon in C and extremly fast, but it fails at urls like 'www.yandex.ua?clid=47656', where slash from host and request part is omitted
+ # htmlcxx fails at urls like '//help.yandex.ru/market/', where protocol type is omitted
