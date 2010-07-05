@@ -8,6 +8,7 @@
 #include <list>
 #include <vector>
 #include <fstream>
+#include <iomanip>
 
 #include <boost/date_time/posix_time/posix_time_types.hpp>
 
@@ -148,6 +149,8 @@ int main( int argc, char** argv ) {
     TParsersMark                    marks(createParsersMark());
     THtmlTaskList::const_iterator   task(tasks.begin());
     bool                            isStopExperiment(false);
+    
+    unsigned int					tasksAtAll(0);
 
 
 
@@ -282,6 +285,10 @@ int main( int argc, char** argv ) {
 
             ++currentTask;
             ++uri;
+            
+            if (not isStopExperiment) {
+				++tasksAtAll;
+			}
         }
         ne_uri_free(&nUrl);
 
@@ -308,7 +315,12 @@ int main( int argc, char** argv ) {
     for (unsigned int i = 0; i < marks.size(); ++i) {
         std::cout   << gGetParserName(static_cast<eUrlParsers>(i))
                     << " : " << std::endl;
-        std::cout   << "\tcorrect : " << marks[i].m_iCorrectCount << std::endl;
+                    
+        std::cout   << "\tcorrect : " 
+					<< std::setprecision(4)
+					<< static_cast<double>(marks[i].m_iCorrectCount) / tasksAtAll
+					<< std::endl;
+					
         std::cout   << "\ttime    : " << marks[i].m_iTimeConsumed << std::endl;
     }
 
