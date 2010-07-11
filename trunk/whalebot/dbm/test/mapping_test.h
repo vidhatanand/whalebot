@@ -11,7 +11,7 @@ namespace test {
 template<class T>
 bool testTMapping(const T& testValue)
 {
-    T                                       result(0);
+    T                                       result;
     typename CTraits<T>::CDefaultMapper     mapper(testValue);
     typename CTraits<T>::CDefaultUnMapper   unMapper(result);
 
@@ -54,6 +54,18 @@ TEST(MappingTest, FloatTest)
 TEST(MappingTest, DoubleTest)
 {
     testTMapping<double>(0.5456677);
+}
+
+TEST(MappingTest, StringTest)
+{
+    std::string testValue("test_test_test_test_test_test_test_test");
+    testTMapping(testValue);
+}
+
+TEST(MappingTest, WStringTest)
+{
+    std::wstring testValue(L"test_test_test_test_test_test_test_test");
+    testTMapping(testValue);
 }
 
 TEST(MappingTest, VectorCharTest)
