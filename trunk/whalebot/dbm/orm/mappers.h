@@ -4,8 +4,11 @@
 #include <bits/basic_string.h>
 
 namespace korm {
-	
-    //map old plain data types
+
+/*! \brief 
+ *         Map to binary representation plain data types
+ */
+
 template<class T>
 class CMapper {
 public:
@@ -27,7 +30,9 @@ private:
     const char*	m_pPtr;
 };
 
-//unmap old plain data types
+/*! \brief 
+ *         Unmap plain types from binary representation 
+ */
 template<class T>
 class CUnMapper {
 public:
@@ -43,6 +48,10 @@ public:
 private:
     T&  m_tData;
 };
+
+/*! \brief 
+ *         Map vector of plain types
+ */
 
 template<class T>
 class CMapper<std::vector<T> > {
@@ -69,6 +78,10 @@ private:
     size_t      m_iSize;
 };
 
+/*! \brief 
+ *         Unmap vector of plain types
+ */
+
 template<class T>
 class CUnMapper<std::vector<T> > {
 public:
@@ -88,6 +101,10 @@ public:
 private:
     CVector&				m_vData;
 };
+
+/*! \brief 
+ *         map standard strings (std::string, std::wstring)
+ */
 
 template<typename _CharT, typename _Traits, typename _Alloc>
 class CMapper<std::basic_string<_CharT, _Traits, _Alloc> > {
@@ -115,6 +132,10 @@ private:
 
 };
 
+/*! \brief 
+ *         Unmap standard strings (std::string, std::wstring)
+ */
+
 template<typename _CharT, typename _Traits, typename _Alloc>
 class CUnMapper<std::basic_string<_CharT, _Traits, _Alloc> > {
 public:
@@ -133,6 +154,10 @@ public:
 private:
     CString&    m_vData;
 };
+
+/*! \brief 
+ *         Class for automatic detection of mapper/unmapper
+ */
 
 template<class T>
 class CTraits {
