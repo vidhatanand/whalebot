@@ -3,6 +3,8 @@
 #include <gtest/gtest.h>
 #include <mappers.h>
 
+static const unsigned int kDefualtVectorSize    =   10000;
+
 namespace korm {
 namespace test {
 
@@ -15,10 +17,23 @@ bool testTMapping(const T& testValue)
 
     unMapper.unMap(mapper.dataPointer(), mapper.dataSize());
 
-    EXPECT_EQ(testValue, result) << " Mapping failed mapping from '"
-                                 << testValue
-                                 << "' mapped to '"
-                                 << result << "'" << std::endl;    
+    EXPECT_TRUE(testValue == result);
+}
+
+template<class T>
+bool testTVector()
+{
+    std::vector<T>  testValue(kDefualtVectorSize, static_cast<T>(0));
+
+    for (unsigned int i = 0; i != kDefualtVectorSize; ++i) {
+        testValue.push_back(static_cast<T>(i));
+    }
+    return testTMapping(testValue);
+}
+
+TEST(MappingTest, CharTest)
+{
+    testTMapping<int>(24);
 }
 
 TEST(MappingTest, IntTest)
@@ -39,6 +54,26 @@ TEST(MappingTest, FloatTest)
 TEST(MappingTest, DoubleTest)
 {
     testTMapping<double>(0.5456677);
+}
+
+TEST(MappingTest, VectorCharTest)
+{
+    testTVector<char>();
+}
+
+TEST(MappingTest, VectorIntTest)
+{
+    testTVector<int>();
+}
+
+TEST(MappingTest, VectorDoubleTest)
+{
+    testTVector<double>();
+}
+
+TEST(MappingTest, VectorFloatTest)
+{
+    testTVector<float>();
 }
     
 }//test
