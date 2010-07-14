@@ -1,7 +1,10 @@
 #pragma once
 
 #include <vector>
-#include <bits/basic_string.h>
+#include <string>
+
+#include "memory_repr_traits.h"
+#include "base_mappers.h"
 
 namespace korm {
 
@@ -10,7 +13,7 @@ namespace korm {
  */
 
 template<class T>
-class CMapper {
+class CMapper<T, kPodType> {
 public:
     CMapper( const T& opd )
     : m_pPtr((const char*)(&opd))
@@ -34,7 +37,7 @@ private:
  *         Unmap plain types from binary representation 
  */
 template<class T>
-class CUnMapper {
+class CUnMapper<T, kPodType> {
 public:
     CUnMapper( T& target )
     : m_tData(target)
@@ -54,7 +57,7 @@ private:
  */
 
 template<class T>
-class CMapper<std::vector<T> > {
+class CMapper<std::vector<T>, kPodType > {
 public:
     typedef std::vector<T>  CVector;
 
@@ -83,13 +86,13 @@ private:
  */
 
 template<class T>
-class CUnMapper<std::vector<T> > {
+class CUnMapper<std::vector<T>, kPodType > {
 public:
 
     typedef std::vector<T>  CVector;
 
     CUnMapper( CVector& target )
-        : m_vData(target)
+    : m_vData(target)
     {}
 
     void unMap( const char *dataPtr, size_t dataSize )
@@ -107,7 +110,7 @@ private:
  */
 
 template<typename _CharT, typename _Traits, typename _Alloc>
-class CMapper<std::basic_string<_CharT, _Traits, _Alloc> > {
+class CMapper<std::basic_string<_CharT, _Traits, _Alloc>, kPodType> {
 public:
     typedef std::basic_string<_CharT, _Traits, _Alloc>  CString;
 
@@ -128,8 +131,7 @@ public:
 
 private:
     const char*	m_pPtr;
-    size_t      m_iSize;
-
+    size_t          m_iSize;
 };
 
 /*! \brief 
@@ -137,7 +139,7 @@ private:
  */
 
 template<typename _CharT, typename _Traits, typename _Alloc>
-class CUnMapper<std::basic_string<_CharT, _Traits, _Alloc> > {
+class CUnMapper<std::basic_string<_CharT, _Traits, _Alloc>, kPodType> {
 public:
     typedef std::basic_string<_CharT, _Traits, _Alloc>  CString;
 
@@ -159,11 +161,6 @@ private:
  *         Class for automatic detection of mapper/unmapper
  */
 
-template<class T>
-class CTraits {
-public:
-    typedef CMapper<T>		CDefaultMapper;
-    typedef CUnMapper<T>	CDefaultUnMapper;
-};
+
 
 }//korm - kyoto orm
