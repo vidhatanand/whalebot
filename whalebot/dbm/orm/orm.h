@@ -5,13 +5,13 @@ namespace korm {
 template< class DB
         , class KT
         , class VT
-        , class KMapper = CTraits<KT>::CDefaultMapper
-        , class VMapper = CTraits<VT>::CDefaultMapper >
+        , class KMapper = CMappingTraits<KT>::CDefaultMapper
+        , class VMapper = CMappingTraits<VT>::CDefaultMapper >
 bool set ( DB& db, const KT& key, const VT& value)
 {
 	KMapper	keyMapper(key);
 	VMapper valueMapper(value);
-	
+	      
 	return db.set( keyMapper.dataPointer()
 				  , keyMapper.dataSize()
 	              , valueMapper.dataPointer()
@@ -21,8 +21,8 @@ bool set ( DB& db, const KT& key, const VT& value)
 template< class DB
         , class KT
         , class VT
-        , class KMapper = CTraits<KT>::CDefaultMapper
-        , class VUnMapper = CTraits<VT>::CDefaultUnMapper >
+        , class KMapper = CMappingTraits<KT>::CDefaultMapper
+        , class VUnMapper = CMappingTraits<VT>::CDefaultUnMapper >
 bool get ( DB& db, const KT& key, VT& value)
 {
 	KMapper	keyMapper(key);
