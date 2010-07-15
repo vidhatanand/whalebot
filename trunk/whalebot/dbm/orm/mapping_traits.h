@@ -5,6 +5,10 @@
 
 namespace korm {
 
+/*! \brief
+ *         Class for automatic detection of mapper/unmapper
+ */
+
 template<class T>
 class CMappingTraits {
 public:
