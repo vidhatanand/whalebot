@@ -157,9 +157,7 @@ private:
     CString&    m_vData;
 };
 
-/*! \brief 
- *         Class for automatic detection of mapper/unmapper
- */
+
 
 
 

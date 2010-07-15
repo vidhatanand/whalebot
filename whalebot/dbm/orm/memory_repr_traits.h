@@ -19,7 +19,7 @@ struct CMemoryReprTraits {
 
 template<class T>
 struct CMemoryReprTraits<T*> {
-    enum { eIsPod = kNonPodType };
+    enum { eIsPod = CMemoryReprTraits<T>::eIsPod };
 };
 
 template<class T>
