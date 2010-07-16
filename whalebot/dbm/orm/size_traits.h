@@ -54,7 +54,7 @@ struct CWriteSizeTraits<std::basic_string<_CharT, _Traits, _Alloc> > {
 
 template<class FT, class ST>
 struct CWriteSizeTraits<std::pair<FT, ST> > {
-    enum { eIsWrite = kWrite };
+    enum { eIsWrite = (CWriteSizeTraits<FT>::eIsWrite | CWriteSizeTraits<ST>::eIsWrite) };
 };
 
 }//korm - kyoto orm

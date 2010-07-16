@@ -1,5 +1,6 @@
 #include <iostream>
 #include "mapping_test.h"
+#include "writing_test.h"
 
 using namespace korm::test;
 
