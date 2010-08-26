@@ -321,7 +321,7 @@ int main( int argc, char** argv ) {
                     << (0 != tasksAtAll ? static_cast<double>(marks[i].m_iCorrectCount) / tasksAtAll : 0 )
 					<< std::endl;
 					
-        std::cout   << "\ttime    : " << marks[i].m_iTimeConsumed << std::endl;
+        std::cout   << "\ttime    : " << marks[i].m_iTimeConsumed << " ms" << std::endl;
     }
 
     return 0;
