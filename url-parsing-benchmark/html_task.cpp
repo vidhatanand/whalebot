@@ -50,6 +50,8 @@ void gReadTasksFromFile( std::ifstream& file, THtmlTaskList& tasks )
         task.m_lUris.push_back(htmlcxx::HTML::decode_entities(tmpStr));
     }
 
+    tasks.push_back(task);
+
     //remove empty tasks
     THtmlTaskList::iterator taskIter(tasks.begin());
     while (taskIter != tasks.end()) {
