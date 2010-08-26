@@ -318,7 +318,7 @@ int main( int argc, char** argv ) {
                     
         std::cout   << "\tcorrect : " 
 					<< std::setprecision(4)
-					<< static_cast<double>(marks[i].m_iCorrectCount) / tasksAtAll
+                    << (0 != tasksAtAll ? static_cast<double>(marks[i].m_iCorrectCount) / tasksAtAll : 0 )
 					<< std::endl;
 					
         std::cout   << "\ttime    : " << marks[i].m_iTimeConsumed << std::endl;
