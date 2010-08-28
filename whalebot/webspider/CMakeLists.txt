@@ -2,7 +2,14 @@ cmake_minimum_required(VERSION 2.6)
 project(webspider)
 
 find_package(Boost 1.37 REQUIRED filesystem system thread program_options date_time)
-include_directories(${Boost_INCLUDE_DIRS})
+
+#icu
+find_path( ICU_INCLUDE_DIR
+           NAMES unicode/utypes.h )
+
+
+find_library( ICU_LIBRARY
+              NAMES icuuc )
 
 #htmlcxx
 find_library ( HTMLCXX_LIBRARY  "htmlcxx" )
@@ -11,9 +18,12 @@ include_directories( "./include"
                      "../statsem_string/include"
                      "../3dparty/google-url"
                      "../3dparty/google-url/googleurl"
-                     "../3dparty/google-url/googleurl/src" )
+                     "../3dparty/google-url/googleurl/src"
+                     ${Boost_INCLUDE_DIRS}
+                     ${ICU_INCLUDE_DIR} )
 
-link_directories ( ${Boost_LIBRARY_DIRS}
+link_directories ( ${ICU_LIBRARY}
+                   ${Boost_LIBRARY_DIRS}
                    "../statsem_string/bin"
                    "../3dparty/google-url" )
 
@@ -29,4 +39,4 @@ target_link_libraries ( whalebot ${Boost_LIBRARIES}
                                  gurl
                                  icuuc )
 
-install ( TARGETS whalebot RUNTIME DESTINATION bin CONFIGURATIONS RELEASE)
+install ( TARGETS whalebot RUNTIME DESTINATION bin CONFIGURATIONS RELEASE )
