@@ -81,8 +81,10 @@ bool CWebSpiderOptions::readFromCmdLine(int argc, char* argv[])
     boost::program_options::notify(vm);
 
     if (vm.count("version")) {
-        std::cout   << "WebSpider - tool for statsem package v " << kVersion << " - Beta" << std::endl
-                    << "Author Vostretsov Nikita started 15.03.2009" << std::endl;
+        std::cout   << "WebSpider - tool for web grabbing v "
+                    << kVersion
+                    << " - Beta" << std::endl
+                    << "Author whalebot.helmsman@gmail.com started 15.03.2009" << std::endl;
         return false;
     }
 
