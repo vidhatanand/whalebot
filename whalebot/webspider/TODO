@@ -2,21 +2,22 @@
     0.1. included conf files
     0.2. GUI front-end (http-)
 
-1. Test Uri handling using collected collection of uris (may be repeat next time)
+*1. Test Uri handling using collected collection of uris (may be repeat next time)
     1.1. libwww http://www.w3.org/Library/src/HTParse.c
     1.2. regex http://www.boost.org/doc/libs/1_42_0/tools/inspect/link_check.cpp
         1.2.1. boost
         1.2.2. google regex http://code.google.com/p/re2/
         1.2.3. standard C regex http://www.gnu.org/software/coreutils/manual/libc/Regular-Expressions.html
-    1.3. Gurl http://code.google.com/p/google-url/
-        1.3.1. build http://code.google.com/p/python-google-url/wiki/HowToBuildGoogleUrlWithLinux
+    **1.3. Gurl http://code.google.com/p/google-url/
+        **1.3.1. build http://code.google.com/p/python-google-url/wiki/HowToBuildGoogleUrlWithLinux
     1.4. uriparser http://uriparser.sourceforge.net/doc/html/
     1.5. cpp-netlib http://github.com/cpp-netlib/cpp-netlib/tree/master/boost/network/uri/
     1.7. custom spirit-based
-    1.8. libneon
+    **1.8. libneon
+    **1.9. htmlcxx
 
 2. File handling
-    2.2. Using MIME instead of file extension for file handling
+    **2.2. Using MIME instead of file extension for file handling
     2.2. Two types of file handling - parsing and saving
     2.3. Using file extension to predict MIME and do not request
 
@@ -61,7 +62,13 @@
 
 12. Cookies
     **12.1. Fixed
+    12.2. Many-Lines Cookie
+        12.2.1. How Firefox gets this
+        12.2.2. Reproduce Firefox behaviour
 
 13. Sessions
     13.1. Spider state
     13.2. http front-end
+
+14. HTTP Protocol
+    14.1. Referer field
