@@ -7,17 +7,24 @@ include_directories(${Boost_INCLUDE_DIRS})
 #htmlcxx
 find_library ( HTMLCXX_LIBRARY  "htmlcxx" )
 
-#libneon
-#find_library ( NEON_LIBRARY "neon" )
+include_directories( "./include"
+                     "../statsem_string/include"
+                     "../3dparty/google-url"
+                     "../3dparty/google-url/googleurl"
+                     "../3dparty/google-url/googleurl/src" )
 
-
-include_directories("./include")
-include_directories("../statsem_string/include")
-link_directories ( ${Boost_LIBRARY_DIRS}  "../statsem_string/bin")
+link_directories ( ${Boost_LIBRARY_DIRS}
+                   "../statsem_string/bin"
+                   "../3dparty/google-url" )
 
 aux_source_directory("./src/" SOURCES)
 
 add_executable( whalebot ${SOURCES} )
-target_link_libraries ( whalebot ${Boost_LIBRARIES} ${HTMLCXX_LIBRARY} ${NEON_LIBRARY} string_parse pthread)
+target_link_libraries ( whalebot ${Boost_LIBRARIES}
+                                 ${HTMLCXX_LIBRARY}
+                                 string_parse
+                                 pthread
+                                 gurl
+                                 icuuc )
 
 install ( TARGETS whalebot RUNTIME DESTINATION bin CONFIGURATIONS RELEASE)

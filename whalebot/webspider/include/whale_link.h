@@ -10,34 +10,32 @@
 #include <string>
 #include <boost/functional/hash.hpp>
 
-
-typedef std::string server_t;
-typedef std::string uri_t;
-
+#include <gurl.h>
 
 
 class CLink{
 public:
-                        CLink();
 
-    server_t const &    getServer()const;
-    uri_t const &       getUri()const;
+                        CLink();
+                        CLink(const CLink& father, const std::string& relUrl );
+                        CLink( const std::string& url );
+    std::string         getServer()const;
+    std::string         getUri()const;
     std::string const & getCookie()const;
     std::string const & getCookieForCut()const;
     std::string         toString()const;
 
-    void                setServer(server_t const &server);
-    void                setUri(uri_t const &uri);
     void                setCookie(std::string const &cookie);
+    void                setGurl(const GURL& gurl);
     bool                isValid()const;
     void                nil();
     bool                operator==(CLink const& another)const;
 
 private:
-    server_t    m_server;
-    uri_t       m_uri;
-    std::string m_cookie,
-                m_cookieForCut;
+
+    GURL        m_tGurl;    
+    std::string m_sCookie,
+                m_sCookieForCut;
 };
 
 std::ostream& operator<<(std::ostream& s,  CLink const & t);
