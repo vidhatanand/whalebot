@@ -3,7 +3,8 @@
  * remove old filesystem_wrapper
  * read options from file added (not heavily used)
  * rebranding from webspider to whalebot
- * old crap removed
+ * remove pdf counter
+ * add timestamps to log
 
 =05.16.2010 v0.01.00=
  * *move from netbeans projects to cmake*
