@@ -23,6 +23,8 @@ aux_source_directory("./" SOURCES)
 
 list( APPEND SOURCES "../whalebot/webspider/src/prefix.cpp")
 
+list ( APPEND CMAKE_CXX_FLAGS "-Wall")
+
 add_executable( url_parse ${SOURCES})
 
 target_link_libraries ( url_parse
