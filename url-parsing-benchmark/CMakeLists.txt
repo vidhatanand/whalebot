@@ -1,18 +1,12 @@
 cmake_minimum_required(VERSION 2.6)
 project(url_parse)
 
-add_subdirectory("./google-url")
+include_directories( "../whalebot/3dparty/google-url"
+                     "../whalebot/3dparty/google-url/googleurl"
+                     "../whalebot/webspider/include"
+                     "../whalebot/statsem_string/include" )
 
-
-
-
-
-include_directories("./google-url")
-include_directories("./google-url/googleurl")
-include_directories("../whalebot/webspider/include")
-include_directories("../whalebot/statsem_string/include")
-
-link_directories ("../whalebot/statsem_string/bin")
+link_directories ( "../whalebot/3dparty/google-url" )
 
 #htmlcxx
 find_library ( HTMLCXX_LIBRARY  "htmlcxx" )
@@ -27,16 +21,14 @@ link_directories ( ${Boost_LIBRARY_DIRS} )
 
 aux_source_directory("./" SOURCES)
 
-list(APPEND SOURCES
-        "../whalebot/webspider/src/link.cpp"
-        "../whalebot/webspider/src/prefix.cpp"
-        "../whalebot/webspider/src/link_factory.cpp" )
+list( APPEND SOURCES "../whalebot/webspider/src/prefix.cpp")
 
 add_executable( url_parse ${SOURCES})
 
 target_link_libraries ( url_parse
                         ${Boost_LIBRARIES}
-                        string_parse gurl
-                        pthread icuuc
+                        gurl
+                        pthread
+                        icuuc
                         ${HTMLCXX_LIBRARY}
-                        ${NEON_LIBRARY})
+                        ${NEON_LIBRARY} )

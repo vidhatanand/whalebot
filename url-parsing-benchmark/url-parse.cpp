@@ -21,7 +21,6 @@
 #include "equivalence.h"
 #include "answer_base.h"
 #include "htmlcxx_parser.h"
-#include "whalebot_parser.h"
 #include "gurl_parser.h"
 #include "neon_parser.h"
 
@@ -160,10 +159,6 @@ int main( int argc, char** argv ) {
 
         GURL                        gUrl(gurl::gParseBase(strBaseUrl));
 
-        CLinkFactory                linkFactory;
-        whalebot::CEmptyAcceptor    acceptor;
-        whalebot::gParseBase(linkFactory, acceptor, strBaseUrl);
-
         htmlcxx::Uri                hUrl(htmlcxx::gParseBase(strBaseUrl));
 
         ne_uri                      nUrl(neon::gParseBase(strBaseUrl));
@@ -178,7 +173,6 @@ int main( int argc, char** argv ) {
             //duplicate values for testing purposes
             results[eGoogleParser]  =   gurl::gParseRel(gUrl, *uri);
             results[eHtmlCxxParser] =   htmlcxx::gParseRel(hUrl, *uri);
-            results[eMyParser]      =   whalebot::gParseRel(linkFactory, acceptor, *uri);
             results[eNeonParser]    =   neon::gParseRel(&nUrl, *uri);
 
             THtmlAnswer     correctAnswer;
@@ -307,7 +301,6 @@ int main( int argc, char** argv ) {
 
     marks[static_cast<unsigned int>(eGoogleParser)].m_iTimeConsumed     =   speedTest<gurl::CParser>(tasks);
     marks[static_cast<unsigned int>(eHtmlCxxParser)].m_iTimeConsumed    =   speedTest<htmlcxx::CParser>(tasks);
-    marks[static_cast<unsigned int>(eMyParser)].m_iTimeConsumed         =   speedTest<whalebot::CParser>(tasks);
     marks[static_cast<unsigned int>(eNeonParser)].m_iTimeConsumed       =   speedTest<neon::CParser>(tasks);
 
     showHeader(std::cout, "Results");

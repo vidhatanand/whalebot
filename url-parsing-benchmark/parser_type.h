@@ -3,8 +3,7 @@
 #include <string>
 
 enum eUrlParsers {
-        eMyParser = 0,
-        eGoogleParser,
+        eGoogleParser = 0,
         eNeonParser,
         eHtmlCxxParser,
         eParsersAtAll
