@@ -1,27 +1,74 @@
 #labels Phase-Implementation
-=Build system=
-Move to CMake (release 0.01.00) - *Done*
+==ini- or xml- conf file==
+    * included conf files
+    * GUI front-end (http-)
 
-=Network stack=
-Move to libneon(release 0.02.00)
+==_Test Uri handling using collected collection of uris (may be repeat next time)_==
+    * libwww [http://www.w3.org/Library/src/HTParse.c]
+    * regex [http://www.boost.org/doc/libs/1_42_0/tools/inspect/link_check.cpp]
+        * boost
+        * google regex [http://code.google.com/p/re2/]
+        * standard C regex [http://www.gnu.org/software/coreutils/manual/libc/Regular-Expressions.html]
+    * *Gurl [http://code.google.com/p/google-url/]*
+        * *build [http://code.google.com/p/python-google-url/wiki/HowToBuildGoogleUrlWithLinux]*
+    * uriparser [http://uriparser.sourceforge.net/doc/html/]
+    * cpp-netlib [http://github.com/cpp-netlib/cpp-netlib/tree/master/boost/network/uri/]
+    * custom spirit-based
+    * *libneon*
+    * *htmlcxx*
 
-=Url parsing=
-benchmark -- select right uri-parser(release 0.03.0)
+==File handling==
+    * *Using MIME instead of file extension for file handling*
+    * Two types of file handling - parsing and saving
+    * Using file extension to predict MIME and do not request
 
-=HTTP-Header=
-Referrer filed:
- * real
- * not send
- * main-page
+==Robots.txt==
+    * request robots.txt before any page reqested
+    * obey robots.txt in requests (or not based on options)
 
+==Logging==
+    * choose log library
 
-=Parsing=
-Robots.txt
-More places to cut URLs from HTML
+==Unit-tests==
+    * choose unit-test library
 
+==Storage==
+    * tokyo tyrant (cabinet)
+        * viewers
+    * MySQL
+    * store files by uuid, may retrieve by db
 
-=Storage=
-Tokyo/Kyoto cabinet + uuid for files
-viewer for databases
+==Network==
+    * move to libneon
+        * timeouts
+        * HeaderParser
+        * list of connections
 
-=Grabbing opensubtitles.org=
+==Multi-threaded==
+    * Model
+    * Messages
+
+==Proxy==
+    * typical proxies
+        * Proxy testing
+    * Tor
+
+==HTML==
+    * collect examples
+    * rewrite htmlcxx on stream for libneon
+    * links not only from <a>
+    * Rigth order of link visiting - width-first with upper links earlier
+
+==Link generation==
+
+==Sessions==
+    * Spider state
+    * http front-end
+
+==HTTP Protocol==
+    * Referer field
+    * Cookies
+        * *Fixed*
+        * Many-Lines Cookie
+            * How Firefox gets this
+            * Reproduce Firefox behaviour
