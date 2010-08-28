@@ -225,7 +225,7 @@ int main(int argc, char* argv[]) {
 
         if(options.m_bSavePages){
             if (!files.createPath(next.getServer(), next.getUri(), ext, filepath)) {
-                (*errorlog) << "\t\tcouldnt create dir for" << filepath << std::endl;
+                (*errorlog) << "\t\tcouldnt create dir for " << filepath << std::endl;
                 continue;
             }
 

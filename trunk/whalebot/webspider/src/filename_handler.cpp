@@ -1,3 +1,5 @@
+
+
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/filesystem/convenience.hpp>
 
@@ -16,7 +18,8 @@ bool CFilenameHandler::createPath(std::string server, std::string uri, std::stri
 
     filename    =   m_baseDir;
     filename    +=   server;
-    filename    +=   '/';
+
+
 
     if(!uri.empty()){
 
@@ -58,9 +61,14 @@ bool CFilenameHandler::createPath(std::string server, std::string uri, std::stri
         }
 
  
-        ret =   boost::filesystem::create_directories(filename);
+        ret =   ((boost::filesystem::exists(filename))
+                or
+                (boost::filesystem::create_directories(filename)));
 
-        filename    +=  '/';
+        if (*filename.rbegin() != '/') {
+            filename    +=  '/';
+        }
+        
         filename    +=  name;
 
 
