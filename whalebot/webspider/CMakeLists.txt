@@ -22,8 +22,7 @@ include_directories( "./include"
                      ${Boost_INCLUDE_DIRS}
                      ${ICU_INCLUDE_DIR} )
 
-link_directories ( ${ICU_LIBRARY}
-                   ${Boost_LIBRARY_DIRS}
+link_directories ( ${Boost_LIBRARY_DIRS}
                    "../statsem_string/bin"
                    "../3dparty/google-url" )
 
@@ -37,6 +36,6 @@ target_link_libraries ( whalebot ${Boost_LIBRARIES}
                                  string_parse
                                  pthread
                                  gurl
-                                 icuuc )
+                                 ${ICU_LIBRARY} )
 
 install ( TARGETS whalebot RUNTIME DESTINATION bin CONFIGURATIONS RELEASE )
