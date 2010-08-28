@@ -20,4 +20,6 @@ list (REMOVE_ITEM SOURCES ${TEST_SOURCES})
 
 list ( APPEND SOURCES "./googleurl/base/string16.cc")
 
+list ( APPEND CMAKE_CXX_FLAGS "-Wno-deprecated")
+
 add_library(gurl STATIC ${SOURCES})
