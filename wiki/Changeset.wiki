@@ -1,9 +1,9 @@
 =08.28.2010 v0.02.20=
-* *replace my url parcer by google-url parcer*
-* remove old filesystem_wrapper
-* read options from file added (not heavily used)
-* rebranding from webspider to whalebot
+ * *replace my url parcer by google-url parcer*
+ * remove old filesystem_wrapper
+ * read options from file added (not heavily used)
+ * rebranding from webspider to whalebot
 
 =08.28.2010 v0.01.00=
-* *move from netbeans projects to cmake"
-* project reorganizing (filenames, dirs etc)
+ * *move from netbeans projects to cmake*
+ * project reorganizing (filenames, dirs etc)
