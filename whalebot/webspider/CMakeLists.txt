@@ -19,6 +19,8 @@ link_directories ( ${Boost_LIBRARY_DIRS}
 
 aux_source_directory("./src/" SOURCES)
 
+list ( APPEND CMAKE_CXX_FLAGS "-Wall")
+
 add_executable( whalebot ${SOURCES} )
 target_link_libraries ( whalebot ${Boost_LIBRARIES}
                                  ${HTMLCXX_LIBRARY}
