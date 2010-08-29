@@ -44,7 +44,6 @@ void CLink::setCookie(std::string const &cookie){
         CParserBase   parser(";");
         parser.parseString(m_sCookie);
         m_sCookieForCut  =   parser.unsafe_getElement(0);
-        boost::to_lower(m_sCookieForCut);
     }
 }
 

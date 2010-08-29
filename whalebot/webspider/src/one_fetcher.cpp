@@ -53,9 +53,9 @@ bool COneFetcher::request(CLink const &link)
                                      , kMainMethod
                                      , link.getUri().c_str() );
 
-    ne_add_request_header(m_pRequest, kCookieField, link.getCookieForCut().c_str());
-
-
+    if (not link.getCookieForCut().empty()) {
+        ne_add_request_header(m_pRequest, kCookieField, link.getCookieForCut().c_str());
+    }
     //wait 1 second
 
     int requestResult(ne_begin_request(m_pRequest));
@@ -67,20 +67,22 @@ unsigned int COneFetcher::getHeader(CHeaderParser &header, std::ostream &out)
 {
     header.setRequest(m_pRequest);
     return ne_get_status(m_pRequest)->code;
- }
+}
 
 bool COneFetcher::getResponse(std::ostream &out)
 {
 
-    static char kReadBuffer[kDefaultReadBufferSizeInBytes];// exactly 4kb
+    static char kReadBuffer[kDefaultReadBufferSizeInBytes];
 
     ssize_t  readSize;
 
     while ((readSize = ne_read_response_block(m_pRequest, kReadBuffer, kDefaultReadBufferSizeInBytes)) > 0) {
         out.write(kReadBuffer, readSize);
-
     }
-    ne_end_request(m_pRequest);
+
+    if (readSize == 0) {
+        ne_end_request(m_pRequest);
+    }
 
     ne_request_destroy(m_pRequest);
     m_pRequest  =   0;
@@ -90,11 +92,12 @@ bool COneFetcher::getResponse(std::ostream &out)
 
 COneFetcher::~COneFetcher()
 {
-    if (0 != m_pConnection) {
-        ne_session_destroy(m_pConnection);
-    }
-
     if (0 != m_pRequest) {
         ne_request_destroy(m_pRequest);
+        m_pRequest  =   0;
+    }
+
+    if (0 != m_pConnection) {
+        ne_session_destroy(m_pConnection);
     }
 }
