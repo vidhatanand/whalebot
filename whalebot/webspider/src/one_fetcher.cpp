@@ -1,105 +1,100 @@
 
+#include <neon/ne_redirect.h>
+
+
 #include <header_parser.h>
 #include <one_fetcher.h>
 #include <whale_link.h>
 #include <version.h>
+#include <http_const.h>
 
 
 COneFetcher::COneFetcher()
-:m_ioService(),m_socket(m_ioService){}
-bool COneFetcher::connect(CLink const &link){
-    //add HTTP_0.9
+: m_pConnection(0)
+, m_sLastConnectedHost("")
+, m_pRequest(0)
+{}
 
-    bool	ret(false);
-    try{
-        boost::asio::ip::tcp::resolver              resolver(m_ioService);
-        boost::asio::ip::tcp::resolver::query       query(link.getServer(), "http");
-        boost::asio::ip::tcp::resolver::iterator    endpoint_iterator = resolver.resolve(query);
-        boost::asio::ip::tcp::resolver::iterator    end;
-        boost::system::error_code                   error   =   boost::asio::error::host_not_found;
+bool COneFetcher::connect(CLink const &link)
+{
+    static std::string  userAgent(kProductName + " / " + kVersion);
 
-        while (error && endpoint_iterator != end){
-            m_socket.close();
-            m_socket.connect(*endpoint_iterator++, error);
-        }
-	
-        if(!error){
-            ret =   true;
-        }
+    const std::string& targetServer(link.getServer());
 
-    }catch(...){
-        ret =   false;
+    if ((0 != m_pConnection) and (targetServer != m_sLastConnectedHost)) {
+        //we need to disconnect from wrong host
+        ne_session_destroy(m_pConnection);
+        m_pConnection           =   0;
+        m_sLastConnectedHost.clear();
     }
-    return ret;
+
+    if (0 == m_pConnection) {
+        //we need to connect to rigth host
+
+        m_pConnection   =   ne_session_create( kMainProtocol
+                                             , targetServer.c_str()
+                                             , kDefaultPort );
+
+        ne_redirect_register(m_pConnection);//register for custom redirect handling
+        ne_set_connect_timeout(m_pConnection, kDefaultConnectionTimeoutInSec);
+        ne_set_useragent(m_pConnection, userAgent.c_str());
+        ne_set_read_timeout(m_pConnection, kDefaultReadTimeoutInSec);
+
+        m_sLastConnectedHost    =   targetServer;
+    }
+
+    return (0 != m_pConnection);
 }
-bool COneFetcher::request(CLink const &link){
-    bool	ret(true);
-    try{
 
-        boost::asio::streambuf request;
-        std::ostream request_stream(&request);
-        request_stream << "GET " <<link.getUri() << " HTTP/1.0\r\n";
-        request_stream << "Host: " << link.getServer() << "\r\n";
-        request_stream << "Accept: */*\r\n";
-        request_stream << "User-Agent: whalebot " << kVersion << "(http://code.google.com/p/whalebot/wiki/ForAdministrators) \r\n";
-        std::string const &cookie(link.getCookieForCut());
-        if(!cookie.empty())
-            request_stream << "Cookie: "<<cookie<<"\r\n";
-        request_stream << "Connection: close\r\n\r\n";
 
-        boost::asio::write(m_socket, request);
-    }catch(...){
-        ret =   false;
-    }
-    return ret;
+bool COneFetcher::request(CLink const &link)
+{
+    m_pRequest  =   ne_request_create( m_pConnection
+                                     , kMainMethod
+                                     , link.getUri().c_str() );
+
+    ne_add_request_header(m_pRequest, kCookieField, link.getCookieForCut().c_str());
+
+
+    //wait 1 second
+
+    int requestResult(ne_begin_request(m_pRequest));
+
+    return ((NE_OK == requestResult) or (NE_REDIRECT == requestResult));
 }
-unsigned int COneFetcher::getHeader(CHeaderParser &header, std::ostream &out){
-    unsigned int	status_code;
-    try{
 
-        boost::asio::streambuf	response;
-        boost::asio::read_until(m_socket, response, "\r\n");
+unsigned int COneFetcher::getHeader(CHeaderParser &header, std::ostream &out)
+{
+    header.setRequest(m_pRequest);
+    return ne_get_status(m_pRequest)->code;
+ }
 
-        std::istream	response_stream(&response);
-        std::string     http_version,
-                        status_message;
+bool COneFetcher::getResponse(std::ostream &out)
+{
 
-        response_stream >> http_version;
-        response_stream >> status_code;
-        std::getline(response_stream, status_message);
-        if (!response_stream || http_version.substr(0, 5) != "HTTP/"){
+    static char kReadBuffer[kDefaultReadBufferSizeInBytes];// exactly 4kb
 
-          return external_error;
-        }
+    ssize_t  readSize;
 
-        // Read the response headers, which are terminated by a blank line.
-        boost::asio::read_until(m_socket, response, "\r\n\r\n");
-        header.clear();
+    while ((readSize = ne_read_response_block(m_pRequest, kReadBuffer, kDefaultReadBufferSizeInBytes)) > 0) {
+        out.write(kReadBuffer, readSize);
 
-        // Process the response headers.
-        std::string header1;
-        while (std::getline(response_stream, header1) && header1 != "\r"){
-            header.addString(header1);
-        }
-
-        // Write whatever content we already have to output.
-        while (response.size() > 0){
-            out << &response ;
-         }	  
-
-    }catch(...){
-        status_code =   external_error + 1;
     }
-    return status_code;
-  }
+    ne_end_request(m_pRequest);
 
-bool COneFetcher::getResponse(std::ostream &out) {
-    boost::asio::streambuf response;
+    ne_request_destroy(m_pRequest);
+    m_pRequest  =   0;
 
-    boost::system::error_code error;
-    // Read until EOF, writing data to output as we go.
-    while (boost::asio::read(m_socket, response, boost::asio::transfer_at_least(1), error)) {
-        out << &response;
+    return (0 == readSize);
+}
+
+COneFetcher::~COneFetcher()
+{
+    if (0 != m_pConnection) {
+        ne_session_destroy(m_pConnection);
     }
-    return error == boost::asio::error::eof;
+
+    if (0 != m_pRequest) {
+        ne_request_destroy(m_pRequest);
+    }
 }

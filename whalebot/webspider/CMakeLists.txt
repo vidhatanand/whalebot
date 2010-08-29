@@ -11,6 +11,16 @@ find_path( ICU_INCLUDE_DIR
 find_library( ICU_LIBRARY
               NAMES icuuc )
 
+#neon
+
+find_path( NEON_INCLUDE_DIR
+           NAMES "neon/ne_session.h" )
+
+
+find_library( NEON_LIBRARY
+              NAMES "neon" )
+
+
 #htmlcxx
 find_library ( HTMLCXX_LIBRARY  "htmlcxx" )
 
@@ -20,10 +30,10 @@ include_directories( "./include"
                      "../3dparty/google-url/googleurl"
                      "../3dparty/google-url/googleurl/src"
                      ${Boost_INCLUDE_DIRS}
-                     ${ICU_INCLUDE_DIR} )
+                     ${ICU_INCLUDE_DIR}
+                     ${NEON_INCLUDE_DIR} )
 
-link_directories ( ${ICU_LIBRARY}
-                   ${Boost_LIBRARY_DIRS}
+link_directories ( ${Boost_LIBRARY_DIRS}
                    "../statsem_string/bin"
                    "../3dparty/google-url" )
 
@@ -37,6 +47,7 @@ target_link_libraries ( whalebot ${Boost_LIBRARIES}
                                  string_parse
                                  pthread
                                  gurl
-                                 icuuc )
+                                 ${ICU_LIBRARY}
+                                 ${NEON_LIBRARY} )
 
 install ( TARGETS whalebot RUNTIME DESTINATION bin CONFIGURATIONS RELEASE )
