@@ -103,7 +103,7 @@ int main(int argc, char* argv[]) {
     CLink   next;
     bool    connected(false);
     int     link_counter(0),            
-            http_errors(0);
+            httpErrors(0);
 
 
     if (!options.m_bAskAfterFetch) {
@@ -127,17 +127,18 @@ int main(int argc, char* argv[]) {
         (*errorLog) << now
                     << " we have " << work_front.size() + 1
                     << " links, looks at " << link_counter - 1
-                    << " links, found "<< std::endl;
+                    << " links" << std::endl;
 
         double  time_consumption(boost::posix_time::time_period(start, now).length().total_microseconds());
         time_consumption    /=  1000000;
-        (*errorLog) << "speed " << (link_counter - 1) / time_consumption << " links/sec" <<std::endl;
-        (*errorLog) << "we have "<< http_errors << " errors" <<std::endl;
+        (*errorLog) << "speed " << (link_counter - 1) / time_consumption
+                    << " links/sec" << std::endl
+                    << "we have "<< httpErrors << " errors" <<std::endl;
 
         if(options.m_bAskAfterFetch){
             char    c;
-            std::cout<<"continue?(y/n)"<<std::endl;
-            std::cin>>c;
+            std::cout << "continue? (y/n)" << std::endl;
+            std::cin >> c;
             if(c == 'n'){
                 isTimeToStop    =   true;
                 continue;
@@ -149,6 +150,7 @@ int main(int argc, char* argv[]) {
 
         if (!connected) {
             (*errorLog) << "\tfailed connect to " << next.getServer() << std::endl;
+            ++httpErrors;
             continue;
         }
 
@@ -157,6 +159,7 @@ int main(int argc, char* argv[]) {
         (*errorLog) << "\t*Request " << next.getUri() << std::endl;
         if (!fetcher.request(next)) {
             (*errorLog) << "\t\tfailed" << std::endl;
+            ++httpErrors;
             continue;
         }
 
@@ -173,7 +176,7 @@ int main(int argc, char* argv[]) {
                 (*errorLog) <<"\t\t\t"<< i.headerKey() << " = " << i.headerValue() << std::endl;
             }
             (*errorLog) << "\t\t\t**************************************" << std::endl;
-            ++http_errors;
+            ++httpErrors;
             continue;
         }
         
@@ -195,15 +198,16 @@ int main(int argc, char* argv[]) {
 
         factory->setFrom(next);
 
-        if((!CLinkExtractor<int>::isParse(ext))&&(!options.m_bSavePages))
+        if((!CLinkExtractor<int>::isParse(ext))&&(!options.m_bSavePages)) {
             continue;
+        }
 
         (*errorLog) << "\t*Get response" << std::endl;
 
-        bool res(fetcher.getResponse(tmp));
 
-        if (!res) {
+        if (not fetcher.getResponse(tmp)) {
             (*errorLog) << "\t\tfailed" << std::endl;
+            ++httpErrors;
             continue;
         }
         tmp.close();
