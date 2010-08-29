@@ -55,7 +55,7 @@ int main(int argc, char* argv[]) {
         }
     }
     
-    errorlog->imbue(std::locale(std::cout.getloc(), &facet));
+    //errorlog->imbue(std::locale(std::cout.getloc(), &facet));
 
     CFilenameHandler    files(options.m_sOutput);
     COneFetcher         fetcher;
@@ -135,8 +135,8 @@ int main(int argc, char* argv[]) {
 
         double  time_consumption(boost::posix_time::time_period(start, now).length().total_microseconds());
         time_consumption    /=  1000000;
-        (*errorlog) << "speed " <<(link_counter - 1)/time_consumption<<" links/sec"<<std::endl;
-        (*errorlog) << "we have "<<http_errors<<" errors" <<std::endl;
+        (*errorlog) << "speed " << (link_counter - 1) / time_consumption << " links/sec" <<std::endl;
+        (*errorlog) << "we have "<< http_errors << " errors" <<std::endl;
 
         if(options.m_bAskAfterFetch){
             char    c;
