@@ -7,6 +7,6 @@
 
 #pragma once
 
-const std::string   kVersion        =   "0.02.25";
+const std::string   kVersion        =   "0.02.50";
 const std::string   kProductName    =   "Whalebot";
 
