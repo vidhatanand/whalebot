@@ -1,7 +1,44 @@
 #labels Phase-Implementation
-==ini- or xml- conf file==
+
+=Base needs=
+ #==Network==
+    * *move to libneon*
+        * _timeouts_
+        * *HeaderParser*
+        * list of connections
+        * drop needless requests
+
+ #==ini- or xml- conf file==
     * included conf files
     * GUI front-end (http-)
+    * Params from cmd-line and file (cmd-line has priority)
+
+ #==HTTP Protocol==
+    * Referer field
+    * Cookies
+        * *Fixed*
+        * Many-Lines Cookie
+            * How Firefox gets this
+            * Reproduce Firefox behaviour
+    * Standard HTTP request headers
+
+ #==Proxy==
+    * typical proxies
+        * Proxy testing
+    * Tor
+
+ #==File handling==
+    * File extension is equal second part of MIME, this is wrong
+    * *Using MIME instead of file extension for file handling*
+    * Dispatch file handling based on regexp or file-extension
+        * At this moment two types of file handling - parsing and saving
+    * Using file extension to predict MIME and do not request
+
+ #==Robots.txt==
+    * request robots.txt before any page reqested
+    * obey robots.txt in requests (or not based on options)
+
+=Improvements=
 
 ==_Test Uri handling using collected collection of uris (may be repeat next time)_==
     * libwww [http://www.w3.org/Library/src/HTParse.c]
@@ -17,15 +54,6 @@
     * *libneon*
     * *htmlcxx*
 
-==File handling==
-    * *Using MIME instead of file extension for file handling*
-    * Two types of file handling - parsing and saving
-    * Using file extension to predict MIME and do not request
-
-==Robots.txt==
-    * request robots.txt before any page reqested
-    * obey robots.txt in requests (or not based on options)
-
 ==Logging==
     * choose log library
 
@@ -38,25 +66,14 @@
     * MySQL
     * store files by uuid, may retrieve by db
 
-==Network==
-    * move to libneon
-        * timeouts
-        * HeaderParser
-        * list of connections
-
 ==Multi-threaded==
     * Model
     * Messages
 
-==Proxy==
-    * typical proxies
-        * Proxy testing
-    * Tor
-
 ==HTML==
     * collect examples
     * rewrite htmlcxx on stream for libneon
-    * links not only from <a>
+    * *links not only from <a>*
     * Rigth order of link visiting - width-first with upper links earlier
 
 ==Link generation==
@@ -64,11 +81,3 @@
 ==Sessions==
     * Spider state
     * http front-end
-
-==HTTP Protocol==
-    * Referer field
-    * Cookies
-        * *Fixed*
-        * Many-Lines Cookie
-            * How Firefox gets this
-            * Reproduce Firefox behaviour
