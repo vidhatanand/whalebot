@@ -10,7 +10,10 @@
 
 #include <iostream>
 #include <string>
-#include <boost/asio.hpp>
+
+#include <neon/ne_session.h>
+#include <neon/ne_request.h>
+
 
 
 const unsigned int external_error(600);
@@ -20,14 +23,16 @@ class CHeaderParser;
 
 class COneFetcher{
 public:
-			COneFetcher();
+                    COneFetcher();
     bool    		connect(CLink const &link);
     bool    		request(CLink const &link);
     unsigned int	getHeader(CHeaderParser &header, std::ostream &out);
-    bool		getResponse(std::ostream &out);
+    bool		    getResponse(std::ostream &out);
+                    ~COneFetcher();
 private:
-    boost::asio::io_service         m_ioService;
-    boost::asio::ip::tcp::socket    m_socket;
+    ne_session* m_pConnection;
+    std::string m_sLastConnectedHost;
+    ne_request* m_pRequest;
 };
 
 

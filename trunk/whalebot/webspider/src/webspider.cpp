@@ -8,7 +8,7 @@
 #include <boost/date_time/time_facet.hpp>
 
 
-//#include <neon/ne_session.h>
+#include <neon/ne_session.h>
 
 #include <one_fetcher.h>
 #include <link_buffer.h>
@@ -31,7 +31,7 @@ void async_read(bool &stop){
 
 int main(int argc, char* argv[]) {
     
- //   ne_sock_init();
+    ne_sock_init();
  
     boost::posix_time::time_facet facet("%T");
 
@@ -133,9 +133,6 @@ int main(int argc, char* argv[]) {
                     << " links, looks at " << link_counter - 1
                     << " links, found "<< std::endl;
 
-
-
-
         double  time_consumption(boost::posix_time::time_period(start, now).length().total_microseconds());
         time_consumption    /=  1000000;
         (*errorlog) << "speed " <<(link_counter - 1)/time_consumption<<" links/sec"<<std::endl;
@@ -150,9 +147,6 @@ int main(int argc, char* argv[]) {
                 continue;
             }
         }
-        
-        
-        
 
         (*errorlog) << "*Connect to " << next.getServer() << std::endl;
         connected = fetcher.connect(next);
@@ -179,13 +173,14 @@ int main(int argc, char* argv[]) {
             (*errorlog) << "\t\t\tfailed error = " << status << std::endl;
             (*errorlog) << "\t\t\tfrom server " << next.getServer() << std::endl;
             (*errorlog) << "\t\t\t**************************************" << std::endl;
-            for (header_map::const_iterator i = header.begin(); i != header.end(); ++i) {
-                (*errorlog) <<"\t\t\t"<< i->first << " = " << i->second << std::endl;
+            for (CHeaderParser::CIterator i = header.begin(); i != header.end(); ++i) {
+                (*errorlog) <<"\t\t\t"<< i.headerKey() << " = " << i.headerValue() << std::endl;
             }
             (*errorlog) << "\t\t\t**************************************" << std::endl;
             ++http_errors;
             continue;
         }
+        
         if ((status == 301) || (status == 302) || (status == 303)) {
             std::string loc;
             if (header.getField("Location", loc)) {
@@ -194,8 +189,6 @@ int main(int argc, char* argv[]) {
             }
             continue;
         }
-
-
 
         std::string cookies(""),
                     ext("html");
@@ -286,7 +279,7 @@ int main(int argc, char* argv[]) {
 
     delete factory;   
     
-//    ne_sock_exit();
+    ne_sock_exit();
 
     return 0;
 }
