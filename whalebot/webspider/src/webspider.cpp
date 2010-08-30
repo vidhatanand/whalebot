@@ -7,7 +7,6 @@
 #include <boost/date_time/posix_time/posix_time_io.hpp>
 #include <boost/date_time/time_facet.hpp>
 
-
 #include <neon/ne_session.h>
 
 #include <one_fetcher.h>
@@ -22,15 +21,15 @@
 #include <collector_link.h>
 #include <webspider_options.h>
 
-void async_read(bool &stop){
+void async_read(bool &stop)
+{
     getchar();
     stop   =   true;
 }
 
-int main(int argc, char* argv[]) {
-    
+int main(int argc, char* argv[])
+{
     ne_sock_init();
-
 
     CWebSpiderOptions   options;    
 
@@ -38,7 +37,7 @@ int main(int argc, char* argv[]) {
         return 0;
     }
     
-    bool                isTimeToStop(false);
+    bool            isTimeToStop(false);
 
 
     std::ostream    *errorLog(&std::cout);
@@ -65,37 +64,37 @@ int main(int argc, char* argv[]) {
     }
 
     CFilterList     filters;
-    CLinkBuffer     work_front;
+    CLinkBuffer     workFront;
     factory->setAcceptor(filters);
-    filters.setAcceptor(work_front);
+    filters.setAcceptor(workFront);
 
-    if(options.m_bOneServer){
+    if(options.m_bOneServer) {
         filters.addFilter(new COneServerFilter());
     }
 
-    if(!options.m_sLinkFilterFile.empty()){
-        std::ifstream   link_file(options.m_sLinkFilterFile.c_str());
-        filters.addFilter(new CIncludeFilter(link_file));
+    if (!options.m_sLinkFilterFile.empty()) {
+        std::ifstream   linkFile(options.m_sLinkFilterFile.c_str());
+        filters.addFilter(new CIncludeFilter(linkFile));
     }
 
-    if(options.m_iLevel > 0){
+    if (options.m_iLevel > 0) {
         filters.addFilter(new CLevelFilter(options.m_iLevel));
     }
     
     
-    std::ifstream   usedlinks_file(options.m_sUsedLinksPath.c_str()),
-                    futurelinks_file(options.m_sFutureLinksPath.c_str());
+    std::ifstream   usedlinksFile(options.m_sUsedLinksPath.c_str()),
+                    futurelinksFile(options.m_sFutureLinksPath.c_str());
 
-    if(futurelinks_file.is_open()){
-        work_front.readFutureLinks(futurelinks_file);
-        futurelinks_file.close();
-        futurelinks_file.clear();
+    if (futurelinksFile.is_open()) {
+        workFront.readFutureLinks(futurelinksFile);
+        futurelinksFile.close();
+        futurelinksFile.clear();
     }
 
-    if(usedlinks_file.is_open()){
-        work_front.readUsedLinks(usedlinks_file);
-        usedlinks_file.close();
-        usedlinks_file.clear();
+    if (usedlinksFile.is_open()) {
+        workFront.readUsedLinks(usedlinksFile);
+        usedlinksFile.close();
+        usedlinksFile.clear();
     }
     
     factory->pushLink(options.m_sSite);
@@ -113,7 +112,7 @@ int main(int argc, char* argv[]) {
 
     boost::posix_time::ptime    start   =   boost::posix_time::microsec_clock::local_time();
 
-    while ((work_front.pop(next))&&(!isTimeToStop)) {
+    while ((workFront.pop(next))&&(!isTimeToStop)) {
         
 
         if(!next.isValid())
@@ -125,7 +124,7 @@ int main(int argc, char* argv[]) {
         
 
         (*errorLog) << now
-                    << " we have " << work_front.size() + 1
+                    << " we have " << workFront.size() + 1
                     << " links, looks at " << link_counter - 1
                     << " links" << std::endl;
 
@@ -169,13 +168,16 @@ int main(int argc, char* argv[]) {
         (*errorLog) << "\t\tget header " << std::endl;
         unsigned int status(fetcher.getHeader(header, tmp));
         if ((status != 200) && (status != 301) && (status != 302) && (status != 303)) {
+
             (*errorLog) << "\t\t\tfailed error = " << status << std::endl;
             (*errorLog) << "\t\t\tfrom server " << next.getServer() << std::endl;
+
             (*errorLog) << "\t\t\t**************************************" << std::endl;
             for (CHeaderParser::CIterator i = header.begin(); i != header.end(); ++i) {
                 (*errorLog) <<"\t\t\t"<< i.headerKey() << " = " << i.headerValue() << std::endl;
             }
             (*errorLog) << "\t\t\t**************************************" << std::endl;
+            
             ++httpErrors;
             continue;
         }
@@ -198,7 +200,7 @@ int main(int argc, char* argv[]) {
 
         factory->setFrom(next);
 
-        if((!CLinkExtractor<int>::isParse(ext))&&(!options.m_bSavePages)) {
+        if ((!CLinkExtractor<int>::isParse(ext))&&(!options.m_bSavePages)) {
             continue;
         }
 
@@ -238,7 +240,7 @@ int main(int argc, char* argv[]) {
             filepath    =   options.m_sTmpFilePath;
         }        
 
-        if (!CLinkExtractor<int>::isParse(ext)) {
+        if (not CLinkExtractor<int>::isParse(ext)) {
             continue;
         }
 	
@@ -249,21 +251,21 @@ int main(int argc, char* argv[]) {
         extractor.extract(f);
     }
 
-    if(options.m_bSaveHistory){
+    if (options.m_bSaveHistory) {
 
-        if (not work_front.IsFutureEmpty()) {
-            std::ofstream   futurelinks_endfile(options.m_sFutureLinksPath.c_str());
+        if (not workFront.IsFutureEmpty()) {
+            std::ofstream   futurelinksEndFile(options.m_sFutureLinksPath.c_str());
             (*errorLog) << "saving future links to " << options.m_sFutureLinksPath << std::endl;
-            work_front.writeFutureLinks(futurelinks_endfile);
-            futurelinks_endfile.close();
+            workFront.writeFutureLinks(futurelinksEndFile);
+            futurelinksEndFile.close();
         }
 
 
-        if (not work_front.IsUsedEmpty()) {
-            std::ofstream   usedlinks_endfile(options.m_sUsedLinksPath.c_str());
+        if (not workFront.IsUsedEmpty()) {
+            std::ofstream   usedlinksEndFile(options.m_sUsedLinksPath.c_str());
             (*errorLog) << "saving used links to " << options.m_sUsedLinksPath << std::endl;
-            work_front.writeUsedLinks(usedlinks_endfile);
-            usedlinks_endfile.close();
+            workFront.writeUsedLinks(usedlinksEndFile);
+            usedlinksEndFile.close();
         }
         
     }
@@ -273,7 +275,7 @@ int main(int argc, char* argv[]) {
         boost::filesystem::remove(options.m_sTmpFilePath);
     }
 
-    if(isNeedDelete) {
+    if (isNeedDelete) {
         delete errorLog;
     }
 

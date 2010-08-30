@@ -10,3 +10,5 @@ const int  kDefaultReadTimeoutInSec         =   5;
 
 
 const int  kDefaultReadBufferSizeInBytes    =   4096;
+
+const int  kDefaultWaitInMcrSec             =   1000000;

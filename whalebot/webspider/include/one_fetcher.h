@@ -14,6 +14,8 @@
 #include <neon/ne_session.h>
 #include <neon/ne_request.h>
 
+#include <boost/date_time/posix_time/posix_time_types.hpp>
+
 
 
 const unsigned int external_error(600);
@@ -23,6 +25,10 @@ class CHeaderParser;
 
 class COneFetcher{
 public:
+
+    typedef boost::posix_time::ptime    TMoment;
+    static const TMoment                kNeverBefore;
+
                     COneFetcher();
     bool    		connect(CLink const &link);
     bool    		request(CLink const &link);
@@ -33,6 +39,7 @@ private:
     ne_session* m_pConnection;
     std::string m_sLastConnectedHost;
     ne_request* m_pRequest;
+    TMoment     m_tTimeOfLastRequest;
 };
 
 
