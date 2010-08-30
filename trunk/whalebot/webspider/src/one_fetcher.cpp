@@ -1,6 +1,9 @@
 
 #include <neon/ne_redirect.h>
 
+#include <boost/thread.hpp>
+
+
 
 #include <header_parser.h>
 #include <one_fetcher.h>
@@ -8,11 +11,16 @@
 #include <version.h>
 #include <http_const.h>
 
+using namespace boost::posix_time;
+
+const COneFetcher::TMoment COneFetcher::kNeverBefore   =   boost::posix_time::neg_infin;
+
 
 COneFetcher::COneFetcher()
 : m_pConnection(0)
 , m_sLastConnectedHost("")
 , m_pRequest(0)
+, m_tTimeOfLastRequest(kNeverBefore)
 {}
 
 bool COneFetcher::connect(CLink const &link)
@@ -41,6 +49,7 @@ bool COneFetcher::connect(CLink const &link)
         ne_set_read_timeout(m_pConnection, kDefaultReadTimeoutInSec);
 
         m_sLastConnectedHost    =   targetServer;
+        m_tTimeOfLastRequest    =   kNeverBefore;
     }
 
     return (0 != m_pConnection);
@@ -56,7 +65,19 @@ bool COneFetcher::request(CLink const &link)
     if (not link.getCookieForCut().empty()) {
         ne_add_request_header(m_pRequest, kCookieField, link.getCookieForCut().c_str());
     }
+
     //wait 1 second
+    if (m_tTimeOfLastRequest != kNeverBefore) {
+        TMoment         now(microsec_clock::universal_time());
+        unsigned int    timePassedInMcrS(time_period( m_tTimeOfLastRequest, now).length().total_microseconds());
+        if (timePassedInMcrS < kDefaultWaitInMcrSec) {
+            boost::this_thread::sleep(microseconds(kDefaultWaitInMcrSec - timePassedInMcrS));
+        }
+    }
+
+    m_tTimeOfLastRequest    =   microsec_clock::universal_time();
+
+
 
     int requestResult(ne_begin_request(m_pRequest));
 
