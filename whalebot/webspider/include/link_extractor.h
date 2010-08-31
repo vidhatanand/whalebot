@@ -10,6 +10,7 @@
 
 #include <prefix.h>
 #include <link.h>
+#include <http_const.h>
 
 struct TLinksPlace {
     const char* m_pTag;
@@ -26,13 +27,14 @@ public:
     CLinkExtractor(T &out)
     :m_out(out) {}
 
-    void extract(std::istream &in) {
-        std::string                     buff("");
-        std::istreambuf_iterator<char>  walker(in),
-                                        stop;
-        while (walker != stop) {
-            buff += *walker;
-            ++walker;
+    void extract(std::istream& in) {
+
+        static char     tmpBuffer[kDefaultReadBufferSizeInBytes];
+        std::string     buff("");
+        unsigned int    readSize(0);
+
+        while ((readSize = in.readsome(tmpBuffer, kDefaultReadBufferSizeInBytes)) > 0) {
+            buff.append(tmpBuffer, readSize);
         }
 
         parse(buff);
