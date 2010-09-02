@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 const std::string kSavePagesAttr                    =    "dont-save";
 const std::string kOneServerAttr                    =    "one-server";
 const std::string kLinkFilterFileAttr               =    "link-filter";

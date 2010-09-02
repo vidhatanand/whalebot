@@ -66,7 +66,7 @@ bool COneFetcher::request(CLink const &link)
         ne_add_request_header(m_pRequest, kCookieField, link.getCookieForCut().c_str());
     }
 
-    //wait 1 second
+    //limit fetch speed for one site
     if (m_tTimeOfLastRequest != kNeverBefore) {
         TMoment         now(microsec_clock::universal_time());
         unsigned int    timePassedInMcrS(time_period( m_tTimeOfLastRequest, now).length().total_microseconds());
