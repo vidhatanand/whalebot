@@ -72,7 +72,7 @@ int main(int argc, char* argv[])
         filters.addFilter(new COneServerFilter());
     }
 
-    if (!options.m_sLinkFilterFile.empty()) {
+    if (not options.m_sLinkFilterFile.empty()) {
         std::ifstream   linkFile(options.m_sLinkFilterFile.c_str());
         filters.addFilter(new CIncludeFilter(linkFile));
     }
@@ -134,7 +134,7 @@ int main(int argc, char* argv[])
                     << " links/sec" << std::endl
                     << "we have "<< httpErrors << " errors" <<std::endl;
 
-        if(options.m_bAskAfterFetch){
+        if (options.m_bAskAfterFetch) {
             char    c;
             std::cout << "continue? (y/n)" << std::endl;
             std::cin >> c;
@@ -219,23 +219,28 @@ int main(int argc, char* argv[])
 
 
         if(options.m_bSavePages){
+
             if (!files.createPath(next.getServer(), next.getUri(), ext, filepath)) {
                 (*errorLog) << "\t\tcouldnt create dir for " << filepath << std::endl;
                 continue;
             }
 
             (*errorLog) << "\t\twrite to " << filepath << std::endl;
-            try {
-                
-                if (boost::filesystem::exists(filepath)) {
-                    boost::filesystem::remove(filepath);
-                }
 
-                boost::filesystem::copy_file(options.m_sTmpFilePath, filepath);
-            } catch (...) {
-                (*errorLog) << "\t\t\tcoudnt copy " << options.m_sTmpFilePath << " to " << filepath << std::endl;
+
+            try {
+
+                boost::filesystem::copy_file( boost::filesystem::path(options.m_sTmpFilePath)
+                                            , boost::filesystem::path(filepath)
+                                            , boost::filesystem::copy_option::overwrite_if_exists );
+
+            } catch (boost::filesystem::basic_filesystem_error<boost::filesystem::path> /*e*/) {
+                (*errorLog) << "\t\t\tcoudnt copy " << options.m_sTmpFilePath
+                            << " to " << filepath << std::endl;
                 continue;
             }
+
+
         }else{
             filepath    =   options.m_sTmpFilePath;
         }        
