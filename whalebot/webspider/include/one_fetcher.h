@@ -30,10 +30,10 @@ public:
     static const TMoment                kNeverBefore;
 
                     COneFetcher();
-    bool    		connect(CLink const &link);
-    bool    		request(CLink const &link);
-    unsigned int	getHeader(CHeaderParser &header, std::ostream &out);
-    bool		    getResponse(std::ostream &out);
+    bool    		connect( CLink const &link );
+    bool    		request( CLink const &link );
+    unsigned int	getHeader( CHeaderParser &header, std::ostream &out );
+    bool		    getResponse( std::ostream &out, unsigned int* bytesFetched = 0);
                     ~COneFetcher();
 private:
     ne_session* m_pConnection;

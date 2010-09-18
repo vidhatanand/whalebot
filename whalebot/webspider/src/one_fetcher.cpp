@@ -23,7 +23,7 @@ COneFetcher::COneFetcher()
 , m_tTimeOfLastRequest(kNeverBefore)
 {}
 
-bool COneFetcher::connect(CLink const &link)
+bool COneFetcher::connect( CLink const &link )
 {
     static std::string  userAgent(kProductName + " / " + kVersion);
 
@@ -56,7 +56,7 @@ bool COneFetcher::connect(CLink const &link)
 }
 
 
-bool COneFetcher::request(CLink const &link)
+bool COneFetcher::request( CLink const &link )
 {
     m_pRequest  =   ne_request_create( m_pConnection
                                      , kMainMethod
@@ -77,28 +77,28 @@ bool COneFetcher::request(CLink const &link)
 
     m_tTimeOfLastRequest    =   microsec_clock::universal_time();
 
-
-
     int requestResult(ne_begin_request(m_pRequest));
 
     return ((NE_OK == requestResult) or (NE_REDIRECT == requestResult));
 }
 
-unsigned int COneFetcher::getHeader(CHeaderParser &header, std::ostream &out)
+unsigned int COneFetcher::getHeader( CHeaderParser &header, std::ostream &out )
 {
     header.setRequest(m_pRequest);
     return ne_get_status(m_pRequest)->code;
 }
 
-bool COneFetcher::getResponse(std::ostream &out)
+bool COneFetcher::getResponse( std::ostream &out, unsigned int* bytesFetched )
 {
 
-    static char kReadBuffer[kDefaultReadBufferSizeInBytes];
+    static char     kReadBuffer[kDefaultReadBufferSizeInBytes];
+    unsigned int    bytesFetchedInternal(0);
 
     ssize_t  readSize;
 
     while ((readSize = ne_read_response_block(m_pRequest, kReadBuffer, kDefaultReadBufferSizeInBytes)) > 0) {
         out.write(kReadBuffer, readSize);
+        bytesFetchedInternal    +=  readSize;
     }
 
     if (readSize == 0) {
@@ -107,6 +107,10 @@ bool COneFetcher::getResponse(std::ostream &out)
 
     ne_request_destroy(m_pRequest);
     m_pRequest  =   0;
+
+    if (0 != bytesFetched) {
+        *bytesFetched   =   bytesFetchedInternal;
+    }
 
     return (0 == readSize);
 }
