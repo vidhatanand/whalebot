@@ -101,13 +101,14 @@ int main(int argc, char* argv[])
 
     CLink   next;
     bool    connected(false);
-    int     link_counter(0),            
-            httpErrors(0);
+    int     linkCounter(0);
+    int     httpErrors(0);
+    float   bytesFetchedAtAll(0.0);
 
 
-    if (!options.m_bAskAfterFetch) {
+    if (not options.m_bAskAfterFetch) {
         boost::thread   t(boost::bind(async_read, boost::ref(isTimeToStop)));
-        std::cout<<"*Start working press [ENTER] to stop"<<std::endl;
+        std::cout << "*Start working press [ENTER] to stop" << std::endl;
     }
 
     boost::posix_time::ptime    start   =   boost::posix_time::microsec_clock::local_time();
@@ -118,20 +119,21 @@ int main(int argc, char* argv[])
         if(!next.isValid())
             continue;
 
-        ++link_counter;
+        ++linkCounter;
 
         boost::posix_time::ptime   now   =   boost::posix_time::microsec_clock::local_time();        
         
 
         (*errorLog) << now
                     << " we have " << workFront.size() + 1
-                    << " links, looks at " << link_counter - 1
+                    << " links, looks at " << linkCounter - 1
                     << " links" << std::endl;
 
         double  time_consumption(boost::posix_time::time_period(start, now).length().total_microseconds());
         time_consumption    /=  1000000;
-        (*errorLog) << "speed " << (link_counter - 1) / time_consumption
-                    << " links/sec" << std::endl
+        (*errorLog) << "speed : " << std::endl
+                    << '\t' << (linkCounter - 1) / time_consumption << " links/sec" << std::endl
+                    << '\t' << (bytesFetchedAtAll + 1) / time_consumption << " bytes/sec" << std::endl
                     << "we have "<< httpErrors << " errors" <<std::endl;
 
         if (options.m_bAskAfterFetch) {
@@ -185,7 +187,7 @@ int main(int argc, char* argv[])
         if ((status == 301) || (status == 302) || (status == 303)) {
             std::string loc;
             if (header.getField("Location", loc)) {
-                (*errorLog) << "\t\t\tredirected to " << loc << std::endl;
+               (*errorLog) << "\t\t\tredirected to " << loc << std::endl;
                factory->pushLink(loc);
             }
             continue;
@@ -206,13 +208,15 @@ int main(int argc, char* argv[])
 
         (*errorLog) << "\t*Get response" << std::endl;
 
-
-        if (not fetcher.getResponse(tmp)) {
+        unsigned int    bytesFetchedPerRequest(0);
+        if (not fetcher.getResponse(tmp, &bytesFetchedPerRequest)) {
             (*errorLog) << "\t\tfailed" << std::endl;
             ++httpErrors;
             continue;
         }
         tmp.close();
+        bytesFetchedAtAll   +=  bytesFetchedPerRequest;
+
 
 
         std::string filepath("");
