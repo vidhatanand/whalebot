@@ -1,7 +1,3 @@
-cmake_minimum_required(VERSION 2.6)
-project(gurl)
-
-
 include_directories("./")
 include_directories("./googleurl")
 
@@ -20,6 +16,6 @@ list (REMOVE_ITEM SOURCES ${TEST_SOURCES})
 
 list ( APPEND SOURCES "./googleurl/base/string16.cc")
 
-list ( APPEND CMAKE_CXX_FLAGS "-Wno-deprecated")
+set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-deprecated")
 
 add_library(gurl STATIC ${SOURCES})
