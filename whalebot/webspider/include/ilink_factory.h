@@ -9,6 +9,7 @@
 #define	_ILINK_FACTORY_H
 
 #include <iacceptor.h>
+#include <string>
 
 class CLink;
 

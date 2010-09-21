@@ -1,4 +1,4 @@
-#include "collector_link.h"
+#include <collector_link.h>
 
 CCollectorLinkFactory::CCollectorLinkFactory()
 :m_Base()

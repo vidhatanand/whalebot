@@ -10,6 +10,7 @@
 
 #include <link.h>
 #include <iacceptor.h>
+#include <iostream>
 
 class ILinkBuffer: public IAcceptor{
 public:
