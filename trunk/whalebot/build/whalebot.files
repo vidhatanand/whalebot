@@ -38,3 +38,4 @@
 ../webspider/include/collector_link.h
 ../webspider/include/header_parser.h
 ../webspider/include/filters.h
+../webspider/CMakeLists.txt
