@@ -1,0 +1,13 @@
+../dbm/orm/size_traits.h
+../dbm/orm/mapping_traits.h
+../dbm/orm/pod_writers.h
+../dbm/orm/base_mappers.h
+../dbm/orm/memory_repr_traits.h
+../dbm/orm/orm.h
+../dbm/orm/writing_traits.h
+../dbm/orm/pod_mappers.h
+../dbm/orm/base_writers.h
+../dbm/test/CMakeLists.txt
+../dbm/test/writing_test.h
+../dbm/test/mapping_test.h
+../dbm/test/all_tests.cpp
