@@ -20,6 +20,7 @@
 ../webspider/src/one_fetcher.cpp
 ../webspider/src/collector_link.cpp
 ../webspider/src/header_parser.cpp
+../webspider/src/host.cpp
 ../webspider/include/config_const.h
 ../webspider/include/filename_handler.h
 ../webspider/include/one_fetcher.h
@@ -37,5 +38,8 @@
 ../webspider/include/webspider_options.h
 ../webspider/include/collector_link.h
 ../webspider/include/header_parser.h
+../webspider/include/host.h
+../webspider/include/cookie.h
 ../webspider/include/filters.h
+../webspider/include/response.h
 ../webspider/CMakeLists.txt
