@@ -1,0 +1,9 @@
+../tests/CMakeLists.txt
+../tests/generators_test.h
+../tests/cookie_pasre_test.h
+../tests/token_result_test.h
+../tests/tokenize_const.h
+../tests/tokenize_std_test.h
+../tests/tokenize_ansi_test.h
+../tests/trim_test.h
+../tests/all_tests.cpp

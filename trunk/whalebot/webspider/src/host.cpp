@@ -17,7 +17,7 @@ CHost::CHost( const std::string& authority )
 , m_vPathToFetch(0, "")
 , m_pConnection(0)
 , m_tTimeOfLastFetch(kNeverBefore)
-, m_vCookieJar(0, CCookie())
+, m_vActiveCookies(0, CCookie())
 {
     //add default paths
     m_vPathFetched.push_back(kRobotsTxt);
@@ -37,7 +37,7 @@ const CHost& CHost::operator = ( const CHost& another)
     m_vPathToFetch      =   another.m_vPathToFetch;
     m_pConnection       =   another.m_pConnection;
     m_tTimeOfLastFetch  =   another.m_tTimeOfLastFetch;
-    m_vCookieJar          =   another.m_vCookieJar;
+    m_vActiveCookies    =   another.m_vActiveCookies;
 
     return *this;
 }
@@ -107,9 +107,9 @@ ne_request* CHost::createRequest()
 
     m_vPathToFetch.pop_back();
 
-    for (unsigned int i = 0; i != m_vCookieJar.size(); ++i) {
-        const CCookie&  cookie(m_vCookieJar[i]);
-        ne_add_request_header(ret, kCookieField, cookie.Value.c_str());
+    for (unsigned int i = 0; i != m_vActiveCookies.size(); ++i) {
+        const CCookie&  cookie(m_vActiveCookies[i]);
+        ne_add_request_header(ret, kCookieField, cookie.m_sValue.c_str());
     }
 
     return ret;

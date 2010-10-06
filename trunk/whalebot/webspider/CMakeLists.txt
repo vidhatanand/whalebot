@@ -22,6 +22,7 @@ find_library( NEON_LIBRARY
 find_library ( HTMLCXX_LIBRARY  "htmlcxx" )
 
 include_directories( "./include"
+                     "../"
                      "../statsem_string/include"
                      "../3dparty/google-url"
                      "../3dparty/google-url/googleurl"

@@ -21,6 +21,7 @@
 ../webspider/src/collector_link.cpp
 ../webspider/src/header_parser.cpp
 ../webspider/src/host.cpp
+../webspider/src/cookie.cpp
 ../webspider/include/config_const.h
 ../webspider/include/filename_handler.h
 ../webspider/include/one_fetcher.h

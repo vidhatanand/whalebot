@@ -28,7 +28,7 @@ public:
     , m_vPathToFetch(another.m_vPathToFetch)
     , m_pConnection(another.m_pConnection)
     , m_tTimeOfLastFetch(another.m_tTimeOfLastFetch)
-    , m_vCookieJar(another.m_vCookieJar)
+    , m_vActiveCookies(another.m_vActiveCookies)
     {}
 
     bool operator == ( const CHost& another ) const
@@ -68,15 +68,13 @@ public:
 
 private:
 
-    typedef std::vector<CCookie>    TActiveCookies;
-
 
     std::string     m_sAuthority;
     TStringBuffer   m_vPathFetched;
     TStringBuffer   m_vPathToFetch;
     ne_session*     m_pConnection;
     TMoment         m_tTimeOfLastFetch;
-    TActiveCookies  m_vCookieJar;
+    TCookieJar      m_vActiveCookies;
 };
 
 #endif // WHALEBOT_HOST_H
