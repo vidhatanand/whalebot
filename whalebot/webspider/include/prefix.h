@@ -5,7 +5,7 @@
 
 namespace prefix{
     std::string const http            =   "http://";
-    std::string const https            =   "https://";
+    std::string const https           =   "https://";
     std::string const mailto          =   "mailto:";
     std::string const javascript      =   "javascript:";
 

@@ -1,28 +1,35 @@
-#ifndef COOKIE_H
-#define COOKIE_H
+#ifndef WHALEBOT_COOKIE_H
+#define WHALEBOT_COOKIE_H
 
 #include <string>
+#include <vector>
 
 class CCookie {
 public:
 
     CCookie()
-    : Value("")
-    , AppliedPath("")
-    , ValidDate("")
+    : m_sValue("")
+    , m_sAppliedPath("")
+    , m_sValidDate("")
     {}
 
     CCookie( const std::string& value
            , const std::string& appliedPath
            , const std::string& validDate )
-    : Value(value)
-    , AppliedPath(appliedPath)
-    , ValidDate(validDate)
+    : m_sValue(value)
+    , m_sAppliedPath(appliedPath)
+    , m_sValidDate(validDate)
     {}
 
-    std::string Value;
-    std::string AppliedPath;
-    std::string ValidDate;
+    void clear();
+    void fromString( const char* cookieStr );
+
+
+    std::string m_sValue;
+    std::string m_sAppliedPath;
+    std::string m_sValidDate;
 };
 
-#endif // COOKIE_H
+typedef std::vector<CCookie>    TCookieJar;
+
+#endif // WHALEBOT_COOKIE_H
