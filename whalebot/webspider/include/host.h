@@ -63,6 +63,7 @@ public:
     void connect();
     void disconnect();
     bool addPath( const std::string& path );
+    bool addCookie( const CCookie& cookie );
     ne_request* createRequest();
 
 
