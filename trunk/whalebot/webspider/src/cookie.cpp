@@ -17,6 +17,7 @@ void CCookie::clear()
     m_sValidDate.clear();
     m_sValue.clear();
     m_sAppliedPath.clear();
+    m_sDomain.clear();
 }
 
 void CCookie::fromString( const char* cookieStr )
@@ -28,6 +29,7 @@ void CCookie::fromString( const char* cookieStr )
 
     CAnsiTokens highLevelTokens(tokenizeSequnce(fullGen, highLevelLimitGen));
 
+    //first part is for value
     if (not highLevelTokens.getLimits().empty()) {
         CAnsiTokens::CTokenLimit    cookiePart(gTrimSequence( highLevelTokens.getLimits().front()
                                                             , spacesGen ));
@@ -35,7 +37,7 @@ void CCookie::fromString( const char* cookieStr )
     }
 
 
-    for (unsigned int i = 1; i != highLevelTokens.getLimits().size(); ++i) {
+    for (unsigned int i = 1; i < highLevelTokens.getLimits().size(); ++i) {
         CAnsiTokens::CTokenLimit        lim(gTrimSequence( highLevelTokens.getLimits()[i]
                                                          , spacesGen ));
         CAnsiPartStrGen                 lowLevelGen(lim.m_Begin, lim.m_End);
@@ -54,7 +56,8 @@ void CCookie::fromString( const char* cookieStr )
         else if ( (kUsualEqualityPartCounter == lowLevelTokens.getLimits().size())
                 and
                   (strncmp(firstPart.m_Begin, kDomainPart, firstPart.size()) == 0) ) {
-            //*TODO* add domain handling
+            const CAnsiTokens::CTokenLimit& secondPart(lowLevelTokens.getLimits().back());
+            m_sDomain.assign(secondPart.m_Begin, secondPart.size());
         }
         else if ( (kUsualEqualityPartCounter == lowLevelTokens.getLimits().size())
                 and
@@ -65,4 +68,13 @@ void CCookie::fromString( const char* cookieStr )
             m_sValidDate.assign(secondPart.m_Begin, secondPart.size());
         }
     }
+}
+
+CCookie::CCookie( const char* cookieStr )
+: m_sValue("")
+, m_sAppliedPath("")
+, m_sValidDate("")
+, m_sDomain("")
+{
+    fromString(cookieStr);
 }

@@ -21,6 +21,9 @@ TEST(CookieParse, GoogleCookie_1)
     EXPECT_STREQ( cookie.m_sAppliedPath.c_str()
                 , "/");
 
+    EXPECT_STREQ( cookie.m_sDomain.c_str()
+                , ".google.com" );
+
 }
 
 TEST(CookieParse, GoogleCookie_2)
@@ -36,6 +39,9 @@ TEST(CookieParse, GoogleCookie_2)
 
     EXPECT_STREQ( cookie.m_sAppliedPath.c_str()
                 , "/");
+
+    EXPECT_STREQ( cookie.m_sDomain.c_str()
+                , ".google.com" );
 
 }
 

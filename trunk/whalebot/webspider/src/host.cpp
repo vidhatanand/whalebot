@@ -114,3 +114,17 @@ ne_request* CHost::createRequest()
 
     return ret;
 }
+
+bool CHost::addCookie( const CCookie& cookie )
+{
+    bool                ret(false);
+    const std::string&  targetDomain(cookie.m_sDomain);
+    if (targetDomain.compare( targetDomain.size() > m_sAuthority.size() ? 0 : 1 //because cookie for .google.com ok for
+                            , m_sAuthority.size()
+                            , m_sAuthority )) {
+        ret =   true;
+        m_vActiveCookies.push_back(cookie);
+    }
+
+    return ret;
+}
