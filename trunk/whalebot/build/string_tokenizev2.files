@@ -7,3 +7,5 @@
 ../tests/tokenize_ansi_test.h
 ../tests/trim_test.h
 ../tests/all_tests.cpp
+../tests/cookie_pasre_test.h
+../tests/host_tests.h
