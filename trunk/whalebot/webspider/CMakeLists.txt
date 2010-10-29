@@ -19,6 +19,8 @@ find_library( NEON_LIBRARY
 
 
 #htmlcxx
+find_path ( HTMLCXX_INCLUDE_DIR
+			NAMES "htmlcxx/html/utils.h" ) 
 find_library ( HTMLCXX_LIBRARY  "htmlcxx" )
 
 include_directories( "./include"
@@ -29,7 +31,9 @@ include_directories( "./include"
                      "../3dparty/google-url/googleurl/src"
                      ${Boost_INCLUDE_DIRS}
                      ${ICU_INCLUDE_DIR}
-                     ${NEON_INCLUDE_DIR} )
+                     ${NEON_INCLUDE_DIR}
+		     ${HTMLCXX_INCLUDE_DIR}
+                     "../servers/one_message_server/include" )
 
 link_directories ( ${Boost_LIBRARY_DIRS} )
 
