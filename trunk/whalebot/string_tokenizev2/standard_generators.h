@@ -121,9 +121,59 @@ bool CPairGenerator<CIter, T>::isEmpty()const
     return (m_Pos == m_End);
 }
 
+// ! \brief describe geneartor for single symbol
+tempalte<T>
+class TConstGenerator {
+public:
+    typedef bool CIterator;
+    typedef T    CSymbol;
+  
+    TConstGenerator( const T symbol );
+    TConstGenerator( const TConstGenerator& another );
+    CIterator state()const;
+    bool next( T& c );
+
+   
+private:
+    bool    m_state;
+    T       m_symbol;
+};
+
+tempalte<T>
+TConstGenerator<T>::TConstGenerator( const T symbol )
+: m_state(true)
+, m_symbol(symbol)
+{}
+
+tempalte<T>
+TConstGenerator<T>::TConstGenerator( const TConstGenerator<T>& another )
+: m_state(another.m_state)
+, m_symbol(another.m_symbol)
+{}
+
+tempalte<T>
+bool TConstGenerator<T>::next( T& c )
+{
+    if (m_state) {
+        c       = m_symbol;
+        m_state = false;
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
+tempalte<T>
+typename TConstGenerator<T>::CIterator TConstGenerator<T>::state()const
+{
+    return m_state;
+}
+
 typedef CCStringGenerator<char>                     CAnsiStrGen;
 typedef CPairGenerator<std::string::const_iterator> CStdStrGen;
 typedef CPairGenerator<const char*>                 CAnsiPartStrGen;
+typedef CConstGenerator<char>                       CConstCharGen;
 
 template<class TGen>
 bool gFindInGenerator( const TGen& generator, typename TGen::CSymbol c )
