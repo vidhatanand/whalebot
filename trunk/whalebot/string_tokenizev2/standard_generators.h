@@ -10,7 +10,7 @@
 template<class T>
 class CCStringGenerator {
 public:
-    
+
     typedef const T* CIterator;
     typedef T        CSymbol;
 
@@ -44,9 +44,9 @@ bool CCStringGenerator<T>::next( T& c )
 {
     bool    ret(false);
     if (not isEmpty()) {
-        c   =   *m_pStr;        
+        c   =   *m_pStr;
         ret =   true;
-        ++m_pStr;        
+        ++m_pStr;
     }
 
     return ret;
@@ -58,13 +58,14 @@ bool CCStringGenerator<T>::isEmpty()const
     return (*m_pStr == 0);
 }
 
+
 //! /breif
-//!     Generator interface for std strings     
+//!     Generator interface for std strings
 
 template<class CIter, class T = typename std::iterator_traits<CIter>::value_type>
 class CPairGenerator {
 public:
-    
+
     typedef CIter   CIterator;
     typedef T       CSymbol;
 
@@ -73,7 +74,7 @@ public:
     CIterator state()const;
     bool next( T& c );
     bool isEmpty()const;
-    
+
 private:
 
     CIterator   m_Pos;
@@ -96,7 +97,7 @@ CPairGenerator<CIter, T>::CPairGenerator( const CPairGenerator<CIter, T>& anothe
 template<class CIter, class T>
 typename CPairGenerator<CIter, T>::CIterator CPairGenerator<CIter, T>::state()const
 {
-    return m_Pos;    
+    return m_Pos;
 }
 
 template<class CIter, class T>
@@ -110,7 +111,7 @@ bool CPairGenerator<CIter, T>::next( T& c )
         ++m_Pos;
     }
 
-    
+
     return ret;
 }
 
@@ -133,7 +134,7 @@ bool gFindInGenerator( const TGen& generator, typename TGen::CSymbol c )
     while ((not ret) and (gen.next(sym))) {
         ret =   (sym == c);
     }
-    return ret;    
+    return ret;
 }
 
 template<class TGen>
