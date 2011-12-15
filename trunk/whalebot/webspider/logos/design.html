@@ -1,0 +1,550 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html expr:dir='data:blog.languageDirection' xmlns='http://www.w3.org/1999/xhtml' xmlns:b='http://www.google.com/2005/gml/b' xmlns:data='http://www.google.com/2005/gml/data' xmlns:expr='http://www.google.com/2005/gml/expr'>
+  <head>
+    <b:include data='blog' name='all-head-content'/>
+    <title><data:blog.pageTitle/></title>
+    <b:skin><![CDATA[/*
+-----------------------------------------------
+Blogger Template Style
+Name:       Thisaway (Green)
+Date:     29 Feb 2004
+Updated by: Blogger Team
+----------------------------------------------- */
+
+/* Variable definitions
+   ====================
+   <Variable name="textColor" description="Text Color"
+             type="color" default="#4b6320" value="#4b6320">
+   <Variable name="blogTitleColor" description="Blog Title Color"
+             type="color" default="#f9feee" value="#f9feee">
+   <Variable name="blogDescriptionColor" description="Blog Description Color"
+             type="color" default="#f9feee" value="#f9feee">
+   <Variable name="postTitleColor" description="Post Title Color"
+             type="color" default="#92ba47" value="#92ba47">
+   <Variable name="dateHeaderColor" description="Date Header Color"
+             type="color" default="#b5c88f" value="#b5c88f">
+   <Variable name="sidebarHeaderColor" description="Sidebar Title Color"
+             type="color" default="#a9bd80" value="#a9bd80">
+   <Variable name="mainLinkColor" description="Link Color"
+             type="color" default="#6a9718" value="#6a9718">
+   <Variable name="mainVisitedLinkColor" description="Visited Link Color"
+             type="color" default="#4d7307" value="#4d7307">
+   <Variable name="sidebarLinkColor" description="Sidebar Link Color"
+             type="color" default="#96c73d" value="#96c73d">
+   <Variable name="sidebarVisitedLinkColor"
+              description="Sidebar Visited Link Color"
+             type="color" default="#6f9d1c" value="#6f9d1c">
+
+   <Variable name="bodyFont" description="Text Font"
+             type="font" default="normal normal 100% Helvetica,Arial,Verdana,'Trebuchet MS', Sans-serif" value="normal normal 100% Helvetica,Arial,Verdana,'Trebuchet MS', Sans-serif">
+   <Variable name="headerFont" description="Sidebar Title Font"
+             type="font"
+             default="normal bold 100% Helvetica,Arial,Verdana,'Trebuchet MS', Sans-serif" value="normal bold 100% Helvetica,Arial,Verdana,'Trebuchet MS', Sans-serif">
+   <Variable name="pageTitleFont" description="Blog Title Font"
+             type="font"
+             default="normal bold 200% Helvetica,Arial,Verdana,'Trebuchet MS', Sans-serif" value="normal bold 200% Helvetica,Arial,Verdana,'Trebuchet MS', Sans-serif">
+   <Variable name="blogDescriptionFont" description="Blog Description Font"
+             type="font"
+             default="normal normal 80% Helvetica,Arial,Verdana,'Trebuchet MS', Sans-serif" value="normal normal 80% Helvetica,Arial,Verdana,'Trebuchet MS', Sans-serif">
+   <Variable name="startSide" description="Start side in blog language"
+             type="automatic" default="left" value="left">
+   <Variable name="endSide" description="End side in blog language"
+             type="automatic" default="right" value="right">
+*/
+
+/* global
+----------------------------------------------- */
+body {
+  margin: 0;
+  text-align: center; 
+  min-width: 760px;
+  background: #9dce43 url(http://www.blogblog.com/thisaway_green/bg_body.gif) repeat-x $startSide top;
+  color: $textColor;
+  font-size: small;
+}
+
+blockquote {
+  margin: 0;
+  padding-top: 0;
+  padding-$endSide: 10px;
+  padding-bottom: 0;
+  padding-$startSide: 10px;
+  border-$startSide: 6px solid #e8f4d3;
+  border-$endSide: 6px solid #e8f4d3;
+  color: $postTitleColor;
+}
+
+code {
+  color: $postTitleColor;
+}
+
+hr {
+  display: none;
+}
+
+
+/* layout
+----------------------------------------------- */
+#outer-wrapper {
+  margin: 0 auto;
+  width: 760px;
+  text-align: $startSide;
+  font: $bodyFont;
+}
+
+#header-wrapper {
+  padding-bottom: 15px;
+  background: url(http://www.blogblog.com/thisaway_green/bg_header_bottom.gif) no-repeat $startSide bottom;
+}
+
+#header {
+  background: #4b6320 url(http://www.blogblog.com/thisaway_green/bg_header.gif) repeat-x $startSide bottom;
+}
+
+#content-wrapper {
+  position: relative;
+  width: 760px;
+  background: #f7f0e9 url(http://www.blogblog.com/thisaway_green/bg_main_wrapper.gif) repeat-y $startSide top;
+}
+
+#main-wrapper {
+  display: inline; /* fixes a strange ie margin bug */
+  float: $startSide;
+  margin-top: 0;
+  margin-$endSide: 0;
+  margin-bottom: 0;
+  margin-$startSide: 3px;
+  padding: 0;
+  width: 483px;
+  word-wrap: break-word; /* fix for long text breaking sidebar float in IE */
+  overflow: hidden;     /* fix for long non-text content breaking IE sidebar float */
+}
+
+#main {
+  padding-top: 22px;
+  padding-$endSide: 8px;
+  padding-bottom: 0;
+  padding-$startSide: 8px;
+  background: url(http://www.blogblog.com/thisaway_green/bg_content.gif) repeat-x $startSide top;
+}
+
+.post {
+  margin-top: 0;
+  margin-$endSide: 8px;
+  margin-bottom: 14px;
+  margin-$startSide: 21px;
+  padding: 0;
+  border-bottom: 3px solid #e8f4d3;
+}
+
+#comments {
+  margin-top: 0;
+  margin-$endSide: 16px;
+  margin-bottom: 14px;
+  margin-$startSide: 29px;
+  padding: 10px;
+  border: 1px solid #e4f0ce;
+  background-color: #eff5e4;
+}
+
+#sidebar-wrapper {
+  display: inline; /* fixes a strange ie margin bug */
+  float: $endSide;
+  margin-top: 0;
+  margin-$endSide: 3px;
+  margin-bottom: 0;
+  margin-$startSide: 0;
+  width: 269px;
+  color: $textColor;
+  line-height: 1.4em;
+  font-size: 90%;
+  background: url(http://www.blogblog.com/thisaway_green/bg_sidebar.gif) repeat-x $startSide top;
+  word-wrap: break-word; /* fix for long text breaking sidebar float in IE */
+  overflow: hidden;     /* fix for long non-text content breaking IE sidebar float */
+}
+
+#sidebar {
+  padding-top: 7px;
+  padding-$endSide: 11px;
+  padding-bottom: 0;
+  padding-$startSide: 14px;
+  background: url(http://www.blogblog.com/thisaway_green/bg_sidebar_arrow.gif) repeat-y 179px 0;
+}
+
+#sidebar .widget { 
+  margin-bottom: 20px;
+ }
+
+
+#footer-wrapper {
+  padding-top: 15px;
+  background: url(http://www.blogblog.com/thisaway_green/bg_footer_top.gif) no-repeat $startSide top;
+  clear: both;
+}
+
+#footer {
+  background: #374915 url(http://www.blogblog.com/thisaway_green/bg_footer.gif) repeat-x $startSide top;
+  text-align: center;
+  min-height: 2em;
+}
+
+/* headings
+----------------------------------------------- */
+
+#header h1 {
+  margin: 0;
+  padding-top: 24px;
+  padding-$endSide: 0;
+  padding-bottom: 0;
+  padding-$startSide: 84px;
+  background: url(http://www.blogblog.com/thisaway_green/icon_header_$startSide.gif) no-repeat 16px 26px;
+}
+
+h2.date-header {
+  margin: 0;
+  padding-top: 0;
+  padding-$endSide: 0;
+  padding-bottom: 0;
+  padding-$startSide: 29px;
+  text-transform: uppercase;
+  color: $dateHeaderColor;
+  background: url(http://www.blogblog.com/thisaway_green/icon_date.gif) no-repeat 13px 0;
+  font-size: 80%;
+  font-weight: normal;
+}
+
+.date-header span {
+  margin-top: 0;
+  margin-$endSide: 0;
+  margin-bottom: 0;
+  margin-$startSide: 5px;
+  padding-top: 0;
+  padding-$endSide: 25px;
+  padding-bottom: 0;
+  padding-$startSide: 55px;
+  background: url(http://www.blogblog.com/thisaway_green/bg_date.gif) no-repeat $startSide 0;
+}
+
+.sidebar h2 {
+  padding-top: 1px;
+  padding-$endSide: 0;
+  padding-bottom: 0;
+  padding-$startSide: 36px;
+  color: $sidebarHeaderColor;
+  background: url(http://www.blogblog.com/thisaway_green/icon_sidebar_heading_$startSide.gif) no-repeat $startSide 45%;
+  font: $headerFont;
+}
+
+.sidebar .Profile h2 {
+  color: #809552;
+  background: url(http://www.blogblog.com/thisaway_green/icon_sidebar_profileheading_$startSide.gif) no-repeat $startSide 45%;
+}
+
+.post h3 {
+  margin-top: 13px;
+  margin-$endSide: 0;
+  margin-bottom: 13px;
+  margin-$startSide: 0;
+  padding: 0;
+  color: $postTitleColor;
+  font-size: 140%;
+}
+
+.post h3 a, .post h3 a:visited { 
+  color: $postTitleColor;
+ }
+
+#comments h4 {
+  margin-top: 0;
+  font-size: 120%;
+}
+
+
+/* text
+----------------------------------------------- */
+
+#header h1 {
+  color: $blogTitleColor;
+  font: $pageTitleFont;
+}
+
+#header .description {
+  margin: 0;
+  padding-top: 7px;
+  padding-$endSide: 16px;
+  padding-bottom: 0;
+  padding-$startSide: 84px;
+  color: $blogDescriptionColor;
+  font: $blogDescriptionFont;
+}
+
+.post-body p {
+  line-height: 1.4em;
+  /* Fix bug in IE5/Win with italics in posts */
+  margin: 0;
+  height: 1%;
+  overflow: visible;
+}
+
+.post-footer {
+  font-size: 80%;
+  color: $dateHeaderColor;
+}
+
+.uncustomized-post-template .post-footer {
+  text-align: $endSide;
+}
+
+.uncustomized-post-template .post-footer .post-author,
+.uncustomized-post-template .post-footer .post-timestamp {
+  display: block;
+  float: $startSide;
+  text-align: $startSide;
+  margin-$endSide: 4px;
+}
+
+p.comment-author {
+  font-size: 83%;
+}
+
+.deleted-comment {
+  font-style:italic;
+  color:gray;
+}
+
+.comment-body p {
+  line-height: 1.4em;
+}
+
+.feed-links { 
+  clear: both;
+  line-height: 2.5em;
+  margin-bottom: 0.5em;
+  margin-$startSide: 29px;
+}
+
+#footer .widget { 
+  margin: 0;
+  padding-top: 0;
+  padding-$endSide: 0;
+  padding-bottom: 15px;
+  padding-$startSide: 55px;
+  color: #f9feee;
+  font-size: 90%;
+  line-height: 1.4em;
+  background: url(http://www.blogblog.com/thisaway_green/icon_footer.gif) no-repeat 16px 0;
+}
+
+
+/* lists
+----------------------------------------------- */
+
+.post ul {
+  padding-$startSide: 32px;
+  list-style-type: none;
+  line-height: 1.4em;
+}
+
+.post li {
+  padding-top: 0;
+  padding-$endSide: 0;
+  padding-bottom: 4px;
+  padding-$startSide: 17px;
+  background: url(http://www.blogblog.com/thisaway_green/icon_list_item_$startSide.gif) no-repeat $startSide 3px;
+}
+
+#comments ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+#comments li {
+  padding-top: 0;
+  padding-$endSide: 0;
+  padding-bottom: 1px;
+  padding-$startSide: 17px;
+  background: url(http://www.blogblog.com/thisaway_green/icon_comment.gif) no-repeat $startSide 3px;
+}
+
+.sidebar ul {
+  padding: 0;
+  list-style-type: none;
+  line-height: 1.2em;
+  margin-$startSide: 0;
+}
+
+.sidebar li {
+  padding-top: 0;
+  padding-$endSide: 0;
+  padding-bottom: 4px;
+  padding-$startSide: 17px;
+  background: url(http://www.blogblog.com/thisaway_green/icon_list_item.gif) no-repeat $startSide 3px;
+}
+
+#blog-pager-newer-link {
+  float: $startSide;
+  margin-$startSide: 29px;
+ }
+ 
+#blog-pager-older-link {
+  float: $endSide;
+  margin-$endSide: 16px;
+ }
+ 
+#blog-pager {   
+  text-align: center; 
+ }
+
+/* links
+----------------------------------------------- */
+a {
+  color: $mainLinkColor;
+  font-weight: bold;
+}
+
+a:hover {
+  color: $mainVisitedLinkColor;
+}
+
+a.comment-link {
+/* ie5.0/win doesn't apply padding to inline elements,
+   so we hide these two declarations from it */
+  background/* */:/**/url(http://www.blogblog.com/thisaway_green/icon_comment.gif) no-repeat $startSide 45%;
+  padding-$startSide: 14px;
+}
+
+html>body a.comment-link {
+  /* respecified, for ie5/mac's benefit */
+  background: url(http://www.blogblog.com/thisaway_green/icon_comment.gif) no-repeat $startSide 45%;
+  padding-$startSide: 14px;
+}
+
+.sidebar a {
+  color: $sidebarLinkColor;
+}
+
+.sidebar a:hover {
+  color: $sidebarVisitedLinkColor;
+}
+
+
+#header h1 a {
+  color: #f9feee;
+  text-decoration: none;
+}
+
+#header h1 a:hover {
+  color: #cdd9b4;
+}
+
+.post h3 a {
+  text-decoration: none;
+}
+
+a img { 
+ border-width: 0;
+}
+
+.clear {
+  clear: both;
+  line-height: 0;
+  height: 0;
+}
+
+.profile-textblock { 
+  clear: both;
+  margin-bottom: 10px;
+  margin-$startSide: 0;
+}
+
+.profile-img { 
+  float: $startSide;
+  margin-top: 0;
+  margin-$endSide: 5px;
+  margin-bottom: 5px;
+  margin-$startSide: 0;
+  padding: 3px;
+  border: 1px solid #dbebbd;
+}
+
+.profile-link { 
+  padding-top: 0;
+  padding-$endSide: 0;
+  padding-bottom: 0;
+  padding-$startSide: 17px;
+  background: url(http://www.blogblog.com/thisaway_green/icon_profile_$startSide.gif) no-repeat $startSide 0;
+}
+
+/** Page structure tweaks for layout editor wireframe */
+
+body#layout #main,
+body#layout #sidebar { 
+  padding: 0;
+}
+]]></b:skin>
+  </head>
+
+  <body>
+  <div id='outer-wrapper'><div id='wrap2'>
+
+    <!-- skip links for text browsers -->
+    <span id='skiplinks' style='display:none;'>
+      <a href='#main'>skip to main </a> |
+      <a href='#sidebar'>skip to sidebar</a>
+    </span>
+
+    <div id='header-wrapper'>
+      <b:section class='header' id='header' maxwidgets='1' showaddelement='no'>
+<b:widget id='Header1' locked='true' title='helmsman&apos;s diary (Header)' type='Header'/>
+</b:section>
+    </div>
+ 
+    <div id='content-wrapper'>
+
+      <div id='crosscol-wrapper' style='text-align:center'>
+        <b:section class='crosscol' id='crosscol'/>
+      </div>
+
+      <div id='main-wrapper'>
+        <b:section class='main' id='main' showaddelement='no'>
+<b:widget id='Blog1' locked='true' title='Blog Posts' type='Blog'/>
+</b:section>
+      </div>
+
+      <div id='sidebar-wrapper'>
+        <b:section class='sidebar' id='sidebar' preferred='yes'>
+<b:widget id='Image1' locked='false' title='WANTED' type='Image'/>
+<b:widget id='Label1' locked='false' title='Wind directions' type='Label'/>
+<b:widget id='BlogArchive1' locked='false' title='Good old days' type='BlogArchive'/>
+</b:section>
+      </div>
+
+      <!-- spacer for skins that want sidebar and main to be the same height-->
+      <div class='clear'>&#160;</div>
+
+    </div> <!-- end content-wrapper -->
+
+    <div id='footer-wrapper'>
+      <b:section class='footer' id='footer'/>
+    </div>
+
+  </div></div> <!-- end outer-wrapper -->
+
+<script type='text/javascript'>
+
+  var _gaq = _gaq || [];
+  _gaq.push([&#39;_setAccount&#39;, &#39;UA-18489904-1&#39;]);
+  _gaq.push([&#39;_trackPageview&#39;]);
+
+  (function() {
+    var ga = document.createElement(&#39;script&#39;); ga.type = &#39;text/javascript&#39;; ga.async = true;
+    ga.src = (&#39;https:&#39; == document.location.protocol ? &#39;https://ssl&#39; : &#39;http://www&#39;) + &#39;.google-analytics.com/ga.js&#39;;
+    var s = document.getElementsByTagName(&#39;script&#39;)[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+</body>
+</html>
