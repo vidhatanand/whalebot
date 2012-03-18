@@ -122,7 +122,7 @@ bool CPairGenerator<CIter, T>::isEmpty()const
 }
 
 // ! \brief describe geneartor for single symbol
-template<T>
+template<class T>
 class TConstGenerator {
 public:
     typedef bool CIterator;
