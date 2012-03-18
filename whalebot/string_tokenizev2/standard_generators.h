@@ -139,7 +139,7 @@ private:
     T       m_symbol;
 };
 
-tempalte<T>
+template<T>
 TConstGenerator<T>::TConstGenerator( const T symbol )
 : m_state(true)
 , m_symbol(symbol)
