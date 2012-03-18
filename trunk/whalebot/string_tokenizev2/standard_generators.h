@@ -139,19 +139,19 @@ private:
     T       m_symbol;
 };
 
-template<T>
+template<class T>
 TConstGenerator<T>::TConstGenerator( const T symbol )
 : m_state(true)
 , m_symbol(symbol)
 {}
 
-template<T>
+template<class T>
 TConstGenerator<T>::TConstGenerator( const TConstGenerator<T>& another )
 : m_state(another.m_state)
 , m_symbol(another.m_symbol)
 {}
 
-template<T>
+template<class T>
 bool TConstGenerator<T>::next( T& c )
 {
     if (m_state) {
@@ -164,7 +164,7 @@ bool TConstGenerator<T>::next( T& c )
     }
 }
 
-template<T>
+template<class T>
 typename TConstGenerator<T>::CIterator TConstGenerator<T>::state()const
 {
     return m_state;
