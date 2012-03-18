@@ -5,8 +5,6 @@
 #include <boost/program_options.hpp>
 #include <boost/filesystem.hpp>
 
-#include <options.h>
-
 #include <webspider_options.h>
 #include <version.h>
 #include <config_const.h>
@@ -61,7 +59,7 @@ bool CWebSpiderOptions::readFromCmdLine(int argc, char* argv[])
             , "max level of link in one site" )
 
             ( kOutputAttrCmd.c_str()
-            , value<std::string>(&m_sOutput)->default_value(boost::filesystem::initial_path().native_directory_string())
+            , value<std::string>(&m_sOutput)->default_value(boost::filesystem::initial_path().native())
             , "output dir" )
 
             ( kErrorLogPathAttrCmd.c_str()
@@ -168,25 +166,25 @@ bool CWebSpiderOptions::readFromFile(const std::string& path)
         return false;
     }
 
-    COptions    options;
-    options.read(file);
+//    COptions    options;
+//    options.read(file);
 
-    
-    options.get(kAskAfterFetchAttr,              m_bAskAfterFetch);
-    options.get(kCollectLinksAttr,               m_bCollectLinks);
-    options.get(kConnectionTimeoutInSecondsAttr, m_iConnectionTimeoutInSeconds);
-    options.get(kErrorLogPathAttr,               m_sErrorLogPath);
-    options.get(kFutureLinksPathAttr,            m_sFutureLinksPath);
-    options.get(kLevelAttr,                      m_iLevel);
-    options.get(kLinkFilterFileAttr,             m_sLinkFilterFile);
-    options.get(kMaxConnectionsAttr,             m_iMaxConnections);
-    options.get(kOneServerAttr,                  m_bOneServer);
-    options.get(kOutputAttr,                     m_sOutput);
-    options.get(kReadTimeoutInSecondsAttr,       m_iReadTimeoutInSeconds);
-    options.get(kSaveHistoryAttr,                m_bSaveHistory);
-    options.get(kSavePagesAttr,                  m_bSavePages);
-    options.get(kTmpFilePathAttr,                m_sTmpFilePath);
-    options.get(kUsedLinksPathAttr,              m_sUsedLinksPath);
-    
-    return true;    
+
+//    options.get(kAskAfterFetchAttr,              m_bAskAfterFetch);
+//    options.get(kCollectLinksAttr,               m_bCollectLinks);
+//    options.get(kConnectionTimeoutInSecondsAttr, m_iConnectionTimeoutInSeconds);
+//    options.get(kErrorLogPathAttr,               m_sErrorLogPath);
+//    options.get(kFutureLinksPathAttr,            m_sFutureLinksPath);
+//    options.get(kLevelAttr,                      m_iLevel);
+//    options.get(kLinkFilterFileAttr,             m_sLinkFilterFile);
+//    options.get(kMaxConnectionsAttr,             m_iMaxConnections);
+//    options.get(kOneServerAttr,                  m_bOneServer);
+//    options.get(kOutputAttr,                     m_sOutput);
+//    options.get(kReadTimeoutInSecondsAttr,       m_iReadTimeoutInSeconds);
+//    options.get(kSaveHistoryAttr,                m_bSaveHistory);
+//    options.get(kSavePagesAttr,                  m_bSavePages);
+//    options.get(kTmpFilePathAttr,                m_sTmpFilePath);
+//    options.get(kUsedLinksPathAttr,              m_sUsedLinksPath);
+
+    return true;
 }
