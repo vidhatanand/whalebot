@@ -173,7 +173,7 @@ typename TConstGenerator<T>::CIterator TConstGenerator<T>::state()const
 typedef CCStringGenerator<char>                     CAnsiStrGen;
 typedef CPairGenerator<std::string::const_iterator> CStdStrGen;
 typedef CPairGenerator<const char*>                 CAnsiPartStrGen;
-typedef CConstGenerator<char>                       CConstCharGen;
+typedef TConstGenerator<char>                       CConstCharGen;
 
 template<class TGen>
 bool gFindInGenerator( const TGen& generator, typename TGen::CSymbol c )
