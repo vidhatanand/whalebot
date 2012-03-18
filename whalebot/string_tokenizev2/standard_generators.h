@@ -145,13 +145,13 @@ TConstGenerator<T>::TConstGenerator( const T symbol )
 , m_symbol(symbol)
 {}
 
-tempalte<T>
+template<T>
 TConstGenerator<T>::TConstGenerator( const TConstGenerator<T>& another )
 : m_state(another.m_state)
 , m_symbol(another.m_symbol)
 {}
 
-tempalte<T>
+template<T>
 bool TConstGenerator<T>::next( T& c )
 {
     if (m_state) {
@@ -164,7 +164,7 @@ bool TConstGenerator<T>::next( T& c )
     }
 }
 
-tempalte<T>
+template<T>
 typename TConstGenerator<T>::CIterator TConstGenerator<T>::state()const
 {
     return m_state;
