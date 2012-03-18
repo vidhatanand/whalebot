@@ -122,18 +122,18 @@ bool CPairGenerator<CIter, T>::isEmpty()const
 }
 
 // ! \brief describe geneartor for single symbol
-tempalte<T>
+template<T>
 class TConstGenerator {
 public:
     typedef bool CIterator;
     typedef T    CSymbol;
-  
+
     TConstGenerator( const T symbol );
     TConstGenerator( const TConstGenerator& another );
     CIterator state()const;
     bool next( T& c );
 
-   
+
 private:
     bool    m_state;
     T       m_symbol;
