@@ -1,2 +1,14 @@
 -I /home/hotdox/dev/whalebot/trunk/whalebot/webspider/include
 -I /home/hotdox/dev/whalebot/trunk/whalebot/3dparty/google-url
+-I /home/hotdox/dev/whalebot/trunk/whalebot/3dparty/google-url/googleurl
+-I /home/hotdox/dev/whalebot/trunk/whalebot/statsem_string/include
+-std=c++0x
+-x c++
+-I /usr/lib/gcc/x86_64-redhat-linux/4.6.2/../../../../include/c++/4.6.2
+-I /usr/lib/gcc/x86_64-redhat-linux/4.6.2/../../../../include/c++/4.6.2/x86_64-redhat-linux
+-I /usr/lib/gcc/x86_64-redhat-linux/4.6.2/../../../../include/c++/4.6.2/backward
+-I /usr/lib/gcc/x86_64-redhat-linux/4.6.2/include
+-I /usr/local/include
+-I /usr/include
+-Wno-deprecated
+ -I /usr/lib/gcc/x86_64-redhat-linux/4.6.3/include/
